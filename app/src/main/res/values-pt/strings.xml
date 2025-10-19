@@ -1,0 +1,89 @@
+<resources>
+    <!-- App name -->
+    <string name="app_name">CoquimGO</string>
+
+    <!-- Textos generales -->
+    <string name="textoPrincipal">Explore o mundo conosco</string>
+    <string name="iniciar">Iniciar</string>
+    <string name="mapa">Mapa</string>
+    <string name="lugaresTuristicos">Lugares Turísticos</string>
+    <string name="lugaresVisitados">Lugares Visitados</string>
+    <string name="lugaresFavoritos">Lugares Favoritos</string>
+    <string name="configuracion">Configuração</string>
+    <string name="open_nav">Abrir menu</string>
+    <string name="close_nav">Fechar menu</string>
+    <string name="favorito">Adicionar aos Favoritos</string>
+    <string name="visitado">Adicionar aos Visitados</string>
+    <string name="volver">Voltar</string>
+    <string name="eliminarFavorito">Remover dos Favoritos</string>
+    <string name="eliminarVisitado">Remover dos Visitados</string>
+    <string name="lugar_imagen">Imagem do lugar</string>
+    <string name="no_info">Nenhuma informação disponível para este lugar.</string>
+
+    <!-- Lugares turísticos -->
+    <string name="txtcruzdeltercermilenio">Cruz do Terceiro Milênio</string>
+    <string name="txtfuertelambert">Forte Lambert</string>
+    <string name="txtpueblitopeñuelas">Vila Peñuelas</string>
+    <string name="txtavenidadelmar">Avenida do Mar</string>
+    <string name="txtlamezquita">A Mesquita</string>
+    <string name="txtelfaro">O Farol</string>
+    <string name="txtparquejapones">Parque Japonês</string>
+
+    <!-- Descripciones -->
+    <string name="desc_fuertelambert">Destino turístico com vistas panorâmicas da baía e da cidade.</string>
+    <string name="ubi_fuertelambert">Localização: Cerro Castillo del Carmen, Coquimbo, Chile</string>
+    <string name="hor_fuertelambert">Horário: Terça a Domingo: 9:45 - 17:00</string>
+    <string name="cost_fuertelambert">Entrada: Gratuita</string>
+
+    <string name="desc_cruz">Monumento religioso com vista para a cidade de Coquimbo.</string>
+    <string name="ubi_cruz">Localização: Cerro El Vigía, Coquimbo, Chile</string>
+    <string name="hor_cruz">Horário: Segunda a Domingo: 9:00 - 17:00</string>
+    <string name="cost_cruz">Entrada: Adultos $2.500, Crianças $1.000, Grátis menores de 6 anos</string>
+
+    <string name="desc_pueblito">Centro de artesanato, gastronomia e atividades familiares.</string>
+    <string name="ubi_pueblito">Localização: Coquimbo, Chile</string>
+    <string name="hor_pueblito">Horário: Quarta a Domingo: 12:00 - 23:00</string>
+    <string name="cost_pueblito">Entrada: Gratuita</string>
+
+    <string name="desc_mar">Passeio costeiro com praias, restaurantes e atividades ao ar livre.</string>
+    <string name="ubi_mar">Localização: La Serena e Coquimbo, Chile</string>
+    <string name="hor_mar">Horário: Sempre aberto</string>
+    <string name="cost_mar">Entrada: Gratuita</string>
+
+    <string name="desc_mezquita">Centro cultural islâmico com mirante e arquitetura única.</string>
+    <string name="ubi_mezquita">Localização: Los Granados 500, Coquimbo, Chile</string>
+    <string name="hor_mezquita">Horário: Segunda a Domingo: 9:00 - 17:45</string>
+    <string name="cost_mezquita">Entrada: Gratuita</string>
+
+    <string name="desc_faro">Símbolo icônico de La Serena com uma bela vista para o mar.</string>
+    <string name="ubi_faro">Localização: Avenida do Mar, La Serena, Chile</string>
+    <string name="hor_faro">Horário: Terça a Domingo: 9:00 - 18:00</string>
+    <string name="cost_faro">Entrada: Gratuita</string>
+
+    <string name="desc_parque">Parque inspirado na cultura japonesa, com jardins e lagos.</string>
+    <string name="ubi_parque">Localização: Eduardo de La Barra s/n, La Serena</string>
+    <string name="hor_parque">Horário: Terça a Domingo: 10:00 - 17:40</string>
+    <string name="cost_parque">Entrada: $3.000 (geral)</string>
+
+    <!-- Configuracion -->
+    <string name="modo_oscuro">Modo escuro</string>
+    <string name="espanol">Espanhol</string>
+    <string name="ingles">Inglês</string>
+    <string name="portugues">Português</string>
+    <string name="cambiar_idioma">Selecione o idioma:</string>
+    <string name="seleccionar_idioma">Selecionar idioma</string>
+    <string name="volver_inicio">Voltar ao início</string>
+    <string name="ir">Ir</string>
+    <string name="acerca_de_la_app">Sobre o aplicativo</string>
+    <string name="acerca_texto">
+CoquimGO é um aplicativo de turismo que permite descobrir os principais destinos de Coquimbo e La Serena.
+Você pode explorar lugares, marcá-los como visitados ou favoritos e configurar o idioma e o modo visual conforme suas preferências.
+\n\nVersão: 1.0.0
+\nDesenvolvido por: Matías Chepillo, Beckham Espejo e Gabriel Castillo. Estudantes do segundo ano de Engenharia em Informática. Programação Android.
+</string>
+    <string-array name="opciones_filtro">
+        <item>Todos</item>
+        <item>Favoritos</item>
+        <item>Visitados</item>
+    </string-array>
+</resources>

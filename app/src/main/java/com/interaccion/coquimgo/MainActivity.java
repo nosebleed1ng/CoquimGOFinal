@@ -1,0 +1,81 @@
+package com.interaccion.coquimgo;
+
+import android.content.Intent;
+import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import com.google.android.material.navigation.NavigationView;
+import android.view.MenuItem;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private DrawerLayout drawerLayout;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Drawer (menú lateral)
+        drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // Toggle (ícono del menú hamburguesa)
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar,
+                R.string.open_nav, R.string.close_nav
+        );
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        // Seleccionar item por defecto
+        if (savedInstanceState == null) {
+            navigationView.setCheckedItem(R.id.nav_mapa);
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_mapa) {
+            // Aquí puedes abrir tu Activity del mapa
+            // startActivity(new Intent(this, MapaActivity.class));
+
+        } else if (id == R.id.nav_lugares_turisticos) {
+            startActivity(new Intent(this, LugaresTuristicosActivity.class));
+
+        } else if (id == R.id.nav_lugares_visitados) {
+            startActivity(new Intent(this, LugaresVisitadosActivity.class));
+
+        } else if (id == R.id.nav_lugares_favoritos) {
+            startActivity(new Intent(this, LugaresFavoritosActivity.class));
+
+        } else if (id == R.id.nav_configuracion) {
+            // ✅ Abrir Configuración
+            startActivity(new Intent(this, ConfiguracionActivity.class));
+        }
+
+        // Cierra el Drawer después de la selección
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+}

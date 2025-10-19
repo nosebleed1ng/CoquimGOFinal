@@ -1,0 +1,102 @@
+<resources>
+    <!-- Nombre y colores -->
+    <string name="app_name">CoquimGO</string>
+    <color name="morado">#9a0ca4</color>
+    <color name="azulOscuro">#253f66</color>
+    <color name="grisClaro">#efefef</color>
+
+    <!-- Textos generales -->
+    <string name="textoPrincipal">Explora el mundo con nosotros</string>
+    <string name="iniciar">Iniciar</string>
+    <string name="mapa">Mapa</string>
+    <string name="lugaresTuristicos">Lugares Turísticos</string>
+    <string name="lugaresVisitados">Lugares Visitados</string>
+    <string name="lugaresFavoritos">Lugares Favoritos</string>
+    <string name="configuracion">Configuración</string>
+    <string name="open_nav">Abrir menú</string>
+    <string name="close_nav">Cerrar menú</string>
+    <string name="favorito">Añadir a Favoritos</string>
+    <string name="visitado">Añadir a Visitados</string>
+    <string name="volver">Volver</string>
+    <string name="eliminarFavorito">Eliminar de Favoritos</string>
+    <string name="eliminarVisitado">Eliminar de Visitados</string>
+    <string name="lugar_imagen">Imagen del lugar</string>
+    <string name="no_info">No se encontró información disponible para este lugar.</string>
+
+    <!-- Lugares turísticos -->
+    <string name="txtcruzdeltercermilenio">Cruz del Tercer Milenio</string>
+    <string name="txtfuertelambert">Fuerte Lambert</string>
+    <string name="txtpueblitopeñuelas">Pueblito Peñuelas</string>
+    <string name="txtavenidadelmar">Avenida del Mar</string>
+    <string name="txtlamezquita">La Mezquita</string>
+    <string name="txtelfaro">El Faro</string>
+    <string name="txtparquejapones">Parque Japonés</string>
+
+    <!-- Descripciones, ubicaciones, horarios y costos -->
+    <!-- Fuerte Lambert -->
+    <string name="desc_fuertelambert">Destino turístico popular con vistas panorámicas de la bahía y la ciudad.</string>
+    <string name="ubi_fuertelambert">Ubicación: Cerro Castillo del Carmen, Coquimbo, Chile</string>
+    <string name="hor_fuertelambert">Horarios: Martes a Domingo: 9:45 am - 5:00 pm</string>
+    <string name="cost_fuertelambert">Costo Entrada: Entrada gratuita</string>
+
+    <!-- Cruz del Tercer Milenio -->
+    <string name="desc_cruz">Monumento religioso con vistas a la ciudad de Coquimbo.</string>
+    <string name="ubi_cruz">Ubicación: Cerro El Vigía, Coquimbo, Chile</string>
+    <string name="hor_cruz">Horarios: Lunes a Domingo: 9:00 am - 5:00 pm</string>
+    <string name="cost_cruz">Costo Entrada: Adultos $2.500, Niños $1.000, Gratis menores de 6 años</string>
+
+    <!-- Pueblito Peñuelas -->
+    <string name="desc_pueblito">Centro de artesanías, gastronomía y actividades familiares.</string>
+    <string name="ubi_pueblito">Ubicación: Coquimbo, Chile</string>
+    <string name="hor_pueblito">Horarios: Miércoles a Domingo: 12:00 pm - 11:00 pm</string>
+    <string name="cost_pueblito">Costo Entrada: Entrada gratuita</string>
+
+    <!-- Avenida del Mar -->
+    <string name="desc_mar">Paseo costero con playas, restaurantes y actividades al aire libre.</string>
+    <string name="ubi_mar">Ubicación: La Serena y Coquimbo, Chile</string>
+    <string name="hor_mar">Horarios: Siempre abierto</string>
+    <string name="cost_mar">Costo Entrada: Entrada gratuita</string>
+
+    <!-- La Mezquita -->
+    <string name="desc_mezquita">Centro cultural islámico con mirador y arquitectura única.</string>
+    <string name="ubi_mezquita">Ubicación: Los Granados 500, Coquimbo, Chile</string>
+    <string name="hor_mezquita">Horarios: Lunes a Domingo: 9:00 am - 5:45 pm</string>
+    <string name="cost_mezquita">Costo Entrada: Entrada gratuita</string>
+
+    <!-- El Faro -->
+    <string name="desc_faro">Símbolo icónico de La Serena con gran vista al mar.</string>
+    <string name="ubi_faro">Ubicación: Avenida del Mar, La Serena, Chile</string>
+    <string name="hor_faro">Horarios: Martes a Domingo: 9:00 am - 6:00 pm</string>
+    <string name="cost_faro">Costo Entrada: Entrada gratuita</string>
+
+    <!-- Parque Japonés -->
+    <string name="desc_parque">Parque inspirado en la cultura japonesa con jardines y estanques.</string>
+    <string name="ubi_parque">Ubicación: Eduardo de La Barra s/n, La Serena</string>
+    <string name="hor_parque">Horarios: Martes a Domingo: 10:00 am - 5:40 pm</string>
+    <string name="cost_parque">Costo Entrada: $3.000 (general)</string>
+
+    <!-- Configuración -->
+    <string name="modo_oscuro">Modo oscuro</string>
+    <string name="espanol">Español</string>
+    <string name="ingles">Inglés</string>
+    <string name="portugues">Portugués</string>
+    <string name="cambiar_idioma">Selecciona el idioma:</string>
+    <string name="seleccionar_idioma">Seleccionar idioma</string>
+    <string name="volver_inicio">Volver al inicio</string>
+    <string name="ir">Ir</string>
+    <string name="acerca_de_la_app">Acerca de la aplicación</string>
+    <string name="acerca_texto">
+CoquimGO es una aplicación de turismo que te permite descubrir los principales destinos de Coquimbo y La Serena.
+Podrás explorar lugares, marcarlos como visitados o favoritos, y configurar el idioma y modo visual según tus preferencias.
+\n\nVersión: 1.0.0
+\nDesarrollado por: Matías Chepillo, Beckham Espejo y Gabriel Castillo. Estudiantes de segundo año de Ingeniería en Informática. Programación Android.
+</string>
+    <!-- Opciones de filtro (para los Spinners de los lugares) -->
+    <string-array name="opciones_filtro">
+        <item>Todos</item>
+        <item>Favoritos</item>
+        <item>Visitados</item>
+    </string-array>
+
+</resources>
+
