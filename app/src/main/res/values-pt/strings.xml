@@ -1,36 +1,43 @@
 <resources>
-    <!-- App name -->
+    <!-- General -->
     <string name="app_name">CoquimGO</string>
-
-    <!-- Textos generales -->
     <string name="textoPrincipal">Explore o mundo conosco</string>
     <string name="iniciar">Iniciar</string>
     <string name="mapa">Mapa</string>
     <string name="lugaresTuristicos">Lugares Turísticos</string>
     <string name="lugaresVisitados">Lugares Visitados</string>
     <string name="lugaresFavoritos">Lugares Favoritos</string>
-    <string name="configuracion">Configuração</string>
+    <string name="configuracion">Configurações</string>
     <string name="open_nav">Abrir menu</string>
     <string name="close_nav">Fechar menu</string>
     <string name="favorito">Adicionar aos Favoritos</string>
-    <string name="visitado">Adicionar aos Visitados</string>
+    <string name="visitado">Marcar como Visitado</string>
     <string name="volver">Voltar</string>
     <string name="eliminarFavorito">Remover dos Favoritos</string>
     <string name="eliminarVisitado">Remover dos Visitados</string>
-    <string name="lugar_imagen">Imagem do lugar</string>
-    <string name="no_info">Nenhuma informação disponível para este lugar.</string>
+    <string name="lugar_imagen">Imagem do local</string>
+    <string name="no_info">Nenhuma informação disponível para este local.</string>
 
-    <!-- Lugares turísticos -->
+    <!-- Lugares Turísticos -->
     <string name="txtcruzdeltercermilenio">Cruz do Terceiro Milênio</string>
     <string name="txtfuertelambert">Forte Lambert</string>
-    <string name="txtpueblitopeñuelas">Vila Peñuelas</string>
+    <string name="txtpueblitopeñuelas">Pueblito Peñuelas</string>
     <string name="txtavenidadelmar">Avenida do Mar</string>
     <string name="txtlamezquita">A Mesquita</string>
     <string name="txtelfaro">O Farol</string>
     <string name="txtparquejapones">Parque Japonês</string>
 
-    <!-- Descripciones -->
-    <string name="desc_fuertelambert">Destino turístico com vistas panorâmicas da baía e da cidade.</string>
+    <!-- Tipos de Lugar -->
+    <string name="tipo_fuertelambert">Cultural</string>
+    <string name="tipo_cruz">Religioso</string>
+    <string name="tipo_pueblito">Cultural</string>
+    <string name="tipo_mar">Praia</string>
+    <string name="tipo_mezquita">Religioso</string>
+    <string name="tipo_faro">Litoral</string>
+    <string name="tipo_parque">Parque</string>
+
+    <!-- Descripciones, Localizaciones y costos -->
+    <string name="desc_fuertelambert">Destino turístico popular com vista panorâmica da baía e da cidade.</string>
     <string name="ubi_fuertelambert">Localização: Cerro Castillo del Carmen, Coquimbo, Chile</string>
     <string name="hor_fuertelambert">Horário: Terça a Domingo: 9:45 - 17:00</string>
     <string name="cost_fuertelambert">Entrada: Gratuita</string>
@@ -70,20 +77,24 @@
     <string name="espanol">Espanhol</string>
     <string name="ingles">Inglês</string>
     <string name="portugues">Português</string>
-    <string name="cambiar_idioma">Selecione o idioma:</string>
+    <string name="cambiar_idioma">Selecionar idioma:</string>
     <string name="seleccionar_idioma">Selecionar idioma</string>
     <string name="volver_inicio">Voltar ao início</string>
     <string name="ir">Ir</string>
     <string name="acerca_de_la_app">Sobre o aplicativo</string>
     <string name="acerca_texto">
 CoquimGO é um aplicativo de turismo que permite descobrir os principais destinos de Coquimbo e La Serena.
-Você pode explorar lugares, marcá-los como visitados ou favoritos e configurar o idioma e o modo visual conforme suas preferências.
+Você pode explorar lugares, marcá-los como visitados ou favoritos e configurar o idioma e o modo visual de acordo com suas preferências.
 \n\nVersão: 1.0.0
-\nDesenvolvido por: Matías Chepillo, Beckham Espejo e Gabriel Castillo. Estudantes do segundo ano de Engenharia em Informática. Programação Android.
+\nDesenvolvido por: Matías Chepillo, Beckham Espejo e Gabriel Castillo.
 </string>
+
+    <!-- Opciones de filtro -->
     <string-array name="opciones_filtro">
         <item>Todos</item>
-        <item>Favoritos</item>
-        <item>Visitados</item>
+        <item>Parque</item>
+        <item>Praia</item>
+        <item>Cultural</item>
+        <item>Religioso</item>
     </string-array>
 </resources>

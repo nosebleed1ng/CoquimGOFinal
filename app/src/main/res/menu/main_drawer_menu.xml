@@ -2,9 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_mapa"
-            android:title="@string/mapa" />
-        <item
             android:id="@+id/nav_lugares_turisticos"
             android:title="@string/lugaresTuristicos" />
         <item

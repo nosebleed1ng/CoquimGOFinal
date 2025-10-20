@@ -32,44 +32,46 @@
     <string name="txtelfaro">El Faro</string>
     <string name="txtparquejapones">Parque Japonés</string>
 
-    <!-- Descripciones, ubicaciones, horarios y costos -->
-    <!-- Fuerte Lambert -->
+    <!-- Tipos de lugares -->
+    <string name="tipo_fuertelambert">Cultural</string>
+    <string name="tipo_cruz">Religioso</string>
+    <string name="tipo_pueblito">Cultural</string>
+    <string name="tipo_mar">Playa</string>
+    <string name="tipo_mezquita">Religioso</string>
+    <string name="tipo_faro">Costero</string>
+    <string name="tipo_parque">Parque</string>
+
+    <!-- Descripciones -->
     <string name="desc_fuertelambert">Destino turístico popular con vistas panorámicas de la bahía y la ciudad.</string>
     <string name="ubi_fuertelambert">Ubicación: Cerro Castillo del Carmen, Coquimbo, Chile</string>
     <string name="hor_fuertelambert">Horarios: Martes a Domingo: 9:45 am - 5:00 pm</string>
     <string name="cost_fuertelambert">Costo Entrada: Entrada gratuita</string>
 
-    <!-- Cruz del Tercer Milenio -->
     <string name="desc_cruz">Monumento religioso con vistas a la ciudad de Coquimbo.</string>
     <string name="ubi_cruz">Ubicación: Cerro El Vigía, Coquimbo, Chile</string>
     <string name="hor_cruz">Horarios: Lunes a Domingo: 9:00 am - 5:00 pm</string>
     <string name="cost_cruz">Costo Entrada: Adultos $2.500, Niños $1.000, Gratis menores de 6 años</string>
 
-    <!-- Pueblito Peñuelas -->
     <string name="desc_pueblito">Centro de artesanías, gastronomía y actividades familiares.</string>
     <string name="ubi_pueblito">Ubicación: Coquimbo, Chile</string>
     <string name="hor_pueblito">Horarios: Miércoles a Domingo: 12:00 pm - 11:00 pm</string>
     <string name="cost_pueblito">Costo Entrada: Entrada gratuita</string>
 
-    <!-- Avenida del Mar -->
     <string name="desc_mar">Paseo costero con playas, restaurantes y actividades al aire libre.</string>
     <string name="ubi_mar">Ubicación: La Serena y Coquimbo, Chile</string>
     <string name="hor_mar">Horarios: Siempre abierto</string>
     <string name="cost_mar">Costo Entrada: Entrada gratuita</string>
 
-    <!-- La Mezquita -->
     <string name="desc_mezquita">Centro cultural islámico con mirador y arquitectura única.</string>
     <string name="ubi_mezquita">Ubicación: Los Granados 500, Coquimbo, Chile</string>
     <string name="hor_mezquita">Horarios: Lunes a Domingo: 9:00 am - 5:45 pm</string>
     <string name="cost_mezquita">Costo Entrada: Entrada gratuita</string>
 
-    <!-- El Faro -->
     <string name="desc_faro">Símbolo icónico de La Serena con gran vista al mar.</string>
     <string name="ubi_faro">Ubicación: Avenida del Mar, La Serena, Chile</string>
     <string name="hor_faro">Horarios: Martes a Domingo: 9:00 am - 6:00 pm</string>
     <string name="cost_faro">Costo Entrada: Entrada gratuita</string>
 
-    <!-- Parque Japonés -->
     <string name="desc_parque">Parque inspirado en la cultura japonesa con jardines y estanques.</string>
     <string name="ubi_parque">Ubicación: Eduardo de La Barra s/n, La Serena</string>
     <string name="hor_parque">Horarios: Martes a Domingo: 10:00 am - 5:40 pm</string>
@@ -89,14 +91,16 @@
 CoquimGO es una aplicación de turismo que te permite descubrir los principales destinos de Coquimbo y La Serena.
 Podrás explorar lugares, marcarlos como visitados o favoritos, y configurar el idioma y modo visual según tus preferencias.
 \n\nVersión: 1.0.0
-\nDesarrollado por: Matías Chepillo, Beckham Espejo y Gabriel Castillo. Estudiantes de segundo año de Ingeniería en Informática. Programación Android.
+\nDesarrollado por: Matías Chepillo, Beckham Espejo y Gabriel Castillo.
 </string>
-    <!-- Opciones de filtro (para los Spinners de los lugares) -->
+
+    <!-- Filtros -->
     <string-array name="opciones_filtro">
         <item>Todos</item>
-        <item>Favoritos</item>
-        <item>Visitados</item>
+        <item>Parque</item>
+        <item>Playa</item>
+        <item>Cultural</item>
+        <item>Religioso</item>
     </string-array>
-
 </resources>
 

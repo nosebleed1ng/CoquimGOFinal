@@ -100,7 +100,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtCostos.setText(getString(R.string.cost_fuertelambert));
                 coordenadaX = -29.933971429838568;
                 coordenadaY = -71.3360721762996;
-                nomMap = "Cruz del Tercer Milenio";
+                nomMap = "Fuerte Lambert";
                 break;
 
             case "cruz del tercer milenio":
@@ -136,7 +136,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtCostos.setText(getString(R.string.cost_mar));
                 coordenadaX = -29.915549;
                 coordenadaY = -71.275552;
-                nomMap = "La Mezquita";
+                nomMap = "Avenida del Mar";
                 break;
 
             case "la mezquita":
@@ -182,7 +182,16 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText("");
                 txtHorarios.setText("");
                 txtCostos.setText("");
+                nomMap = getString(R.string.app_name);
                 break;
+        }
+
+        // Actualizar marcador si el mapa ya está listo
+        if (gMap != null) {
+            LatLng coordenadas = new LatLng(coordenadaX, coordenadaY);
+            gMap.clear();
+            gMap.addMarker(new MarkerOptions().position(coordenadas).title(nomMap));
+            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordenadas, 13));
         }
     }
 

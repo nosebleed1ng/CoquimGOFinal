@@ -1,8 +1,6 @@
 <resources>
-    <!-- App name and colors -->
+    <!-- General -->
     <string name="app_name">CoquimGO</string>
-
-    <!-- General texts -->
     <string name="textoPrincipal">Explore the world with us</string>
     <string name="iniciar">Start</string>
     <string name="mapa">Map</string>
@@ -13,78 +11,90 @@
     <string name="open_nav">Open menu</string>
     <string name="close_nav">Close menu</string>
     <string name="favorito">Add to Favorites</string>
-    <string name="visitado">Add to Visited</string>
+    <string name="visitado">Mark as Visited</string>
     <string name="volver">Back</string>
     <string name="eliminarFavorito">Remove from Favorites</string>
     <string name="eliminarVisitado">Remove from Visited</string>
     <string name="lugar_imagen">Place image</string>
     <string name="no_info">No information available for this place.</string>
 
-    <!-- Tourist Places -->
+    <!-- Lugares turisticos -->
     <string name="txtcruzdeltercermilenio">Third Millennium Cross</string>
     <string name="txtfuertelambert">Lambert Fortress</string>
     <string name="txtpueblitopeñuelas">Peñuelas Village</string>
-    <string name="txtavenidadelmar">Avenida del Mar</string>
+    <string name="txtavenidadelmar">Avenue of the Sea</string>
     <string name="txtlamezquita">The Mosque</string>
     <string name="txtelfaro">The Lighthouse</string>
     <string name="txtparquejapones">Japanese Park</string>
 
-    <!-- Descriptions -->
-    <string name="desc_fuertelambert">Tourist destination with panoramic views of the bay and the city.</string>
-    <string name="ubi_fuertelambert">Location: Cerro Castillo del Carmen, Coquimbo, Chile</string>
-    <string name="hor_fuertelambert">Hours: Tuesday to Sunday: 9:45 am - 5:00 pm</string>
-    <string name="cost_fuertelambert">Entrance Fee: Free entry</string>
+    <!-- Tipos de lugar -->
+    <string name="tipo_fuertelambert">Cultural</string>
+    <string name="tipo_cruz">Religious</string>
+    <string name="tipo_pueblito">Cultural</string>
+    <string name="tipo_mar">Beach</string>
+    <string name="tipo_mezquita">Religious</string>
+    <string name="tipo_faro">Coastal</string>
+    <string name="tipo_parque">Park</string>
 
-    <string name="desc_cruz">Religious monument with views of the city of Coquimbo.</string>
+    <!-- Descripciones, localizaciones y costoss -->
+    <string name="desc_fuertelambert">Popular tourist destination with panoramic views of the bay and the city.</string>
+    <string name="ubi_fuertelambert">Location: Castillo del Carmen Hill, Coquimbo, Chile</string>
+    <string name="hor_fuertelambert">Hours: Tuesday to Sunday: 9:45 am - 5:00 pm</string>
+    <string name="cost_fuertelambert">Admission Fee: Free entry</string>
+
+    <string name="desc_cruz">Religious monument overlooking the city of Coquimbo.</string>
     <string name="ubi_cruz">Location: El Vigía Hill, Coquimbo, Chile</string>
     <string name="hor_cruz">Hours: Monday to Sunday: 9:00 am - 5:00 pm</string>
-    <string name="cost_cruz">Entrance Fee: Adults $2,500, Children $1,000, Free for under 6</string>
+    <string name="cost_cruz">Admission Fee: Adults $2,500, Children $1,000, Free for under 6</string>
 
-    <string name="desc_pueblito">Crafts, gastronomy and family activity center.</string>
+    <string name="desc_pueblito">Craft center, gastronomy, and family activities.</string>
     <string name="ubi_pueblito">Location: Coquimbo, Chile</string>
     <string name="hor_pueblito">Hours: Wednesday to Sunday: 12:00 pm - 11:00 pm</string>
-    <string name="cost_pueblito">Entrance Fee: Free entry</string>
+    <string name="cost_pueblito">Admission Fee: Free entry</string>
 
-    <string name="desc_mar">Coastal promenade with beaches, restaurants and outdoor activities.</string>
+    <string name="desc_mar">Coastal walk with beaches, restaurants, and outdoor activities.</string>
     <string name="ubi_mar">Location: La Serena and Coquimbo, Chile</string>
     <string name="hor_mar">Hours: Always open</string>
-    <string name="cost_mar">Entrance Fee: Free entry</string>
+    <string name="cost_mar">Admission Fee: Free entry</string>
 
-    <string name="desc_mezquita">Islamic cultural center with a viewpoint and unique architecture.</string>
+    <string name="desc_mezquita">Islamic cultural center with viewpoint and unique architecture.</string>
     <string name="ubi_mezquita">Location: Los Granados 500, Coquimbo, Chile</string>
     <string name="hor_mezquita">Hours: Monday to Sunday: 9:00 am - 5:45 pm</string>
-    <string name="cost_mezquita">Entrance Fee: Free entry</string>
+    <string name="cost_mezquita">Admission Fee: Free entry</string>
 
-    <string name="desc_faro">Iconic symbol of La Serena with an excellent ocean view.</string>
-    <string name="ubi_faro">Location: Avenida del Mar, La Serena, Chile</string>
+    <string name="desc_faro">Iconic symbol of La Serena with a great view of the sea.</string>
+    <string name="ubi_faro">Location: Avenue of the Sea, La Serena, Chile</string>
     <string name="hor_faro">Hours: Tuesday to Sunday: 9:00 am - 6:00 pm</string>
-    <string name="cost_faro">Entrance Fee: Free entry</string>
+    <string name="cost_faro">Admission Fee: Free entry</string>
 
     <string name="desc_parque">Park inspired by Japanese culture with gardens and ponds.</string>
     <string name="ubi_parque">Location: Eduardo de La Barra s/n, La Serena</string>
     <string name="hor_parque">Hours: Tuesday to Sunday: 10:00 am - 5:40 pm</string>
-    <string name="cost_parque">Entrance Fee: $3,000 (general)</string>
+    <string name="cost_parque">Admission Fee: $3,000 (general)</string>
 
-    <!-- Settings -->
+    <!-- Configuracion -->
     <string name="modo_oscuro">Dark Mode</string>
     <string name="espanol">Spanish</string>
     <string name="ingles">English</string>
     <string name="portugues">Portuguese</string>
-    <string name="cambiar_idioma">Select language:</string>
-    <string name="seleccionar_idioma">Select language</string>
+    <string name="cambiar_idioma">Select Language:</string>
+    <string name="seleccionar_idioma">Select Language</string>
     <string name="volver_inicio">Back to Home</string>
     <string name="ir">Go</string>
     <string name="acerca_de_la_app">About the App</string>
     <string name="acerca_texto">
 CoquimGO is a tourism app that allows you to discover the main destinations of Coquimbo and La Serena.
-You can explore places, mark them as visited or favorite, and configure the language and visual mode according to your preferences.
+Explore places, mark them as visited or favorite, and configure the language and theme according to your preferences.
 \n\nVersion: 1.0.0
-\nDeveloped by: Matías Chepillo, Beckham Espejo and Gabriel Castillo. Second-year Computer Engineering students. Android Programming.
+\nDeveloped by: Matías Chepillo, Beckham Espejo, and Gabriel Castillo.
 </string>
+
+    <!-- Filter options -->
     <string-array name="opciones_filtro">
         <item>All</item>
-        <item>Favorites</item>
-        <item>Visited</item>
+        <item>Park</item>
+        <item>Beach</item>
+        <item>Cultural</item>
+        <item>Religious</item>
     </string-array>
-
 </resources>

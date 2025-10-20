@@ -32,12 +32,16 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-    <!-- MENÚ LATERAL -->
+    <!--  MENÚ LATERAL -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/main_drawer_menu"
-        app:headerLayout="@layout/nav_header_main" />
+        android:background="@drawable/navview_background_gradient"
+        app:itemTextColor="@color/nav_item_text"
+        app:itemIconTint="@color/nav_item_icon"
+        app:itemRippleColor="@color/nav_item_ripple"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/main_drawer_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -19,7 +19,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // ✅ Aplicar modo oscuro guardado
+        //  Aplicar modo oscuro guardado
         SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
         boolean modoOscuro = prefs.getBoolean("modo_oscuro", false);
         AppCompatDelegate.setDefaultNightMode(
@@ -35,14 +35,14 @@ public class ConfiguracionActivity extends AppCompatActivity {
 
         switchModoOscuro.setChecked(modoOscuro);
 
-        // 🔹 Botón para cambiar idioma
+        //  Botón para cambiar idioma
         btnSeleccionIdioma.setOnClickListener(v -> {
             Intent intent = new Intent(ConfiguracionActivity.this, SeleccionIdiomaActivity.class);
             startActivity(intent);
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         });
 
-        // 🔹 Botón para volver al inicio
+        //  Botón para volver al inicio
         btnVolverInicio.setOnClickListener(v -> {
             Intent intent = new Intent(ConfiguracionActivity.this, SplashActivity.class);
             startActivity(intent);
@@ -50,7 +50,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
             finish();
         });
 
-        // 🔹 Activar/Desactivar modo oscuro con animación
+        //  Activar/Desactivar modo oscuro con animación
         switchModoOscuro.setOnCheckedChangeListener((buttonView, isChecked) -> {
             prefs.edit().putBoolean("modo_oscuro", isChecked).apply();
 

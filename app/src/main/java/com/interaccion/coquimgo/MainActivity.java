@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Seleccionar item por defecto
         if (savedInstanceState == null) {
-            navigationView.setCheckedItem(R.id.nav_mapa);
+            navigationView.setCheckedItem(R.id.nav_lugares_turisticos);
         }
     }
 
@@ -47,12 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_mapa) {
-            // Aquí puedes abrir tu Activity del mapa
-            // startActivity(new Intent(this, MapaActivity.class));
-
-        } else if (id == R.id.nav_lugares_turisticos) {
-            startActivity(new Intent(this, LugaresTuristicosActivity.class));
+        if (id == R.id.nav_lugares_turisticos) {
 
         } else if (id == R.id.nav_lugares_visitados) {
             startActivity(new Intent(this, LugaresVisitadosActivity.class));
@@ -61,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, LugaresFavoritosActivity.class));
 
         } else if (id == R.id.nav_configuracion) {
-            // ✅ Abrir Configuración
             startActivity(new Intent(this, ConfiguracionActivity.class));
+
         }
 
         // Cierra el Drawer después de la selección
