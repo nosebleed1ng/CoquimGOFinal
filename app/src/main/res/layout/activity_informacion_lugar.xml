@@ -147,7 +147,7 @@
                 android:layout_marginEnd="10dp"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
-                android:backgroundTint="?attr/colorPrimary"
+                android:backgroundTint="@color/azulOscuro"
                 android:text="@string/visitado"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
@@ -158,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
-                android:backgroundTint="?attr/colorPrimary"
+                android:backgroundTint="@color/azulOscuro"
                 android:text="@string/favorito"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
@@ -173,7 +173,7 @@
             android:layout_marginTop="22dp"
             android:paddingHorizontal="30dp"
             android:paddingVertical="10dp"
-            android:backgroundTint="?attr/colorSecondary"
+            android:backgroundTint="@color/azulOscuro"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
     </LinearLayout>

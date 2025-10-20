@@ -104,7 +104,7 @@ public class LugaresTuristicosActivity extends AppCompatActivity
 
         switch (filtro) {
             case "Playa":
-                ocultarExcepto(cardavenidadelmar);
+                ocultarExcepto(cardavenidadelmar, cardelfaro);
                 break;
             case "Cultural":
                 ocultarExcepto(cardfuertelambert, cardcruztercermilenio, cardpueblitopeñuelas);

@@ -122,7 +122,7 @@ public class LugaresFavoritosActivity extends AppCompatActivity
 
         switch (filtro) {
             case "Playa":
-                ocultarExcepto("Avenida del Mar");
+                ocultarExcepto("Avenida del Mar", "El Faro");
                 break;
             case "Cultural":
                 ocultarExcepto("Fuerte Lambert", "Cruz del Tercer Milenio", "Pueblito Peñuelas");
