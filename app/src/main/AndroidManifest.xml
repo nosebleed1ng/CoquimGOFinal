@@ -34,6 +34,7 @@
             android:exported="true"
             android:label="@string/lugaresFavoritos"
             android:theme="@style/Theme.CoquimGO" /> <!-- Lugares Visitados -->
+
         <activity
             android:name=".LugaresVisitadosActivity"
             android:exported="true"
