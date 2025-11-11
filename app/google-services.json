@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "223691877972",
+    "project_id": "coquimgo-32640",
+    "storage_bucket": "coquimgo-32640.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223691877972:android:4886e0920f54801e1207c1",
+        "android_client_info": {
+          "package_name": "com.interaccion.coquimgo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxQjnH7ED7BZZn4NiR47TKhwQ__OvfOiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
