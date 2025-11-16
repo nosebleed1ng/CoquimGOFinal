@@ -15,11 +15,11 @@
     <string name="configuracion">Configuración</string>
     <string name="open_nav">Abrir menú</string>
     <string name="close_nav">Cerrar menú</string>
-    <string name="favorito">Añadir a Favoritos</string>
-    <string name="visitado">Añadir a Visitados</string>
+    <string name="favorito">Añadido a Favoritos</string>
+    <string name="visitado">Añadido a Visitados</string>
     <string name="volver">Volver</string>
-    <string name="eliminarFavorito">Eliminar de Favoritos</string>
-    <string name="eliminarVisitado">Eliminar de Visitados</string>
+    <string name="eliminarFavorito">Eliminado de Favoritos</string>
+    <string name="eliminarVisitado">Eliminado de Visitados</string>
     <string name="lugar_imagen">Imagen del lugar</string>
     <string name="no_info">No se encontró información disponible para este lugar.</string>
 

@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Activity que muestra los lugares marcados como favoritos.
+ * Activity que muestra los lugares marcados como favoritos
  * - Idioma dinámico (LocaleHelper)
  * - Toolbar traducible
  * - Filtrado funcional
@@ -166,7 +166,8 @@ public class LugaresFavoritosActivity extends AppCompatActivity
             startActivity(new Intent(this, LugaresVisitadosActivity.class));
         else if (id == R.id.nav_configuracion)
             startActivity(new Intent(this, ConfiguracionActivity.class));
-
+        else if (id == R.id.nav_mapa)
+            startActivity(new Intent(this, MapaActivity.class));
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

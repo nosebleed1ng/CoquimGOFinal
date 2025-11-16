@@ -42,5 +42,6 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+    implementation libs.activity.v160alpha05
     implementation("com.google.android.gms:play-services-maps:19.2.0")
 }

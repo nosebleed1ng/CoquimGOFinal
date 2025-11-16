@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoquimGO"
         tools:targetApi="31">
-
+        <activity
+            android:name=".MapaActivity"
+            android:exported="false" />
         <activity
             android:name=".SeleccionIdiomaActivity"
             android:exported="true"
@@ -34,7 +36,6 @@
             android:exported="true"
             android:label="@string/lugaresFavoritos"
             android:theme="@style/Theme.CoquimGO" /> <!-- Lugares Visitados -->
-
         <activity
             android:name=".LugaresVisitadosActivity"
             android:exported="true"
@@ -69,7 +70,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAeTDZqQDuyhFaU-eq78xaei30ipiZQ7pM" /> <!-- API de Google Maps -->
+            android:value="AIzaSyAeTDZqQDuyhFaU-eq78xaei30ipiZQ7pM" />
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,10 +19,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.interaccion.coquimgo.model.Lugar;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.UUID;
 
 public class InformacionLugarActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -32,7 +39,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
     private double coordenadaY;
     private String nomMap;
     private Button btnVolver, btnMarcarVisitado, btnMarcarFavorito;
-
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Aplicar idioma guardado antes del layout
@@ -87,6 +95,13 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
 
         btnMarcarVisitado.setOnClickListener(v -> toggleVisitado(nombreLugar));
         btnMarcarFavorito.setOnClickListener(v -> toggleFavorito(nombreLugar));
+        iniciarFirebase();
+    }
+
+    private void iniciarFirebase() {
+        FireBaseApp.initializeApp(this);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
     }
 
     private void cargarInformacionLugar(String nombreLugar) {
@@ -171,7 +186,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtHorarios.setText(getString(R.string.hor_parque));
                 txtCostos.setText(getString(R.string.cost_parque));
                 coordenadaX = -29.90388889;
-                coordenadaY = -71.25555556;
+                coordenadaY = -29.90388889;
                 nomMap = "Parque Japonés";
                 break;
 
@@ -231,6 +246,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         SharedPreferences prefs = getSharedPreferences("LugaresPrefs", Context.MODE_PRIVATE);
         Set<String> visitados = new HashSet<>(prefs.getStringSet("lugaresVisitados", new HashSet<>()));
 
+
         if (visitados.contains(nombreLugar)) {
             visitados.remove(nombreLugar);
             Toast.makeText(this, getString(R.string.eliminarVisitado), Toast.LENGTH_SHORT).show();
@@ -261,9 +277,18 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         Set<String> favoritos = new HashSet<>(prefs.getStringSet("lugaresFavoritos", new HashSet<>()));
 
         if (favoritos.contains(nombreLugar)) {
+
             favoritos.remove(nombreLugar);
             Toast.makeText(this, getString(R.string.eliminarFavorito), Toast.LENGTH_SHORT).show();
         } else {
+            Lugar lugar = new Lugar();
+            lugar.setIdLugar(UUID.randomUUID().toString());
+            lugar.setNombreLugar(String.valueOf(txtNombreLugar));
+            lugar.setDescripcionLugar(String.valueOf(txtDescripcion));
+            lugar.setUbicacionLugar(String.valueOf(txtUbicacion));
+            lugar.setHorarioLugar(String.valueOf(txtHorarios));
+            lugar.setCostoLugar(String.valueOf(txtCostos));
+            databaseReference.child("Lugar").child(lugar.getIdLugar()).setValue(lugar);
             favoritos.add(nombreLugar);
             Toast.makeText(this, getString(R.string.favorito), Toast.LENGTH_SHORT).show();
         }

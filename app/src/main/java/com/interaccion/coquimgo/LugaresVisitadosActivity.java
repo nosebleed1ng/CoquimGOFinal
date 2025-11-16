@@ -159,7 +159,8 @@ public class LugaresVisitadosActivity extends AppCompatActivity
             startActivity(new Intent(this, LugaresFavoritosActivity.class));
         else if (id == R.id.nav_configuracion)
             startActivity(new Intent(this, ConfiguracionActivity.class));
-
+        else if (id == R.id.nav_mapa)
+            startActivity(new Intent(this, MapaActivity.class));
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

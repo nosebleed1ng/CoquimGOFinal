@@ -2,6 +2,8 @@ package com.interaccion.coquimgo;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Toggle (ícono del menú hamburguesa)
+        // Toggle (ícono del menú)
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
                 R.string.open_nav, R.string.close_nav
@@ -41,6 +43,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             navigationView.setCheckedItem(R.id.nav_lugares_turisticos);
         }
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                }
+            }
+        });
     }
 
     @Override
@@ -58,19 +72,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_configuracion) {
             startActivity(new Intent(this, ConfiguracionActivity.class));
 
+        } else if (id == R.id.nav_mapa) {
+            startActivity(new Intent(this, MapaActivity.class));
         }
 
-        // Cierra el Drawer después de la selección
+        // Cerrar el Drawer después de la selección
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 }
+
