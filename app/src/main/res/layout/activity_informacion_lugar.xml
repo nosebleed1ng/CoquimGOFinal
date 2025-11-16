@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -7,20 +6,22 @@
     android:padding="16dp"
     android:fadeScrollbars="false">
 
-    <LinearLayout
+<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-        <!-- Imagen principal -->
+        <!-- IMAGEN PRINCIPAL DEL LUGAR -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardImagen"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            app:cardCornerRadius="20dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="22dp"
             app:cardElevation="10dp"
-            android:layout_marginBottom="20dp">
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="?attr/colorSurface">
 
             <ImageView
                 android:id="@+id/imglugar"
@@ -30,7 +31,7 @@
                 android:contentDescription="@string/lugar_imagen" />
         </androidx.cardview.widget.CardView>
 
-        <!-- Nombre -->
+        <!-- NOMBRE DEL LUGAR -->
         <TextView
             android:id="@+id/txtnombreLugar"
             android:layout_width="wrap_content"
@@ -38,37 +39,48 @@
             android:textSize="26sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium"
-            android:textColor="?attr/colorOnSurface"
+            android:textColor="?attr/colorOnBackground"
             android:layout_marginBottom="6dp"
             android:gravity="center" />
 
-        <!-- Tipo de lugar -->
+        <!-- TIPO DE LUGAR (CHIP) -->
         <TextView
             android:id="@+id/txttipoLugar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/bg_chip_tipo"
+            android:fontFamily="sans-serif-medium"
             android:paddingHorizontal="14dp"
             android:paddingVertical="6dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:background="@drawable/bg_chip_tipo"
-            android:layout_marginBottom="12dp"
-            android:fontFamily="sans-serif-medium" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
-        <!-- Descripción -->
+        <!-- SECCIÓN DESCRIPCIÓN -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="14dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
             app:cardElevation="6dp"
-            android:layout_marginBottom="16dp">
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="?attr/colorSurface">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="14dp">
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Descripción"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_marginBottom="8dp" />
 
                 <TextView
                     android:id="@+id/txtdescripcion"
@@ -80,19 +92,30 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Información -->
+        <!-- SECCIÓN INFORMACIÓN DEL LUGAR -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="14dp"
+            android:layout_marginBottom="18dp"
+            app:cardCornerRadius="16dp"
             app:cardElevation="6dp"
-            android:layout_marginBottom="18dp">
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="?attr/colorSurface">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="14dp">
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Información del lugar"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_marginBottom="8dp" />
 
                 <TextView
                     android:id="@+id/txtubicacion"
@@ -117,13 +140,15 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Mapa -->
+        <!-- MAPA -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="230dp"
+            android:layout_marginBottom="20dp"
             app:cardCornerRadius="18dp"
             app:cardElevation="8dp"
-            android:layout_marginBottom="20dp">
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="?attr/colorSurface">
 
             <fragment
                 android:id="@+id/mapa"
@@ -132,7 +157,7 @@
                 android:layout_height="match_parent" />
         </androidx.cardview.widget.CardView>
 
-        <!-- Botones -->
+        <!-- BOTONES VISITADO / FAVORITO -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -145,26 +170,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="22dp"
                 android:paddingVertical="10dp"
                 android:backgroundTint="?attr/colorPrimary"
                 android:text="@string/visitado"
                 android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:fontFamily="sans-serif-medium" />
 
             <Button
                 android:id="@+id/btnmarcarfavorito"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="22dp"
                 android:paddingVertical="10dp"
                 android:backgroundTint="?attr/colorPrimary"
                 android:text="@string/favorito"
                 android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
-        <!-- Volver -->
+        <!-- BOTÓN VOLVER -->
         <Button
             android:id="@+id/btnvolver"
             android:layout_width="wrap_content"
@@ -175,6 +204,9 @@
             android:paddingVertical="10dp"
             android:backgroundTint="?attr/colorSecondary"
             android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:fontFamily="sans-serif-medium" />
     </LinearLayout>
 </ScrollView>
+

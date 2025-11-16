@@ -90,7 +90,7 @@ public class LugaresTuristicosActivity extends AppCompatActivity
         });
     }
 
-    // Método para abrir detalles de un lugar
+    // Metodo para abrir detalles de algun lugar
     private void abrirInformacionLugar(String nombreLugar) {
         Intent intent = new Intent(this, InformacionLugarActivity.class);
         intent.putExtra("nombreLugar", nombreLugar);

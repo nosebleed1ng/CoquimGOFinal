@@ -22,13 +22,6 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Activity que muestra los lugares visitados por el usuario.
- * - Aplica idioma con LocaleHelper
- * - Filtrado dinámico
- * - Drawer funcional
- * - Carga dinámica desde SharedPreferences
- */
 public class LugaresVisitadosActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 

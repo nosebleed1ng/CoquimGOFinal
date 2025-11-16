@@ -8,7 +8,7 @@ import java.util.Locale;
 
 public class LocaleHelper {
 
-    // Método para cambiar el idioma de la app dinámicamente
+    // metodo para cabiar idioma
     public static void setLocale(Context context, String languageCode) {
         Locale locale = new Locale(languageCode);
         Locale.setDefault(locale);

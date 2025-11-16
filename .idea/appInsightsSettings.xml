@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.interaccion.coquimgo" />
+                  <option name="mobileSdkAppId" value="1:223691877972:android:4886e0920f54801e1207c1" />
+                  <option name="projectId" value="coquimgo-32640" />
+                  <option name="projectNumber" value="223691877972" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

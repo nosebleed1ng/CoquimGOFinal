@@ -7,14 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- CONTENIDO PRINCIPAL -->
     <LinearLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Barra superior -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -23,7 +21,6 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:title="@string/app_name" />
 
-        <!-- Ejemplo de contenido principal -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,7 +29,6 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-    <!--  MENÚ LATERAL -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

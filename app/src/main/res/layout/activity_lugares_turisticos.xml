@@ -12,14 +12,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- toolbar para el titulo -->
-        <androidx.appcompat.widget.Toolbar
+        <!-- Toolbar mejorada: ahora es MaterialToolbar y usa el color del tema -->
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/azulOscuro"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:title="@string/lugaresTuristicos"/>
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            app:title="@string/lugaresTuristicos"
+            app:titleCentered="true" />
 
         <Spinner
             android:id="@+id/spinnerFiltro"
@@ -30,7 +31,6 @@
             android:entries="@array/opciones_filtro"
             android:spinnerMode="dropdown" />
 
-        <!-- scroll para los lugares -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -42,7 +42,6 @@
                 android:padding="16dp"
                 android:gravity="center_horizontal">
 
-                <!-- cardview de la serena -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardfuertelambert"
                     android:layout_width="match_parent"
@@ -69,7 +68,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
+                            android:background="@drawable/bg_title_gradient"
                             android:padding="8dp"
                             android:text="@string/txtfuertelambert"
                             android:textColor="@android:color/white"
@@ -78,7 +77,6 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- cardview de la cruz del tercer milenio -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardcruztercermilenio"
                     android:layout_width="match_parent"
@@ -105,7 +103,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
+                            android:background="@drawable/bg_title_gradient"
                             android:padding="8dp"
                             android:text="@string/txtcruzdeltercermilenio"
                             android:textColor="@android:color/white"
@@ -140,7 +138,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
+                            android:background="@drawable/bg_title_gradient"
                             android:padding="8dp"
                             android:text="@string/txtpueblitopeñuelas"
                             android:textColor="@android:color/white"
@@ -175,7 +173,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
+                            android:background="@drawable/bg_title_gradient"
                             android:padding="8dp"
                             android:text="@string/txtavenidadelmar"
                             android:textColor="@android:color/white"
@@ -210,7 +208,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
+                            android:background="@drawable/bg_title_gradient"
                             android:padding="8dp"
                             android:text="@string/txtlamezquita"
                             android:textColor="@android:color/white"
@@ -245,7 +243,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
+                            android:background="@drawable/bg_title_gradient"
                             android:padding="8dp"
                             android:text="@string/txtelfaro"
                             android:textColor="@android:color/white"
@@ -280,7 +278,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
+                            android:background="@drawable/bg_title_gradient"
                             android:padding="8dp"
                             android:text="@string/txtparquejapones"
                             android:textColor="@android:color/white"
@@ -293,7 +291,6 @@
         </ScrollView>
     </LinearLayout>
 
-    <!-- navigation drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
