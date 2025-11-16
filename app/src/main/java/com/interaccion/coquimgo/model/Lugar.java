@@ -10,9 +10,11 @@ public class Lugar {
     private String HorarioLugar;
     private String CostoLugar;
 
-    public Lugar(){
+    // 🔹 NUEVOS CAMPOS
+    private boolean Favorito;
+    private boolean Visitado;
 
-    }
+    public Lugar() { }
 
     public String getIdLugar() {
         return IdLugar;
@@ -61,4 +63,21 @@ public class Lugar {
     public void setCostoLugar(String costoLugar) {
         CostoLugar = costoLugar;
     }
+
+    public boolean getFavorito() {
+        return Favorito;
+    }
+
+    public void setFavorito(boolean favorito) {
+        Favorito = favorito;
+    }
+
+    public boolean getVisitado() {
+        return Visitado;
+    }
+
+    public void setVisitado(boolean visitado) {
+        Visitado = visitado;
+    }
 }
+

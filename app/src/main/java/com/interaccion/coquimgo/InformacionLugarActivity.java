@@ -103,6 +103,27 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
     }
+    private void guardarLugarEnFirebase(String nombreNormalizado,
+                                        boolean esFavorito,
+                                        boolean esVisitado) {
+
+        String idLugar = nombreNormalizado.replace(" ", "_");
+
+        Lugar lugar = new Lugar();
+        lugar.setIdLugar(idLugar);
+        lugar.setNombreLugar(txtNombreLugar.getText().toString());
+        lugar.setDescripcionLugar(txtDescripcion.getText().toString());
+        lugar.setUbicacionLugar(txtUbicacion.getText().toString());
+        lugar.setHorarioLugar(txtHorarios.getText().toString());
+        lugar.setCostoLugar(txtCostos.getText().toString());
+        lugar.setFavorito(esFavorito);
+        lugar.setVisitado(esVisitado);
+
+        databaseReference
+                .child("Lugar")
+                .child(idLugar)
+                .setValue(lugar);
+    }
 
     private void cargarInformacionLugar(String nombreLugar) {
         switch (nombreLugar) {
@@ -242,22 +263,32 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
     }
 
     private void toggleVisitado(String nombreLugar) {
-        nombreLugar = normalizarNombre(nombreLugar);
+        // Normalizar para que coincida con los nombres usados en preferencias y en Firebase
+        String nombreNormalizado = normalizarNombre(nombreLugar);
+
         SharedPreferences prefs = getSharedPreferences("LugaresPrefs", Context.MODE_PRIVATE);
         Set<String> visitados = new HashSet<>(prefs.getStringSet("lugaresVisitados", new HashSet<>()));
 
+        boolean estabaVisitado = visitados.contains(nombreNormalizado);
+        boolean nuevoEstadoVisitado = !estabaVisitado;
 
-        if (visitados.contains(nombreLugar)) {
-            visitados.remove(nombreLugar);
-            Toast.makeText(this, getString(R.string.eliminarVisitado), Toast.LENGTH_SHORT).show();
-        } else {
-            visitados.add(nombreLugar);
+        if (nuevoEstadoVisitado) {
+            visitados.add(nombreNormalizado);
             Toast.makeText(this, getString(R.string.visitado), Toast.LENGTH_SHORT).show();
+        } else {
+            visitados.remove(nombreNormalizado);
+            Toast.makeText(this, getString(R.string.eliminarVisitado), Toast.LENGTH_SHORT).show();
         }
 
+        // Guardar en SharedPreferences (para que sigan funcionando tus listas)
         prefs.edit().putStringSet("lugaresVisitados", visitados).apply();
-        actualizarTextoBotonVisitado(nombreLugar);
+        actualizarTextoBotonVisitado(nombreNormalizado);
+
+        // 🔹 También actualizar en Firebase
+        boolean estadoFavoritoActual = estaFavorito(nombreNormalizado);
+        guardarLugarEnFirebase(nombreNormalizado, estadoFavoritoActual, nuevoEstadoVisitado);
     }
+
 
     private void actualizarTextoBotonVisitado(String nombreLugar) {
         btnMarcarVisitado.setText(estaVisitado(nombreLugar)
@@ -272,30 +303,30 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
     }
 
     private void toggleFavorito(String nombreLugar) {
-        nombreLugar = normalizarNombre(nombreLugar);
+        String nombreNormalizado = normalizarNombre(nombreLugar);
+
         SharedPreferences prefs = getSharedPreferences("LugaresPrefs", Context.MODE_PRIVATE);
         Set<String> favoritos = new HashSet<>(prefs.getStringSet("lugaresFavoritos", new HashSet<>()));
 
-        if (favoritos.contains(nombreLugar)) {
+        boolean estabaFavorito = favoritos.contains(nombreNormalizado);
+        boolean nuevoEstadoFavorito = !estabaFavorito;
 
-            favoritos.remove(nombreLugar);
-            Toast.makeText(this, getString(R.string.eliminarFavorito), Toast.LENGTH_SHORT).show();
-        } else {
-            Lugar lugar = new Lugar();
-            lugar.setIdLugar(UUID.randomUUID().toString());
-            lugar.setNombreLugar(String.valueOf(txtNombreLugar));
-            lugar.setDescripcionLugar(String.valueOf(txtDescripcion));
-            lugar.setUbicacionLugar(String.valueOf(txtUbicacion));
-            lugar.setHorarioLugar(String.valueOf(txtHorarios));
-            lugar.setCostoLugar(String.valueOf(txtCostos));
-            databaseReference.child("Lugar").child(lugar.getIdLugar()).setValue(lugar);
-            favoritos.add(nombreLugar);
+        if (nuevoEstadoFavorito) {
+            favoritos.add(nombreNormalizado);
             Toast.makeText(this, getString(R.string.favorito), Toast.LENGTH_SHORT).show();
+        } else {
+            favoritos.remove(nombreNormalizado);
+            Toast.makeText(this, getString(R.string.eliminarFavorito), Toast.LENGTH_SHORT).show();
         }
 
+        // Guardar en SharedPreferences
         prefs.edit().putStringSet("lugaresFavoritos", favoritos).apply();
-        actualizarTextoBotonFavorito(nombreLugar);
+        actualizarTextoBotonFavorito(nombreNormalizado);
+        
+        boolean estadoVisitadoActual = estaVisitado(nombreNormalizado);
+        guardarLugarEnFirebase(nombreNormalizado, nuevoEstadoFavorito, estadoVisitadoActual);
     }
+
 
     private void actualizarTextoBotonFavorito(String nombreLugar) {
         btnMarcarFavorito.setText(estaFavorito(nombreLugar)
