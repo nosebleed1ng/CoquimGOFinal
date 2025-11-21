@@ -10,26 +10,75 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
+        <!-- TOOLBAR -->
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/azulOscuro"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:title="@string/lugaresFavoritos" />
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            app:title="@string/lugaresFavoritos"
+            app:titleCentered="true"
+            app:elevation="4dp" />
 
-        <Spinner
-            android:id="@+id/spinnerFiltro"
-            android:layout_width="wrap_content"
+        <!-- FILTRO CATEGORÍA -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:entries="@array/opciones_filtro"
-            android:textColor="@android:color/white"
-            android:spinnerMode="dropdown" />
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:gravity="end|center_vertical">
 
+            <Spinner
+                android:id="@+id/spinnerFiltro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:popupBackground="@color/white"
+                android:entries="@array/opciones_filtro"
+                android:spinnerMode="dropdown"
+                android:background="@drawable/bg_spinner_moderno" />
+        </LinearLayout>
+
+        <!-- BARRA DE BÚSQUEDA -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputBuscar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="10dp"
+            app:boxBackgroundMode="outline"
+            app:boxBackgroundColor="@android:color/white"
+            app:boxStrokeColor="@color/azulOscuro"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:startIconDrawable="@android:drawable/ic_menu_search"
+            app:startIconTint="@color/azulOscuro"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/azulOscuro"
+            android:elevation="2dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etBuscarLugar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/buscar_lugar"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:paddingHorizontal="8dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="#99000000" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- LISTA DE LUGARES FAVORITOS -->
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/fondo_lugares">
 
             <LinearLayout
                 android:id="@+id/linearContainer"
@@ -39,15 +88,18 @@
                 android:padding="16dp"
                 android:gravity="center_horizontal">
 
+                <!-- FUERTE LAMBERT -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardfuertelambert"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="220dp"
                     android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true"
                     android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -60,13 +112,29 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/fuertelambert" />
 
+                        <!-- CANDADO -->
+                        <ImageView
+                            android:id="@+id/lock_fuertelambert"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/candado"
+                            android:tint="@android:color/white"
+                            android:visibility="gone" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/bg_card_gradient" />
+
                         <TextView
                             android:id="@+id/txtfuertelambert"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
-                            android:padding="8dp"
+                            android:padding="10dp"
                             android:text="@string/txtfuertelambert"
                             android:textColor="@android:color/white"
                             android:textSize="18sp"
@@ -74,15 +142,18 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
+                <!-- CRUZ DEL TERCER MILENIO -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardcruztercermilenio"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="220dp"
                     android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true"
                     android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -95,13 +166,29 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/cruztercermilenio" />
 
+                        <!-- CANDADO -->
+                        <ImageView
+                            android:id="@+id/lock_cruztercermilenio"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/candado"
+                            android:tint="@android:color/white"
+                            android:visibility="gone" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/bg_card_gradient" />
+
                         <TextView
                             android:id="@+id/txtcruztercermilenio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
-                            android:padding="8dp"
+                            android:padding="10dp"
                             android:text="@string/txtcruzdeltercermilenio"
                             android:textColor="@android:color/white"
                             android:textSize="18sp"
@@ -109,15 +196,18 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
+                <!-- PUEBLITO PEÑUELAS -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardpueblitopeñuelas"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="220dp"
                     android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true"
                     android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -130,13 +220,29 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/pueblitopenuelas" />
 
+                        <!-- CANDADO -->
+                        <ImageView
+                            android:id="@+id/lock_pueblitopeñuelas"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/candado"
+                            android:tint="@android:color/white"
+                            android:visibility="gone" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/bg_card_gradient" />
+
                         <TextView
                             android:id="@+id/pueblitopeñuelas"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
-                            android:padding="8dp"
+                            android:padding="10dp"
                             android:text="@string/txtpueblitopeñuelas"
                             android:textColor="@android:color/white"
                             android:textSize="18sp"
@@ -144,15 +250,18 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
+                <!-- AVENIDA DEL MAR -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardavenidadelmar"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="220dp"
                     android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true"
                     android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -165,13 +274,29 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/avenidadelmar" />
 
+                        <!-- CANDADO -->
+                        <ImageView
+                            android:id="@+id/lock_avenidadelmar"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/candado"
+                            android:tint="@android:color/white"
+                            android:visibility="gone" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/bg_card_gradient" />
+
                         <TextView
                             android:id="@+id/avenidadelmar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
-                            android:padding="8dp"
+                            android:padding="10dp"
                             android:text="@string/txtavenidadelmar"
                             android:textColor="@android:color/white"
                             android:textSize="18sp"
@@ -179,15 +304,18 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
+                <!-- LA MEZQUITA -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardlamezquita"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="220dp"
                     android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true"
                     android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -200,13 +328,29 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/lamezquita" />
 
+                        <!-- CANDADO -->
+                        <ImageView
+                            android:id="@+id/lock_lamezquita"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/candado"
+                            android:tint="@android:color/white"
+                            android:visibility="gone" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/bg_card_gradient" />
+
                         <TextView
                             android:id="@+id/lamezquita"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
-                            android:padding="8dp"
+                            android:padding="10dp"
                             android:text="@string/txtlamezquita"
                             android:textColor="@android:color/white"
                             android:textSize="18sp"
@@ -214,15 +358,18 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
+                <!-- EL FARO -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardelfaro"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="220dp"
                     android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true"
                     android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -235,13 +382,29 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/elfaro" />
 
+                        <!-- CANDADO -->
+                        <ImageView
+                            android:id="@+id/lock_elfaro"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/candado"
+                            android:tint="@android:color/white"
+                            android:visibility="gone" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/bg_card_gradient" />
+
                         <TextView
                             android:id="@+id/elfaro"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
-                            android:padding="8dp"
+                            android:padding="10dp"
                             android:text="@string/txtelfaro"
                             android:textColor="@android:color/white"
                             android:textSize="18sp"
@@ -249,15 +412,18 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
+                <!-- PARQUE JAPONÉS -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardparquejapones"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="220dp"
                     android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true"
                     android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -270,13 +436,29 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/parquejapones" />
 
+                        <!-- CANDADO -->
+                        <ImageView
+                            android:id="@+id/lock_parquejapones"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/candado"
+                            android:tint="@android:color/white"
+                            android:visibility="gone" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/bg_card_gradient" />
+
                         <TextView
                             android:id="@+id/parquejapones"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#AA000000"
-                            android:padding="8dp"
+                            android:padding="10dp"
                             android:text="@string/txtparquejapones"
                             android:textColor="@android:color/white"
                             android:textSize="18sp"
@@ -288,11 +470,14 @@
         </ScrollView>
     </LinearLayout>
 
+    <!-- NAV VIEW CON HEADER (LOGO COQUIMGO) -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/main_drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

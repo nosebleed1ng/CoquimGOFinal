@@ -1,17 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:background="?attr/colorPrimary"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="bottom">
+    android:padding="20dp"
+    android:background="#1B89A6"
+    android:gravity="center_horizontal">
 
     <TextView
-        android:text="@string/app_name"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:id="@+id/headerTitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="CoquimGO"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:letterSpacing="0.03"
+        android:layout_marginBottom="6dp"/>
+
+    <TextView
+        android:id="@+id/headerSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Explora la Región de Coquimbo con nosotros"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:layout_marginBottom="14dp"/>
+
+    <ImageView
+        android:id="@+id/headerLogo"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:src="@drawable/coquimgo"
+        android:contentDescription="@string/app_name"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="@android:color/transparent" />
+
 </LinearLayout>

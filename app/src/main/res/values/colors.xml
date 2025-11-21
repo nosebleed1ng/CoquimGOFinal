@@ -1,17 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="coquimgo_primary">#006494</color>
-    <color name="coquimgo_primary_dark">#003D5B</color>
-    <color name="coquimgo_secondary">#F4A261</color>
+    <color name="coquimgo_primary">#F08A24</color>
+    <color name="coquimgo_primary_dark">#D76B00</color>
+    <color name="coquimgo_secondary">#FFD29B</color>
+    <color name="coquimgo_on_primary">#FFFFFF</color>
+    <color name="coquimgo_on_secondary">#2B1500</color>
+
     <color name="coquimgo_background">#FFF8F1</color>
     <color name="coquimgo_surface">#FFFFFFFF</color>
-    <color name="coquimgo_on_primary">#FFFFFFFF</color>
-    <color name="coquimgo_on_secondary">#3A2000</color>
     <color name="coquimgo_on_background">#212121</color>
+    <color name="fondo_lugares">#F1F3F4</color>
+    <color name="nav_item_text">#4E342E</color>
+    <color name="nav_item_icon">#6D4C41</color>
+    <color name="nav_item_ripple">#33212121</color>
 
-    <color name="nav_item_text">#FFFFFF</color>
-    <color name="nav_item_icon">#BBDEFB</color>
-    <color name="nav_item_ripple">#33FFFFFF</color>
 </resources>

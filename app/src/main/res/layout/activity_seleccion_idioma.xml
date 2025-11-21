@@ -6,6 +6,7 @@
     android:background="?attr/colorSurface">
 
     <LinearLayout
+        android:id="@+id/layoutSeleccionIdiomaRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -22,7 +23,9 @@
             android:textSize="26sp"
             android:layout_marginBottom="24dp" />
 
+        <!-- Español -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardIdiomaEs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
@@ -62,7 +65,9 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Inglés -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardIdiomaEn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
@@ -102,7 +107,9 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Portugués -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardIdiomaPt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"

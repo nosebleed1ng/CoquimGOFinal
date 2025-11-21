@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="coquimgo_primary">#FFA64D</color>
+    <color name="coquimgo_primary_dark">#804000</color>
+    <color name="coquimgo_secondary">#FFD29B</color>
+    <color name="coquimgo_on_primary">#FFFFFF</color>
+    <color name="coquimgo_on_secondary">#2B1500</color>
+    <color name="coquimgo_background">#121212</color>
+    <color name="coquimgo_surface">#1E1E1E</color>
+    <color name="coquimgo_on_background">#FFFFFF</color>
+    <color name="fondo_lugares">#1A1A1A</color>
+    <color name="nav_item_text">#FFFFFF</color>
+    <color name="nav_item_icon">#BBDEFB</color>
+    <color name="nav_item_ripple">#33FFFFFF</color>
+
+</resources>

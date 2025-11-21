@@ -1,7 +1,6 @@
 <resources>
-    <!-- General -->
     <string name="app_name">CoquimGO</string>
-    <string name="textoPrincipal">Explore the world with us</string>
+    <string name="textoPrincipal">Come and discover the Coquimbo Region with us</string>
     <string name="iniciar">Start</string>
     <string name="mapa">Map</string>
     <string name="lugaresTuristicos">Tourist Places</string>
@@ -18,7 +17,14 @@
     <string name="lugar_imagen">Place image</string>
     <string name="no_info">No information available for this place.</string>
 
-    <!-- Lugares turisticos -->
+    <!-- Search -->
+    <string name="buscar_lugar">Search place...</string>
+
+    <!-- Splash texts -->
+    <string name="splash_bienvenida">Welcome to</string>
+    <string name="splash_highlights">Beaches · Heritage · Monuments · Museums</string>
+    <string name="splash_footer">Coquimbo · Chile</string>
+
     <string name="txtcruzdeltercermilenio">Third Millennium Cross</string>
     <string name="txtfuertelambert">Lambert Fortress</string>
     <string name="txtpueblitopeñuelas">Peñuelas Village</string>
@@ -27,7 +33,6 @@
     <string name="txtelfaro">The Lighthouse</string>
     <string name="txtparquejapones">Japanese Park</string>
 
-    <!-- Tipos de lugar -->
     <string name="tipo_fuertelambert">Cultural</string>
     <string name="tipo_cruz">Religious</string>
     <string name="tipo_pueblito">Cultural</string>
@@ -36,7 +41,6 @@
     <string name="tipo_faro">Coastal</string>
     <string name="tipo_parque">Park</string>
 
-    <!-- Descripciones, localizaciones y costoss -->
     <string name="desc_fuertelambert">Popular tourist destination with panoramic views of the bay and the city.</string>
     <string name="ubi_fuertelambert">Location: Castillo del Carmen Hill, Coquimbo, Chile</string>
     <string name="hor_fuertelambert">Hours: Tuesday to Sunday: 9:45 am - 5:00 pm</string>
@@ -72,7 +76,6 @@
     <string name="hor_parque">Hours: Tuesday to Sunday: 10:00 am - 5:40 pm</string>
     <string name="cost_parque">Admission Fee: $3,000 (general)</string>
 
-    <!-- Configuracion -->
     <string name="modo_oscuro">Dark Mode</string>
     <string name="espanol">Spanish</string>
     <string name="ingles">English</string>
@@ -89,7 +92,6 @@ Explore places, mark them as visited or favorite, and configure the language and
 \nDeveloped by: Matías Chepillo, Beckham Espejo, and Gabriel Castillo.
 </string>
 
-    <!-- Filter options -->
     <string-array name="opciones_filtro">
         <item>All</item>
         <item>Park</item>

@@ -1,7 +1,6 @@
 <resources>
-    <!-- General -->
     <string name="app_name">CoquimGO</string>
-    <string name="textoPrincipal">Explore o mundo conosco</string>
+    <string name="textoPrincipal">Venha descobrir a Região de Coquimbo conosco</string>
     <string name="iniciar">Iniciar</string>
     <string name="mapa">Mapa</string>
     <string name="lugaresTuristicos">Lugares Turísticos</string>
@@ -18,7 +17,14 @@
     <string name="lugar_imagen">Imagem do local</string>
     <string name="no_info">Nenhuma informação disponível para este local.</string>
 
-    <!-- Lugares Turísticos -->
+    <!-- Busca -->
+    <string name="buscar_lugar">Buscar lugar...</string>
+
+    <!-- Splash -->
+    <string name="splash_bienvenida">Bem-vindo(a) a</string>
+    <string name="splash_highlights">Praias · Patrimônio · Monumentos · Museus</string>
+    <string name="splash_footer">Coquimbo · Chile</string>
+
     <string name="txtcruzdeltercermilenio">Cruz do Terceiro Milênio</string>
     <string name="txtfuertelambert">Forte Lambert</string>
     <string name="txtpueblitopeñuelas">Pueblito Peñuelas</string>
@@ -27,7 +33,6 @@
     <string name="txtelfaro">O Farol</string>
     <string name="txtparquejapones">Parque Japonês</string>
 
-    <!-- Tipos de Lugar -->
     <string name="tipo_fuertelambert">Cultural</string>
     <string name="tipo_cruz">Religioso</string>
     <string name="tipo_pueblito">Cultural</string>
@@ -36,7 +41,6 @@
     <string name="tipo_faro">Litoral</string>
     <string name="tipo_parque">Parque</string>
 
-    <!-- Descripciones, Localizaciones y costos -->
     <string name="desc_fuertelambert">Destino turístico popular com vista panorâmica da baía e da cidade.</string>
     <string name="ubi_fuertelambert">Localização: Cerro Castillo del Carmen, Coquimbo, Chile</string>
     <string name="hor_fuertelambert">Horário: Terça a Domingo: 9:45 - 17:00</string>
@@ -72,7 +76,6 @@
     <string name="hor_parque">Horário: Terça a Domingo: 10:00 - 17:40</string>
     <string name="cost_parque">Entrada: $3.000 (geral)</string>
 
-    <!-- Configuracion -->
     <string name="modo_oscuro">Modo escuro</string>
     <string name="espanol">Espanhol</string>
     <string name="ingles">Inglês</string>
@@ -89,7 +92,6 @@ Você pode explorar lugares, marcá-los como visitados ou favoritos e configurar
 \nDesenvolvido por: Matías Chepillo, Beckham Espejo e Gabriel Castillo.
 </string>
 
-    <!-- Opciones de filtro -->
     <string-array name="opciones_filtro">
         <item>Todos</item>
         <item>Parque</item>

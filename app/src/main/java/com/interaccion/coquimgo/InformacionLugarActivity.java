@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +14,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewPropertyAnimatorCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,27 +28,34 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.interaccion.coquimgo.model.Lugar;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.UUID;
 
 public class InformacionLugarActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private ImageView imgLugar;
-    private TextView txtNombreLugar, txtDescripcion, txtUbicacion, txtHorarios, txtCostos;
+    private TextView txtNombreLugar, txtDescripcion, txtUbicacion, txtHorarios, txtCostos, txtTipoLugar;
     private GoogleMap gMap;
     private double coordenadaX;
     private double coordenadaY;
     private String nomMap;
     private Button btnVolver, btnMarcarVisitado, btnMarcarFavorito;
+
+    // Views para animaciones
+    private CardView cardImagen, cardDescripcion, cardInfoLugar, cardMapa;
+    private View layoutBotonesAccion, layoutContenido;
+
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Aplicar idioma guardado antes del layout
+
+        // 1) Tema (oscuro / claro)
+        ThemeHelper.applyTheme(this);
+
+        // 2) Idioma guardado
         SharedPreferences prefsConfig = getSharedPreferences("config", MODE_PRIVATE);
         String idioma = prefsConfig.getString("idioma", "es");
         LocaleHelper.setLocale(this, idioma);
@@ -51,7 +63,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion_lugar);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
@@ -62,14 +75,29 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         txtUbicacion = findViewById(R.id.txtubicacion);
         txtHorarios = findViewById(R.id.txthorarios);
         txtCostos = findViewById(R.id.txtcostos);
+        txtTipoLugar = findViewById(R.id.txttipoLugar);
+
         btnVolver = findViewById(R.id.btnvolver);
         btnMarcarVisitado = findViewById(R.id.btnmarcarvisitado);
         btnMarcarFavorito = findViewById(R.id.btnmarcarfavorito);
+
+        // Views para animar
+        cardImagen = findViewById(R.id.cardImagen);
+        cardDescripcion = findViewById(R.id.cardDescripcion);
+        cardInfoLugar = findViewById(R.id.cardInfoLugar);
+        cardMapa = findViewById(R.id.cardMapa);
+        layoutBotonesAccion = findViewById(R.id.layoutBotonesAccion);
+        layoutContenido = findViewById(R.id.layoutContenido);
 
         // Textos traducibles
         btnVolver.setText(getString(R.string.volver));
         btnMarcarVisitado.setText(getString(R.string.visitado));
         btnMarcarFavorito.setText(getString(R.string.favorito));
+
+        // Microanimación de botones
+        setupButtonPressAnimation(btnVolver);
+        setupButtonPressAnimation(btnMarcarVisitado);
+        setupButtonPressAnimation(btnMarcarFavorito);
 
         // Detectar origen
         String origen = getIntent().getStringExtra("origen");
@@ -85,7 +113,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
             finish();
         });
 
-        // Nombre del lugar
+        // nombre del lugar
         String nombreLugar = getIntent().getStringExtra("nombreLugar");
         if (nombreLugar != null) {
             cargarInformacionLugar(nombreLugar.trim().toLowerCase(Locale.ROOT));
@@ -95,14 +123,184 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
 
         btnMarcarVisitado.setOnClickListener(v -> toggleVisitado(nombreLugar));
         btnMarcarFavorito.setOnClickListener(v -> toggleFavorito(nombreLugar));
+
         iniciarFirebase();
+
+        // animaciones de entrada del contenido
+        prepararAnimacionesIniciales();
+        animarEntradaContenido();
     }
+
+    // ----------------- ANIMACIONES -----------------
+
+    private void prepararAnimacionesIniciales() {
+        if (layoutContenido != null) {
+            layoutContenido.setAlpha(1f);
+        }
+
+        if (cardImagen != null) {
+            cardImagen.setAlpha(0f);
+            cardImagen.setTranslationY(220f);
+            cardImagen.setScaleX(0.85f);
+            cardImagen.setScaleY(0.85f);
+        }
+
+        if (txtNombreLugar != null) {
+            txtNombreLugar.setAlpha(0f);
+            txtNombreLugar.setTranslationY(180f);
+        }
+
+        if (txtTipoLugar != null) {
+            txtTipoLugar.setAlpha(0f);
+            txtTipoLugar.setTranslationY(180f);
+        }
+
+        if (cardDescripcion != null) {
+            cardDescripcion.setAlpha(0f);
+            cardDescripcion.setTranslationX(260f);
+        }
+
+        if (cardInfoLugar != null) {
+            cardInfoLugar.setAlpha(0f);
+            cardInfoLugar.setTranslationX(260f);
+        }
+
+        if (cardMapa != null) {
+            cardMapa.setAlpha(0f);
+            cardMapa.setScaleX(0.80f);
+            cardMapa.setScaleY(0.80f);
+            cardMapa.setTranslationY(200f);
+        }
+
+        if (layoutBotonesAccion != null) {
+            layoutBotonesAccion.setAlpha(0f);
+            layoutBotonesAccion.setTranslationY(220f);
+        }
+        if (btnVolver != null) {
+            btnVolver.setAlpha(0f);
+            btnVolver.setTranslationY(240f);
+        }
+    }
+
+    private void animarEntradaContenido() {
+        DecelerateInterpolator desacelerar = new DecelerateInterpolator();
+        OvershootInterpolator rebote = new OvershootInterpolator(1.1f);
+
+        if (cardImagen != null) {
+            cardImagen.animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(750)
+                    .setStartDelay(80)
+                    .setInterpolator(rebote)
+                    .start();
+        }
+
+        if (txtNombreLugar != null) {
+            txtNombreLugar.animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .setDuration(650)
+                    .setStartDelay(250)
+                    .setInterpolator(desacelerar)
+                    .start();
+        }
+
+        if (txtTipoLugar != null) {
+            txtTipoLugar.animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .setDuration(650)
+                    .setStartDelay(320)
+                    .setInterpolator(desacelerar)
+                    .start();
+        }
+
+        if (cardDescripcion != null) {
+            cardDescripcion.animate()
+                    .alpha(1f)
+                    .translationX(0f)
+                    .setDuration(700)
+                    .setStartDelay(380)
+                    .setInterpolator(desacelerar)
+                    .start();
+        }
+
+        if (cardInfoLugar != null) {
+            cardInfoLugar.animate()
+                    .alpha(1f)
+                    .translationX(0f)
+                    .setDuration(700)
+                    .setStartDelay(460)
+                    .setInterpolator(desacelerar)
+                    .start();
+        }
+
+        if (cardMapa != null) {
+            cardMapa.animate()
+                    .alpha(1f)
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .translationY(0f)
+                    .setDuration(750)
+                    .setStartDelay(540)
+                    .setInterpolator(rebote)
+                    .start();
+        }
+
+        if (layoutBotonesAccion != null) {
+            layoutBotonesAccion.animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .setDuration(600)
+                    .setStartDelay(650)
+                    .setInterpolator(desacelerar)
+                    .start();
+        }
+
+        if (btnVolver != null) {
+            btnVolver.animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .setDuration(600)
+                    .setStartDelay(720)
+                    .setInterpolator(desacelerar)
+                    .start();
+        }
+    }
+
+    private void setupButtonPressAnimation(Button button) {
+        if (button == null) return;
+
+        button.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case android.view.MotionEvent.ACTION_DOWN:
+                    animateScale(v, 0.96f);
+                    break;
+                case android.view.MotionEvent.ACTION_UP:
+                case android.view.MotionEvent.ACTION_CANCEL:
+                    animateScale(v, 1f);
+                    break;
+            }
+            return false;
+        });
+    }
+
+    private void animateScale(View v, float scale) {
+        ViewPropertyAnimatorCompat animator = ViewCompat.animate(v);
+        animator.scaleX(scale).scaleY(scale).setDuration(120).start();
+    }
+
+    // ----------------- FIREBASE -----------------
 
     private void iniciarFirebase() {
         FireBaseApp.initializeApp(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
     }
+
     private void guardarLugarEnFirebase(String nombreNormalizado,
                                         boolean esFavorito,
                                         boolean esVisitado) {
@@ -125,7 +323,13 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 .setValue(lugar);
     }
 
+    // ----------------- CARGA DE DATOS -----------------
+
     private void cargarInformacionLugar(String nombreLugar) {
+        if (txtTipoLugar != null) {
+            txtTipoLugar.setText("");
+        }
+
         switch (nombreLugar) {
             case "fuerte lambert":
                 imgLugar.setImageResource(R.drawable.fuertelambert);
@@ -199,6 +403,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 nomMap = "El Faro";
                 break;
 
+            case "parque japonés":
             case "parque japones":
                 imgLugar.setImageResource(R.drawable.parquejapones);
                 txtNombreLugar.setText(getString(R.string.txtparquejapones));
@@ -206,10 +411,11 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_parque));
                 txtHorarios.setText(getString(R.string.hor_parque));
                 txtCostos.setText(getString(R.string.cost_parque));
-                coordenadaX = -29.90388889;
-                coordenadaY = -29.90388889;
+                coordenadaX = -29.906503;
+                coordenadaY = -71.246194;
                 nomMap = "Parque Japonés";
                 break;
+
 
             default:
                 imgLugar.setImageResource(android.R.drawable.ic_dialog_alert);
@@ -222,7 +428,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 break;
         }
 
-        // Actualizar marcador si el mapa ya está listo
         if (gMap != null) {
             LatLng coordenadas = new LatLng(coordenadaX, coordenadaY);
             gMap.clear();
@@ -231,7 +436,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         }
     }
 
-    // Normaliza el nombre del lugar (para guardar siempre igual)
+    // ----------------- FAVORITOS / VISITADOS -----------------
+
     private String normalizarNombre(String nombre) {
         if (nombre == null) return "";
         nombre = nombre.trim().toLowerCase(Locale.ROOT);
@@ -263,7 +469,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
     }
 
     private void toggleVisitado(String nombreLugar) {
-        // Normalizar para que coincida con los nombres usados en preferencias y en Firebase
         String nombreNormalizado = normalizarNombre(nombreLugar);
 
         SharedPreferences prefs = getSharedPreferences("LugaresPrefs", Context.MODE_PRIVATE);
@@ -280,15 +485,12 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
             Toast.makeText(this, getString(R.string.eliminarVisitado), Toast.LENGTH_SHORT).show();
         }
 
-        // Guardar en SharedPreferences (para que sigan funcionando tus listas)
         prefs.edit().putStringSet("lugaresVisitados", visitados).apply();
         actualizarTextoBotonVisitado(nombreNormalizado);
 
-        // 🔹 También actualizar en Firebase
         boolean estadoFavoritoActual = estaFavorito(nombreNormalizado);
         guardarLugarEnFirebase(nombreNormalizado, estadoFavoritoActual, nuevoEstadoVisitado);
     }
-
 
     private void actualizarTextoBotonVisitado(String nombreLugar) {
         btnMarcarVisitado.setText(estaVisitado(nombreLugar)
@@ -319,14 +521,12 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
             Toast.makeText(this, getString(R.string.eliminarFavorito), Toast.LENGTH_SHORT).show();
         }
 
-        // Guardar en SharedPreferences
         prefs.edit().putStringSet("lugaresFavoritos", favoritos).apply();
         actualizarTextoBotonFavorito(nombreNormalizado);
-        
+
         boolean estadoVisitadoActual = estaVisitado(nombreNormalizado);
         guardarLugarEnFirebase(nombreNormalizado, nuevoEstadoFavorito, estadoVisitadoActual);
     }
-
 
     private void actualizarTextoBotonFavorito(String nombreLugar) {
         btnMarcarFavorito.setText(estaFavorito(nombreLugar)

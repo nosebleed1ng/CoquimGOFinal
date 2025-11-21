@@ -6,7 +6,7 @@
     <color name="grisClaro">#efefef</color>
 
     <!-- Textos generales -->
-    <string name="textoPrincipal">Explora el mundo con nosotros</string>
+    <string name="textoPrincipal">Ven y descubre la Región de Coquimbo con nosotros</string>
     <string name="iniciar">Iniciar</string>
     <string name="mapa">Mapa</string>
     <string name="lugaresTuristicos">Lugares Turísticos</string>
@@ -22,6 +22,14 @@
     <string name="eliminarVisitado">Eliminado de Visitados</string>
     <string name="lugar_imagen">Imagen del lugar</string>
     <string name="no_info">No se encontró información disponible para este lugar.</string>
+
+    <!-- Barra de búsqueda -->
+    <string name="buscar_lugar">Buscar lugar...</string>
+
+    <!-- Textos específicos del Splash -->
+    <string name="splash_bienvenida">Te damos la bienvenida a</string>
+    <string name="splash_highlights">Playas · Patrimonio · Monumentos · Museos</string>
+    <string name="splash_footer">Coquimbo · Chile</string>
 
     <!-- Lugares turísticos -->
     <string name="txtcruzdeltercermilenio">Cruz del Tercer Milenio</string>
@@ -102,5 +110,5 @@ Podrás explorar lugares, marcarlos como visitados o favoritos, y configurar el 
         <item>Cultural</item>
         <item>Religioso</item>
     </string-array>
-</resources>
 
+</resources>
