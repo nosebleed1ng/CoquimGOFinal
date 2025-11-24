@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity
     private ImageView imgLogoDrawer;
     private TextView txtDrawerTitle, txtDrawerSubtitle;
 
-    // Contenido principal (para escalar al abrir el drawer)
+    // Contenido principal
     private View contentRootMain;
 
     private boolean drawerAnimatedOnce = false;
@@ -44,15 +44,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Drawer + NavigationView
+        // Drawer y NavigationView
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Root del contenido (el layout que se achica cuando abres el drawer)
+        // Root del contenido
         contentRootMain = findViewById(R.id.contentRootMain);
 
-        // Toggle (ícono hamburguesa)
+        // Toggle
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
                 R.string.open_nav, R.string.close_nav
@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity
         // Header del NavigationView
         View headerView = navigationView.getHeaderView(0);
         if (headerView != null) {
-            // 👇 OJO: IDs que deben existir en nav_header_main.xml
             imgLogoDrawer   = headerView.findViewById(R.id.headerLogo);
             txtDrawerTitle  = headerView.findViewById(R.id.headerTitle);
             txtDrawerSubtitle = headerView.findViewById(R.id.headerSubtitle);
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity
             navigationView.setCheckedItem(R.id.nav_lugares_turisticos);
         }
 
-        // Back: cierra drawer si está abierto
+        // Back
         getOnBackPressedDispatcher().addCallback(this,
                 new OnBackPressedCallback(true) {
                     @Override
@@ -93,10 +92,7 @@ public class MainActivity extends AppCompatActivity
                 });
     }
 
-    // -------------------------------------------------------------
-    // ANIMACIONES DEL DRAWER
-    // -------------------------------------------------------------
-
+    // Animaciones
     private void prepararAnimacionesDrawer() {
         // Header
         if (txtDrawerTitle != null) {
@@ -131,7 +127,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-                // Efecto de "scale" del contenido principal
+                // Efecto de scale del contenido principal
                 if (contentRootMain != null) {
                     float scale = 1f - (slideOffset * 0.06f);
                     contentRootMain.setScaleX(scale);
@@ -158,7 +154,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void animarContenidoDrawer() {
-        // Si quieres que se animen SIEMPRE, comenta estas dos líneas:
         if (drawerAnimatedOnce) return;
         drawerAnimatedOnce = true;
 
@@ -217,10 +212,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    // -------------------------------------------------------------
-    // NAVEGACIÓN
-    // -------------------------------------------------------------
-
+    // Navegación
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
