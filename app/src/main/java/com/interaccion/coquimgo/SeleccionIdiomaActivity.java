@@ -21,7 +21,7 @@ public class SeleccionIdiomaActivity extends AppCompatActivity {
 
     private Button btnEspanol, btnIngles, btnPortugues;
 
-    // vistas para animación
+    // Vistas para animación
     private TextView txtTituloIdioma;
     private CardView cardIdiomaEs, cardIdiomaEn, cardIdiomaPt;
     private View layoutRoot;
@@ -29,10 +29,10 @@ public class SeleccionIdiomaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // 1) Tema (usa modo_oscuro de SharedPreferences)
+        // Tema
         ThemeHelper.applyTheme(this);
 
-        // 2) Idioma actual para mostrar los textos de esta pantalla
+        // Idioma actual
         SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
         String idioma = prefs.getString("idioma", "es");
         LocaleHelper.setLocale(this, idioma);
@@ -51,7 +51,7 @@ public class SeleccionIdiomaActivity extends AppCompatActivity {
         cardIdiomaPt = findViewById(R.id.cardIdiomaPt);
         layoutRoot   = findViewById(R.id.layoutSeleccionIdiomaRoot);
 
-        // micro animación al presionar
+        // Microanimación al presionar
         setupButtonPressAnimation(btnEspanol);
         setupButtonPressAnimation(btnIngles);
         setupButtonPressAnimation(btnPortugues);
@@ -151,7 +151,7 @@ public class SeleccionIdiomaActivity extends AppCompatActivity {
         }
     }
 
-    // ANIMACIÓN DE BOTONES (presión)
+    // ANIMACIÓN DE BOTONES
 
     private void setupButtonPressAnimation(Button button) {
         if (button == null) return;
@@ -175,7 +175,7 @@ public class SeleccionIdiomaActivity extends AppCompatActivity {
         animator.scaleX(scale).scaleY(scale).setDuration(120).start();
     }
 
-    // CAMBIO DE IDIOMA + FADE OUT
+    // CAMBIO DE IDIOMA Y FADE OUT
 
     private void cambiarIdioma(String codigo) {
         // Guardar idioma

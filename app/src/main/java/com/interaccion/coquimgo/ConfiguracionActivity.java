@@ -58,7 +58,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
 
         switchModoOscuro.setChecked(modoOscuro);
 
-        // microanimación en botones
+        // Microanimación en botones
         setupButtonPressAnimation(btnSeleccionIdioma);
         setupButtonPressAnimation(btnVolverInicio);
 
@@ -97,12 +97,12 @@ public class ConfiguracionActivity extends AppCompatActivity {
             }, 300);
         });
 
-        // animaciones
+        // Animaciones
         prepararAnimacionesIniciales();
         animarEntradaConfiguracion();
     }
 
-    // animaciones de entrada
+    // Animaciones de entrada
 
 
     private void prepararAnimacionesIniciales() {
@@ -145,7 +145,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
             cardAcerca.setScaleY(0.9f);
         }
 
-        // logo CoquimGO
+        // Logo CoquimGO
         if (imgLogoCoquimgo != null) {
             imgLogoCoquimgo.setAlpha(0f);
             imgLogoCoquimgo.setTranslationY(260f);
@@ -216,7 +216,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
                     .start();
         }
 
-        // Logo con zoom + rebote
+        // Logo con zoom y rebote
         if (imgLogoCoquimgo != null) {
             imgLogoCoquimgo.animate()
                     .alpha(1f)

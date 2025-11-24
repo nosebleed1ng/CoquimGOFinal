@@ -214,7 +214,7 @@ public class LugaresFavoritosActivity extends AppCompatActivity
         for (CardView card : cards) {
             if (card == null || card.getVisibility() != View.VISIBLE) continue;
 
-            // Mantener alpha actual (puede estar atenuada por no favorito)
+            // Mantener alpha actual
             float alphaActual = card.getAlpha();
             card.setAlpha(alphaActual);
             card.setTranslationX(distancia);
@@ -236,7 +236,7 @@ public class LugaresFavoritosActivity extends AppCompatActivity
         }
     }
 
-    // ESTADO FAVORITOS (opacidad + candado)
+    // Estado favoritos
 
     private void actualizarEstadoFavoritos() {
         aplicarEstadoLugar(cardfuertelambert, cardfuertelambert, lockFuerte,

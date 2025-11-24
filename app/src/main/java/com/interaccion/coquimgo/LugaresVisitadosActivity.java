@@ -101,7 +101,6 @@ public class LugaresVisitadosActivity extends AppCompatActivity
         animarToolbarYFiltro();
         animarCards();
 
-        // ⭐ CORREGIDO: position → int
         spinnerFiltro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

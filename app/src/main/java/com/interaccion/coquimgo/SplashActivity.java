@@ -30,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
         );
 
-        // Aplicar idioma guardado globalmente antes de mostrar la pantalla
+        // Aplicar idioma guardado antes de mostrar la pantalla
         SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
         String idiomaGuardado = prefs.getString("idioma", "es"); // por defecto español
 
@@ -54,7 +54,7 @@ public class SplashActivity extends AppCompatActivity {
         Button btnIniciar = binding.btnIniciar;
         View footer = binding.txtFooter;
 
-        // Fondo: leve zoom-out
+        // Fondo
         bg.setAlpha(0f);
         bg.setScaleX(1.12f);
         bg.setScaleY(1.12f);
@@ -110,7 +110,7 @@ public class SplashActivity extends AppCompatActivity {
                 .setInterpolator(new DecelerateInterpolator())
                 .start();
 
-        // "Te damos la bienvenida a" (según idioma)
+        // Bienvenida
         bienvenida.animate()
                 .alpha(1f)
                 .translationY(0f)
@@ -130,7 +130,7 @@ public class SplashActivity extends AppCompatActivity {
                 .setInterpolator(new OvershootInterpolator(1.15f))
                 .start();
 
-        // Slogan (usa @string/textoPrincipal)
+        // Slogan
         slogan.animate()
                 .alpha(1f)
                 .translationY(0f)

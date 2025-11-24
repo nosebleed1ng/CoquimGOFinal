@@ -52,10 +52,10 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // 1) Tema (oscuro / claro)
+        // Tema
         ThemeHelper.applyTheme(this);
 
-        // 2) Idioma guardado
+        // Idioma guardado
         SharedPreferences prefsConfig = getSharedPreferences("config", MODE_PRIVATE);
         String idioma = prefsConfig.getString("idioma", "es");
         LocaleHelper.setLocale(this, idioma);
@@ -293,8 +293,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         animator.scaleX(scale).scaleY(scale).setDuration(120).start();
     }
 
-    // ----------------- FIREBASE -----------------
-
+    // Firebase
     private void iniciarFirebase() {
         FireBaseApp.initializeApp(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -322,8 +321,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 .child(idLugar)
                 .setValue(lugar);
     }
-
-    // ----------------- CARGA DE DATOS -----------------
 
     private void cargarInformacionLugar(String nombreLugar) {
         if (txtTipoLugar != null) {
@@ -436,8 +433,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         }
     }
 
-    // ----------------- FAVORITOS / VISITADOS -----------------
-
+    // Favoritos y visitados
     private String normalizarNombre(String nombre) {
         if (nombre == null) return "";
         nombre = nombre.trim().toLowerCase(Locale.ROOT);
