@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CoquimGO</string>
     <string name="textoPrincipal">Come and discover the Coquimbo Region with us</string>
+    <string name="drawer_subtitle">Explore the Coquimbo Region with us</string>
     <string name="iniciar">Start</string>
     <string name="mapa">Map</string>
     <string name="lugaresTuristicos">Tourist Places</string>
@@ -16,11 +17,10 @@
     <string name="eliminarVisitado">Remove from Visited</string>
     <string name="lugar_imagen">Place image</string>
     <string name="no_info">No information available for this place.</string>
-
-    <!-- Search -->
     <string name="buscar_lugar">Search place...</string>
 
-    <!-- Splash texts -->
+    <string name="subtitulo_lugar">Tap to see details and map</string>
+
     <string name="splash_bienvenida">Welcome to</string>
     <string name="splash_highlights">Beaches · Heritage · Monuments · Museums</string>
     <string name="splash_footer">Coquimbo · Chile</string>

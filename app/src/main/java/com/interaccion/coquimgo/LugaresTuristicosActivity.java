@@ -15,13 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class LugaresTuristicosActivity extends AppCompatActivity
@@ -32,15 +35,19 @@ public class LugaresTuristicosActivity extends AppCompatActivity
     private Toolbar toolbar;
     private Spinner spinnerFiltro;
     private TextInputEditText etBuscarLugar;
+    private RecyclerView rvLugares;
 
-    private CardView cardfuertelambert, cardcruztercermilenio, cardpueblitopeñuelas,
-            cardavenidadelmar, cardlamezquita, cardelfaro, cardparquejapones;
+    private final List<LugarItem> listaCompleta = new ArrayList<>();
+    private final List<LugarItem> listaFiltrada = new ArrayList<>();
+    private LugaresAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        // 1) Tema
         ThemeHelper.applyTheme(this);
 
+        // 2) Idioma
         SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
         String idioma = prefs.getString("idioma", "es");
         LocaleHelper.setLocale(this, idioma);
@@ -48,16 +55,19 @@ public class LugaresTuristicosActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lugares_turisticos);
 
+        // Toolbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getString(R.string.lugaresTuristicos));
         }
 
-        drawerLayout = findViewById(R.id.drawer_layout);
+        // Drawer + Navigation + Filtro + Búsqueda + Recycler
+        drawerLayout   = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
-        spinnerFiltro = findViewById(R.id.spinnerFiltro);
-        etBuscarLugar = findViewById(R.id.etBuscarLugar);
+        spinnerFiltro  = findViewById(R.id.spinnerFiltro);
+        etBuscarLugar  = findViewById(R.id.etBuscarLugar);
+        rvLugares      = findViewById(R.id.rvLugares);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
@@ -66,170 +76,157 @@ public class LugaresTuristicosActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        cardfuertelambert = findViewById(R.id.cardfuertelambert);
-        cardcruztercermilenio = findViewById(R.id.cardcruztercermilenio);
-        cardpueblitopeñuelas = findViewById(R.id.cardpueblitopeñuelas);
-        cardavenidadelmar = findViewById(R.id.cardavenidadelmar);
-        cardlamezquita = findViewById(R.id.cardlamezquita);
-        cardelfaro = findViewById(R.id.cardelfaro);
-        cardparquejapones = findViewById(R.id.cardparquejapones);
+        // RecyclerView
+        rvLugares.setLayoutManager(new LinearLayoutManager(this));
+        rvLugares.setHasFixedSize(true);
 
-        cardfuertelambert.setOnClickListener(v -> abrirInformacionLugar("Fuerte Lambert"));
-        cardcruztercermilenio.setOnClickListener(v -> abrirInformacionLugar("Cruz del Tercer Milenio"));
-        cardpueblitopeñuelas.setOnClickListener(v -> abrirInformacionLugar("Pueblito Peñuelas"));
-        cardavenidadelmar.setOnClickListener(v -> abrirInformacionLugar("Avenida del Mar"));
-        cardlamezquita.setOnClickListener(v -> abrirInformacionLugar("La Mezquita"));
-        cardelfaro.setOnClickListener(v -> abrirInformacionLugar("El Faro"));
-        cardparquejapones.setOnClickListener(v -> abrirInformacionLugar("Parque Japonés"));
+        cargarListaCompleta();
+        listaFiltrada.addAll(listaCompleta);
 
-        animarToolbarYFiltro();
-        animarCards();
+        adapter = new LugaresAdapter(listaFiltrada, item -> {
+            abrirInformacionLugar(item.getNombreIntent());
+        });
+        rvLugares.setAdapter(adapter);
 
+        // Animación general de entrada
+        rvLugares.setAlpha(0f);
+        rvLugares.setTranslationY(50f);
+        rvLugares.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(500)
+                .setInterpolator(new DecelerateInterpolator())
+                .start();
+
+        // Filtro por categoría
         spinnerFiltro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mostrarTodas();
-                aplicarFiltro(parent.getItemAtPosition(position).toString());
-
-                String texto = etBuscarLugar.getText() != null
-                        ? etBuscarLugar.getText().toString()
-                        : "";
-
-                filtrarPorTexto(texto);
+                aplicarFiltrosActuales();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
 
+        // Búsqueda por texto
         etBuscarLugar.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) { }
             @Override
             public void afterTextChanged(Editable s) {
-                String texto = s.toString();
-                String filtroActual = spinnerFiltro.getSelectedItem() != null
-                        ? spinnerFiltro.getSelectedItem().toString()
-                        : "";
-
-                mostrarTodas();
-                aplicarFiltro(filtroActual);
-                filtrarPorTexto(texto);
+                aplicarFiltrosActuales();
             }
         });
     }
 
-    private void animarToolbarYFiltro() {
+    private void cargarListaCompleta() {
+        listaCompleta.clear();
 
-        toolbar.setTranslationY(-100f);
-        toolbar.setAlpha(0f);
-        toolbar.animate()
-                .translationY(0f)
-                .alpha(1f)
-                .setDuration(400)
-                .setInterpolator(new DecelerateInterpolator())
-                .start();
+        listaCompleta.add(new LugarItem(
+                "Fuerte Lambert",
+                R.string.txtfuertelambert,
+                R.drawable.fuertelambert,
+                "Cultural"
+        ));
 
-        spinnerFiltro.setTranslationY(-40f);
-        spinnerFiltro.setAlpha(0f);
-        spinnerFiltro.animate()
-                .translationY(0f)
-                .alpha(1f)
-                .setStartDelay(150)
-                .setDuration(400)
-                .setInterpolator(new DecelerateInterpolator())
-                .start();
+        listaCompleta.add(new LugarItem(
+                "Cruz del Tercer Milenio",
+                R.string.txtcruzdeltercermilenio,
+                R.drawable.cruztercermilenio,
+                "Cultural"
+        ));
 
-        if (etBuscarLugar != null) {
-            etBuscarLugar.setAlpha(0f);
-            etBuscarLugar.setTranslationY(-20f);
-            etBuscarLugar.animate()
-                    .alpha(1f)
-                    .translationY(0f)
-                    .setStartDelay(220)
-                    .setDuration(400)
-                    .setInterpolator(new DecelerateInterpolator())
-                    .start();
-        }
+        listaCompleta.add(new LugarItem(
+                "Pueblito Peñuelas",
+                R.string.txtpueblitopeñuelas,
+                R.drawable.pueblitopenuelas,
+                "Cultural"
+        ));
+
+        listaCompleta.add(new LugarItem(
+                "Avenida del Mar",
+                R.string.txtavenidadelmar,
+                R.drawable.avenidadelmar,
+                "Playa"
+        ));
+
+        listaCompleta.add(new LugarItem(
+                "La Mezquita",
+                R.string.txtlamezquita,
+                R.drawable.lamezquita,
+                "Religioso"
+        ));
+
+        listaCompleta.add(new LugarItem(
+                "El Faro",
+                R.string.txtelfaro,
+                R.drawable.elfaro,
+                "Playa"
+        ));
+
+        listaCompleta.add(new LugarItem(
+                "Parque Japonés",
+                R.string.txtparquejapones,
+                R.drawable.parquejapones,
+                "Parques"
+        ));
     }
 
-    private void animarCards() {
+    private void aplicarFiltrosActuales() {
+        // Usamos la POSICIÓN del spinner, no el texto traducido
+        int pos = spinnerFiltro.getSelectedItemPosition();
+        String categoriaClave;
 
-        CardView[] cards = {
-                cardfuertelambert, cardcruztercermilenio, cardpueblitopeñuelas,
-                cardavenidadelmar, cardlamezquita, cardelfaro, cardparquejapones
-        };
-
-        float distancia = -200f;
-        int index = 0;
-
-        for (CardView card : cards) {
-            if (card == null) continue;
-
-            card.setAlpha(1f);
-            card.setTranslationX(distancia);
-            card.setScaleX(0.90f);
-            card.setScaleY(0.90f);
-
-            long delay = index * 150L;
-
-            card.animate()
-                    .alpha(1f)
-                    .translationX(0f)
-                    .scaleX(1f)
-                    .scaleY(1f)
-                    .setStartDelay(delay)
-                    .setDuration(500)
-                    .setInterpolator(new DecelerateInterpolator())
-                    .start();
-
-            index++;
-        }
-    }
-
-    private void abrirInformacionLugar(String nombreLugar) {
-        Intent intent = new Intent(this, InformacionLugarActivity.class);
-        intent.putExtra("nombreLugar", nombreLugar);
-        intent.putExtra("origen", "lugares_turisticos");
-        startActivity(intent);
-    }
-
-    private void aplicarFiltro(String filtro) {
-        switch (filtro) {
-            case "Playa":
-                ocultarExcepto(cardavenidadelmar, cardelfaro);
+        switch (pos) {
+            case 1: // opción 1 del array -> Playa
+                categoriaClave = "Playa";
                 break;
-            case "Cultural":
-                ocultarExcepto(cardfuertelambert, cardcruztercermilenio, cardpueblitopeñuelas);
+            case 2: // Cultural
+                categoriaClave = "Cultural";
                 break;
-            case "Religioso":
-                ocultarExcepto(cardlamezquita);
+            case 3: // Religioso
+                categoriaClave = "Religioso";
                 break;
-            case "Parques":
-                ocultarExcepto(cardparquejapones);
+            case 4: // Parques
+                categoriaClave = "Parques";
                 break;
-            default:
+            default: // 0 -> Todos
+                categoriaClave = "";
                 break;
         }
+
+        String texto = etBuscarLugar.getText() != null
+                ? etBuscarLugar.getText().toString()
+                : "";
+        String textoNormalizado = normalizar(texto.trim());
+
+        listaFiltrada.clear();
+
+        for (LugarItem item : listaCompleta) {
+            if (!pasaFiltroCategoria(item, categoriaClave)) continue;
+            if (!pasaFiltroTexto(item, textoNormalizado)) continue;
+            listaFiltrada.add(item);
+        }
+
+        adapter.notifyDataSetChanged();
     }
 
-    private void mostrarTodas() {
-        cardfuertelambert.setVisibility(View.VISIBLE);
-        cardcruztercermilenio.setVisibility(View.VISIBLE);
-        cardpueblitopeñuelas.setVisibility(View.VISIBLE);
-        cardavenidadelmar.setVisibility(View.VISIBLE);
-        cardlamezquita.setVisibility(View.VISIBLE);
-        cardelfaro.setVisibility(View.VISIBLE);
-        cardparquejapones.setVisibility(View.VISIBLE);
+    private boolean pasaFiltroCategoria(LugarItem item, String categoriaClave) {
+        if (categoriaClave == null || categoriaClave.isEmpty()) {
+            // "Todos"
+            return true;
+        }
+        // comparamos contra la clave interna fija (Playa, Cultural, etc.)
+        return item.getCategoria().equalsIgnoreCase(categoriaClave);
     }
 
-    private void ocultarExcepto(CardView... visibles) {
-        CardView[] todas = {
-                cardfuertelambert, cardcruztercermilenio, cardpueblitopeñuelas,
-                cardavenidadelmar, cardlamezquita, cardelfaro, cardparquejapones
-        };
-        for (CardView card : todas) if (card != null) card.setVisibility(View.GONE);
-        for (CardView card : visibles) if (card != null) card.setVisibility(View.VISIBLE);
+    private boolean pasaFiltroTexto(LugarItem item, String textoNormalizado) {
+        if (textoNormalizado == null || textoNormalizado.isEmpty()) return true;
+
+        String nombreLugar = getString(item.getTituloResId());
+        String nombreNormalizado = normalizar(nombreLugar);
+        return nombreNormalizado.contains(textoNormalizado);
     }
 
     private String normalizar(String texto) {
@@ -246,25 +243,11 @@ public class LugaresTuristicosActivity extends AppCompatActivity
         return texto;
     }
 
-    private void filtrarPorTexto(String texto) {
-        String buscado = normalizar(texto.trim());
-        if (buscado.isEmpty()) return;
-
-        String nFuerte   = normalizar(getString(R.string.txtfuertelambert));
-        String nCruz     = normalizar(getString(R.string.txtcruzdeltercermilenio));
-        String nPueblito = normalizar(getString(R.string.txtpueblitopeñuelas));
-        String nAvMar    = normalizar(getString(R.string.txtavenidadelmar));
-        String nMezquita = normalizar(getString(R.string.txtlamezquita));
-        String nFaro     = normalizar(getString(R.string.txtelfaro));
-        String nParque   = normalizar(getString(R.string.txtparquejapones));
-
-        if (!nFuerte.contains(buscado))   cardfuertelambert.setVisibility(View.GONE);
-        if (!nCruz.contains(buscado))     cardcruztercermilenio.setVisibility(View.GONE);
-        if (!nPueblito.contains(buscado)) cardpueblitopeñuelas.setVisibility(View.GONE);
-        if (!nAvMar.contains(buscado))    cardavenidadelmar.setVisibility(View.GONE);
-        if (!nMezquita.contains(buscado)) cardlamezquita.setVisibility(View.GONE);
-        if (!nFaro.contains(buscado))     cardelfaro.setVisibility(View.GONE);
-        if (!nParque.contains(buscado))   cardparquejapones.setVisibility(View.GONE);
+    private void abrirInformacionLugar(String nombreLugar) {
+        Intent intent = new Intent(this, InformacionLugarActivity.class);
+        intent.putExtra("nombreLugar", nombreLugar);
+        intent.putExtra("origen", "lugares_turisticos");
+        startActivity(intent);
     }
 
     @Override

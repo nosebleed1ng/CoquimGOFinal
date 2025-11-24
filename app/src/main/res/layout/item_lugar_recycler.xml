@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardLugar"
+    android:layout_width="match_parent"
+    android:layout_height="280dp"
+    android:layout_marginHorizontal="18dp"
+    android:layout_marginVertical="10dp"
+    app:cardCornerRadius="26dp"
+    app:cardElevation="14dp"
+    android:clipToPadding="false"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardUseCompatPadding="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- IMAGEN -->
+        <ImageView
+            android:id="@+id/imgLugar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <!-- GRADIENTE ABAJO -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/gradient_black_bottom" />
+
+        <!-- TITULO -->
+        <TextView
+            android:id="@+id/txtNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="22dp"
+            android:layout_marginBottom="60dp"
+            android:text="Nombre lugar"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <!-- SUBTITULO -->
+        <TextView
+            android:id="@+id/txtSubtitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginBottom="35dp"
+            android:layout_gravity="bottom|start"
+            android:text="Toca para ver detalles y mapa"
+            android:textSize="13sp"
+            android:textColor="#e8e8e8"
+            android:alpha="0.92"/>
+
+        <!-- BARRA ACENTO -->
+        <View
+            android:id="@+id/accentBar"
+            android:layout_width="60dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="bottom|start"
+            android:background="@color/coquimgo_primary"
+            android:scaleX="0"/>
+
+    </FrameLayout>
+
+</androidx.cardview.widget.CardView>

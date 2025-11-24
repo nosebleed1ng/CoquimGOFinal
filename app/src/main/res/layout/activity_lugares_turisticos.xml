@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- Toolbar -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -42,7 +43,7 @@
                 android:background="@drawable/bg_spinner_moderno" />
         </LinearLayout>
 
-        <!-- Barra de búsqueda moderna -->
+        <!-- Barra de búsqueda -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputBuscar"
             android:layout_width="match_parent"
@@ -75,326 +76,19 @@
                 android:textColorHint="#99000000" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Lista de lugares -->
-        <ScrollView
-            android:id="@+id/scrollLugares"
+        <!-- Lista de lugares con RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvLugares"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/fondo_lugares">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/fondo_lugares"
+            android:padding="16dp"
+            android:clipToPadding="false" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:gravity="center_horizontal">
-
-                <!-- FUERTE LAMBERT -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardfuertelambert"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="18dp"
-                    app:cardUseCompatPadding="true"
-                    app:cardElevation="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imgfuertelambert"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/fuertelambert" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/bg_card_gradient" />
-
-                        <TextView
-                            android:id="@+id/txtfuertelambert"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:padding="10dp"
-                            android:text="@string/txtfuertelambert"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- CRUZ DEL TERCER MILENIO -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardcruztercermilenio"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="18dp"
-                    app:cardUseCompatPadding="true"
-                    app:cardElevation="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imgcruztercermilenio"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/cruztercermilenio" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/bg_card_gradient" />
-
-                        <TextView
-                            android:id="@+id/txtcruztercermilenio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:padding="10dp"
-                            android:text="@string/txtcruzdeltercermilenio"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- PUEBLITO PEÑUELAS -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardpueblitopeñuelas"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="18dp"
-                    app:cardUseCompatPadding="true"
-                    app:cardElevation="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imgpueblitopeñuelas"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/pueblitopenuelas" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/bg_card_gradient" />
-
-                        <TextView
-                            android:id="@+id/pueblitopeñuelas"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:padding="10dp"
-                            android:text="@string/txtpueblitopeñuelas"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- AVENIDA DEL MAR -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardavenidadelmar"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="18dp"
-                    app:cardUseCompatPadding="true"
-                    app:cardElevation="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/img"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/avenidadelmar" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/bg_card_gradient" />
-
-                        <TextView
-                            android:id="@+id/avenidadelmar"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:padding="10dp"
-                            android:text="@string/txtavenidadelmar"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- LA MEZQUITA -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardlamezquita"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="18dp"
-                    app:cardUseCompatPadding="true"
-                    app:cardElevation="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imglamezquita"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/lamezquita" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/bg_card_gradient" />
-
-                        <TextView
-                            android:id="@+id/lamezquita"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:padding="10dp"
-                            android:text="@string/txtlamezquita"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- EL FARO -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardelfaro"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="18dp"
-                    app:cardUseCompatPadding="true"
-                    app:cardElevation="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imgelfaro"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/elfaro" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/bg_card_gradient" />
-
-                        <TextView
-                            android:id="@+id/elfaro"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:padding="10dp"
-                            android:text="@string/txtelfaro"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- PARQUE JAPONÉS -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardparquejapones"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="18dp"
-                    app:cardUseCompatPadding="true"
-                    app:cardElevation="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imgparquejapones"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/parquejapones" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/bg_card_gradient" />
-
-                        <TextView
-                            android:id="@+id/parquejapones"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:padding="10dp"
-                            android:text="@string/txtparquejapones"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-        </ScrollView>
     </LinearLayout>
 
-    <!-- AQUÍ ES DONDE FALTABA EL HEADER CON EL LOGO -->
+    <!-- Navigation Drawer con header del logo -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"

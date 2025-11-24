@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CoquimGO</string>
     <string name="textoPrincipal">Venha descobrir a Região de Coquimbo conosco</string>
+    <string name="drawer_subtitle">Explore a Região de Coquimbo conosco</string>
     <string name="iniciar">Iniciar</string>
     <string name="mapa">Mapa</string>
     <string name="lugaresTuristicos">Lugares Turísticos</string>
@@ -16,11 +17,9 @@
     <string name="eliminarVisitado">Remover dos Visitados</string>
     <string name="lugar_imagen">Imagem do local</string>
     <string name="no_info">Nenhuma informação disponível para este local.</string>
-
-    <!-- Busca -->
     <string name="buscar_lugar">Buscar lugar...</string>
 
-    <!-- Splash -->
+    <string name="subtitulo_lugar">Toque para ver detalhes e mapa</string>
     <string name="splash_bienvenida">Bem-vindo(a) a</string>
     <string name="splash_highlights">Praias · Patrimônio · Monumentos · Museus</string>
     <string name="splash_footer">Coquimbo · Chile</string>

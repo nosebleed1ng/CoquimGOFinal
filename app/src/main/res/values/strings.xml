@@ -1,4 +1,5 @@
 <resources>
+
     <!-- Nombre y colores -->
     <string name="app_name">CoquimGO</string>
     <color name="morado">#9a0ca4</color>
@@ -7,6 +8,7 @@
 
     <!-- Textos generales -->
     <string name="textoPrincipal">Ven y descubre la Región de Coquimbo con nosotros</string>
+    <string name="drawer_subtitle">Explora la Región de Coquimbo con nosotros</string>
     <string name="iniciar">Iniciar</string>
     <string name="mapa">Mapa</string>
     <string name="lugaresTuristicos">Lugares Turísticos</string>
@@ -15,23 +17,28 @@
     <string name="configuracion">Configuración</string>
     <string name="open_nav">Abrir menú</string>
     <string name="close_nav">Cerrar menú</string>
+
+    <!-- Mensajes estado -->
     <string name="favorito">Añadido a Favoritos</string>
     <string name="visitado">Añadido a Visitados</string>
-    <string name="volver">Volver</string>
     <string name="eliminarFavorito">Eliminado de Favoritos</string>
     <string name="eliminarVisitado">Eliminado de Visitados</string>
+
+    <string name="volver">Volver</string>
     <string name="lugar_imagen">Imagen del lugar</string>
     <string name="no_info">No se encontró información disponible para este lugar.</string>
 
-    <!-- Barra de búsqueda -->
+    <!-- Barra búsqueda -->
     <string name="buscar_lugar">Buscar lugar...</string>
 
-    <!-- Textos específicos del Splash -->
+    <string name="subtitulo_lugar">Toca para ver detalles y mapa</string>
+
+    <!-- SPLASH -->
     <string name="splash_bienvenida">Te damos la bienvenida a</string>
     <string name="splash_highlights">Playas · Patrimonio · Monumentos · Museos</string>
     <string name="splash_footer">Coquimbo · Chile</string>
 
-    <!-- Lugares turísticos -->
+    <!-- Nombres lugares -->
     <string name="txtcruzdeltercermilenio">Cruz del Tercer Milenio</string>
     <string name="txtfuertelambert">Fuerte Lambert</string>
     <string name="txtpueblitopeñuelas">Pueblito Peñuelas</string>
@@ -39,15 +46,6 @@
     <string name="txtlamezquita">La Mezquita</string>
     <string name="txtelfaro">El Faro</string>
     <string name="txtparquejapones">Parque Japonés</string>
-
-    <!-- Tipos de lugares -->
-    <string name="tipo_fuertelambert">Cultural</string>
-    <string name="tipo_cruz">Religioso</string>
-    <string name="tipo_pueblito">Cultural</string>
-    <string name="tipo_mar">Playa</string>
-    <string name="tipo_mezquita">Religioso</string>
-    <string name="tipo_faro">Costero</string>
-    <string name="tipo_parque">Parque</string>
 
     <!-- Descripciones -->
     <string name="desc_fuertelambert">Destino turístico popular con vistas panorámicas de la bahía y la ciudad.</string>
@@ -102,13 +100,13 @@ Podrás explorar lugares, marcarlos como visitados o favoritos, y configurar el 
 \nDesarrollado por: Matías Chepillo, Beckham Espejo y Gabriel Castillo.
 </string>
 
-    <!-- Filtros -->
+    <!-- FILTROS -->
     <string-array name="opciones_filtro">
         <item>Todos</item>
-        <item>Parque</item>
         <item>Playa</item>
         <item>Cultural</item>
         <item>Religioso</item>
+        <item>Parques</item>
     </string-array>
 
 </resources>

@@ -16,16 +16,16 @@
         android:textSize="24sp"
         android:textColor="@android:color/white"
         android:letterSpacing="0.03"
-        android:layout_marginBottom="6dp"/>
+        android:layout_marginBottom="6dp" />
 
     <TextView
         android:id="@+id/headerSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Explora la Región de Coquimbo con nosotros"
+        android:text="@string/drawer_subtitle"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        android:layout_marginBottom="14dp"/>
+        android:layout_marginBottom="14dp" />
 
     <ImageView
         android:id="@+id/headerLogo"
