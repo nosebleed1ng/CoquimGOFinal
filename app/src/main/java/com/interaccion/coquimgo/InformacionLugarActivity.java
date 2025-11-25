@@ -3,6 +3,7 @@ package com.interaccion.coquimgo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -26,6 +27,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.interaccion.coquimgo.db.DbHelper;
+import com.interaccion.coquimgo.db.DbLugar;
 import com.interaccion.coquimgo.model.Lugar;
 
 import java.util.HashSet;
@@ -126,12 +129,13 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
 
         iniciarFirebase();
 
-        // animaciones de entrada del contenido
+
+        // Animaciones de entrada del contenido
         prepararAnimacionesIniciales();
         animarEntradaContenido();
     }
 
-    // ----------------- ANIMACIONES -----------------
+    // ANIMACIONES
 
     private void prepararAnimacionesIniciales() {
         if (layoutContenido != null) {
@@ -321,7 +325,13 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 .child(idLugar)
                 .setValue(lugar);
     }
-
+    /*private void guardarLugarEnSqLite(){
+        DbLugar dbLugar = new DbLugar(InformacionLugarActivity.this);
+        dbLugar.insertarLugar(txtNombreLugar.getText().toString(), txtDescripcion.getText().toString(),
+                txtHorarios.getText().toString(), txtUbicacion.getText().toString(),
+                txtCostos.getText().toString(), txtTipoLugar.getText())
+    }
+     */
     private void cargarInformacionLugar(String nombreLugar) {
         if (txtTipoLugar != null) {
             txtTipoLugar.setText("");

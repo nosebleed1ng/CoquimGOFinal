@@ -1,6 +1,7 @@
 package com.interaccion.coquimgo;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -19,6 +21,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.interaccion.coquimgo.db.DbHelper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        iniciarSqLite();
 
         // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -90,6 +95,12 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 });
+    }
+
+    // SqLite
+    private void iniciarSqLite(){
+        DbHelper dbHelper = new DbHelper(MainActivity.this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
     }
 
     // Animaciones
