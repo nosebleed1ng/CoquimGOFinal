@@ -1,7 +1,5 @@
 package com.interaccion.coquimgo.model;
 
-import java.util.Date;
-
 public class Lugar {
     private String IdLugar;
     private String NombreLugar;
@@ -10,7 +8,10 @@ public class Lugar {
     private String HorarioLugar;
     private String CostoLugar;
 
-    // 🔹 NUEVOS CAMPOS
+    // NUEVO: referencia a la categoría
+    private String CategoriaId;
+
+    // Estos los sigues usando si quieres a nivel local
     private boolean Favorito;
     private boolean Visitado;
 
@@ -64,6 +65,14 @@ public class Lugar {
         CostoLugar = costoLugar;
     }
 
+    public String getCategoriaId() {
+        return CategoriaId;
+    }
+
+    public void setCategoriaId(String categoriaId) {
+        CategoriaId = categoriaId;
+    }
+
     public boolean getFavorito() {
         return Favorito;
     }
@@ -80,4 +89,5 @@ public class Lugar {
         Visitado = visitado;
     }
 }
+
 

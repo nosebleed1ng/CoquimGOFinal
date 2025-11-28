@@ -3,13 +3,13 @@ package com.interaccion.coquimgo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,14 +25,19 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.interaccion.coquimgo.db.DbHelper;
-import com.interaccion.coquimgo.db.DbLugar;
+import com.google.firebase.database.ValueEventListener;
 import com.interaccion.coquimgo.model.Lugar;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 public class InformacionLugarActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -45,12 +50,19 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
     private String nomMap;
     private Button btnVolver, btnMarcarVisitado, btnMarcarFavorito;
 
+    // Rating del lugar (opcional)
+    private RatingBar ratingBarVisita;
+
     // Views para animaciones
     private CardView cardImagen, cardDescripcion, cardInfoLugar, cardMapa;
     private View layoutBotonesAccion, layoutContenido;
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    // Firebase
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+
+    // Nombre del lugar que llega por Intent
+    private String nombreLugarActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,31 +78,37 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion_lugar);
 
+        // --- Firebase ---
+        iniciarFirebase();
+
+        // Mapa
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
         // Referencias al layout
-        imgLugar = findViewById(R.id.imglugar);
+        imgLugar       = findViewById(R.id.imglugar);
         txtNombreLugar = findViewById(R.id.txtnombreLugar);
         txtDescripcion = findViewById(R.id.txtdescripcion);
-        txtUbicacion = findViewById(R.id.txtubicacion);
-        txtHorarios = findViewById(R.id.txthorarios);
-        txtCostos = findViewById(R.id.txtcostos);
-        txtTipoLugar = findViewById(R.id.txttipoLugar);
+        txtUbicacion   = findViewById(R.id.txtubicacion);
+        txtHorarios    = findViewById(R.id.txthorarios);
+        txtCostos      = findViewById(R.id.txtcostos);
+        txtTipoLugar   = findViewById(R.id.txttipoLugar);
 
-        btnVolver = findViewById(R.id.btnvolver);
+        btnVolver         = findViewById(R.id.btnvolver);
         btnMarcarVisitado = findViewById(R.id.btnmarcarvisitado);
         btnMarcarFavorito = findViewById(R.id.btnmarcarfavorito);
 
+        ratingBarVisita = findViewById(R.id.ratingBarVisita); // si no existe en el XML quedará null
+
         // Views para animar
-        cardImagen = findViewById(R.id.cardImagen);
-        cardDescripcion = findViewById(R.id.cardDescripcion);
-        cardInfoLugar = findViewById(R.id.cardInfoLugar);
-        cardMapa = findViewById(R.id.cardMapa);
+        cardImagen          = findViewById(R.id.cardImagen);
+        cardDescripcion     = findViewById(R.id.cardDescripcion);
+        cardInfoLugar       = findViewById(R.id.cardInfoLugar);
+        cardMapa            = findViewById(R.id.cardMapa);
         layoutBotonesAccion = findViewById(R.id.layoutBotonesAccion);
-        layoutContenido = findViewById(R.id.layoutContenido);
+        layoutContenido     = findViewById(R.id.layoutContenido);
 
         // Textos traducibles
         btnVolver.setText(getString(R.string.volver));
@@ -116,26 +134,32 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
             finish();
         });
 
-        // nombre del lugar
-        String nombreLugar = getIntent().getStringExtra("nombreLugar");
-        if (nombreLugar != null) {
-            cargarInformacionLugar(nombreLugar.trim().toLowerCase(Locale.ROOT));
-            actualizarTextoBotonVisitado(normalizarNombre(nombreLugar));
-            actualizarTextoBotonFavorito(normalizarNombre(nombreLugar));
+        // Nombre del lugar recibido
+        nombreLugarActual = getIntent().getStringExtra("nombreLugar");
+        if (nombreLugarActual != null) {
+            String keyParaSwitch = nombreLugarActual.trim().toLowerCase(Locale.ROOT);
+
+            // Carga local: imagen + coordenadas + textos base (por si no hay internet)
+            cargarInformacionLugar(keyParaSwitch);
+
+            // Estado inicial de los botones (SharedPreferences)
+            String nombreNormalizado = normalizarNombre(nombreLugarActual);
+            actualizarTextoBotonVisitado(nombreNormalizado);
+            actualizarTextoBotonFavorito(nombreNormalizado);
+
+            // Cargar datos dinámicos desde Firebase y pisar los textos base
+            cargarLugarDesdeFirebase(nombreNormalizado);
         }
 
-        btnMarcarVisitado.setOnClickListener(v -> toggleVisitado(nombreLugar));
-        btnMarcarFavorito.setOnClickListener(v -> toggleFavorito(nombreLugar));
-
-        iniciarFirebase();
-
+        btnMarcarVisitado.setOnClickListener(v -> toggleVisitado(nombreLugarActual));
+        btnMarcarFavorito.setOnClickListener(v -> toggleFavorito(nombreLugarActual));
 
         // Animaciones de entrada del contenido
         prepararAnimacionesIniciales();
         animarEntradaContenido();
     }
 
-    // ANIMACIONES
+    // ----------------- ANIMACIONES -----------------
 
     private void prepararAnimacionesIniciales() {
         if (layoutContenido != null) {
@@ -297,41 +321,118 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         animator.scaleX(scale).scaleY(scale).setDuration(120).start();
     }
 
-    // Firebase
+    // ----------------- FIREBASE -----------------
+
     private void iniciarFirebase() {
-        FireBaseApp.initializeApp(this);
+        try {
+            FireBaseApp.initializeApp(this);
+        } catch (Exception e) {
+            // por si ya estaba inicializado
+        }
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
     }
 
-    private void guardarLugarEnFirebase(String nombreNormalizado,
-                                        boolean esFavorito,
-                                        boolean esVisitado) {
+    /**
+     * Carga el lugar desde Firebase (nodo "lugaresTuristicos/idLugar").
+     * Si cambias algo en Firebase (nombre, descripción, ubicación, horarios, costo),
+     * se actualiza en la app.
+     */
+    private void cargarLugarDesdeFirebase(String nombreNormalizado) {
+        if (databaseReference == null) return;
 
         String idLugar = nombreNormalizado.replace(" ", "_");
 
-        Lugar lugar = new Lugar();
-        lugar.setIdLugar(idLugar);
-        lugar.setNombreLugar(txtNombreLugar.getText().toString());
-        lugar.setDescripcionLugar(txtDescripcion.getText().toString());
-        lugar.setUbicacionLugar(txtUbicacion.getText().toString());
-        lugar.setHorarioLugar(txtHorarios.getText().toString());
-        lugar.setCostoLugar(txtCostos.getText().toString());
-        lugar.setFavorito(esFavorito);
-        lugar.setVisitado(esVisitado);
+        DatabaseReference lugarRef = databaseReference
+                .child("lugaresTuristicos")
+                .child(idLugar);
 
-        databaseReference
-                .child("Lugar")
-                .child(idLugar)
-                .setValue(lugar);
+        lugarRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Lugar lugar = snapshot.getValue(Lugar.class);
+                if (lugar == null) return;
+
+                if (lugar.getNombreLugar() != null) {
+                    txtNombreLugar.setText(lugar.getNombreLugar());
+                }
+                if (lugar.getDescripcionLugar() != null) {
+                    txtDescripcion.setText(lugar.getDescripcionLugar());
+                }
+                if (lugar.getUbicacionLugar() != null) {
+                    txtUbicacion.setText(lugar.getUbicacionLugar());
+                }
+                if (lugar.getHorarioLugar() != null) {
+                    txtHorarios.setText(lugar.getHorarioLugar());
+                }
+                if (lugar.getCostoLugar() != null) {
+                    txtCostos.setText(lugar.getCostoLugar());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Opcional: mostrar mensaje si falla
+                // Toast.makeText(InformacionLugarActivity.this,
+                //         "Error Firebase: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-    /*private void guardarLugarEnSqLite(){
-        DbLugar dbLugar = new DbLugar(InformacionLugarActivity.this);
-        dbLugar.insertarLugar(txtNombreLugar.getText().toString(), txtDescripcion.getText().toString(),
-                txtHorarios.getText().toString(), txtUbicacion.getText().toString(),
-                txtCostos.getText().toString(), txtTipoLugar.getText())
+
+    // Guarda / elimina favorito en la tabla "favoritos"
+    private void guardarFavoritoEnFirebase(String nombreNormalizado, boolean esFavorito) {
+        if (databaseReference == null) return;
+
+        String idLugar = nombreNormalizado.replace(" ", "_");
+        String userId = "usuario1"; // en el futuro: FirebaseAuth.getInstance().getUid()
+
+        if (esFavorito) {
+            databaseReference
+                    .child("favoritos")
+                    .child(userId)
+                    .child(idLugar)
+                    .setValue(true);
+        } else {
+            databaseReference
+                    .child("favoritos")
+                    .child(userId)
+                    .child(idLugar)
+                    .removeValue();
+        }
     }
-     */
+
+    // rating + fecha en tabla visitados
+    private void guardarVisitaEnFirebase(String nombreNormalizado, boolean visitado) {
+        if (databaseReference == null) return;
+
+        String idLugar = nombreNormalizado.replace(" ", "_");
+        String userId = "usuario1"; // en el futuro: FirebaseAuth.getInstance().getUid()
+
+        if (visitado) {
+            float rating = (ratingBarVisita != null) ? ratingBarVisita.getRating() : 0f;
+            String fechaHoy = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    .format(new Date());
+
+            Map<String, Object> datosVisita = new HashMap<>();
+            datosVisita.put("fecha", fechaHoy);
+            datosVisita.put("rating", rating);
+
+            databaseReference
+                    .child("visitados")
+                    .child(userId)
+                    .child(idLugar)
+                    .setValue(datosVisita);
+        } else {
+            databaseReference
+                    .child("visitados")
+                    .child(userId)
+                    .child(idLugar)
+                    .removeValue();
+        }
+    }
+
+    // ----------------- CARGA LOCAL (IMAGEN / COORDENADAS / TEXTOS BASE) -----------------
+
     private void cargarInformacionLugar(String nombreLugar) {
         if (txtTipoLugar != null) {
             txtTipoLugar.setText("");
@@ -345,6 +446,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_fuertelambert));
                 txtHorarios.setText(getString(R.string.hor_fuertelambert));
                 txtCostos.setText(getString(R.string.cost_fuertelambert));
+                txtTipoLugar.setText("Histórico / Mirador");
+
                 coordenadaX = -29.933971429838568;
                 coordenadaY = -71.3360721762996;
                 nomMap = "Fuerte Lambert";
@@ -357,6 +460,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_cruz));
                 txtHorarios.setText(getString(R.string.hor_cruz));
                 txtCostos.setText(getString(R.string.cost_cruz));
+                txtTipoLugar.setText("Religioso / Mirador");
+
                 coordenadaX = -29.951469351311008;
                 coordenadaY = -71.34737146280611;
                 nomMap = "Cruz del Tercer Milenio";
@@ -369,6 +474,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_pueblito));
                 txtHorarios.setText(getString(R.string.hor_pueblito));
                 txtCostos.setText(getString(R.string.cost_pueblito));
+                txtTipoLugar.setText("Comercial / Artesanal");
+
                 coordenadaX = -29.948892824;
                 coordenadaY = -71.291997180;
                 nomMap = "Pueblito Peñuelas";
@@ -381,6 +488,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_mar));
                 txtHorarios.setText(getString(R.string.hor_mar));
                 txtCostos.setText(getString(R.string.cost_mar));
+                txtTipoLugar.setText("Playa / Costanera");
+
                 coordenadaX = -29.915549;
                 coordenadaY = -71.275552;
                 nomMap = "Avenida del Mar";
@@ -393,6 +502,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_mezquita));
                 txtHorarios.setText(getString(R.string.hor_mezquita));
                 txtCostos.setText(getString(R.string.cost_mezquita));
+                txtTipoLugar.setText("Religioso / Cultural");
+
                 coordenadaX = -29.96305556;
                 coordenadaY = -71.33541667;
                 nomMap = "La Mezquita";
@@ -405,6 +516,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_faro));
                 txtHorarios.setText(getString(R.string.hor_faro));
                 txtCostos.setText(getString(R.string.cost_faro));
+                txtTipoLugar.setText("Monumento / Playa");
+
                 coordenadaX = -29.905579;
                 coordenadaY = -71.274209;
                 nomMap = "El Faro";
@@ -418,11 +531,12 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_parque));
                 txtHorarios.setText(getString(R.string.hor_parque));
                 txtCostos.setText(getString(R.string.cost_parque));
+                txtTipoLugar.setText("Parque / Recreación");
+
                 coordenadaX = -29.906503;
                 coordenadaY = -71.246194;
                 nomMap = "Parque Japonés";
                 break;
-
 
             default:
                 imgLugar.setImageResource(android.R.drawable.ic_dialog_alert);
@@ -431,6 +545,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText("");
                 txtHorarios.setText("");
                 txtCostos.setText("");
+                txtTipoLugar.setText("");
                 nomMap = getString(R.string.app_name);
                 break;
         }
@@ -443,7 +558,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         }
     }
 
-    // Favoritos y visitados
+    // ----------------- FAVORITOS / VISITADOS (solo SharedPrefs + Firebase) -----------------
+
     private String normalizarNombre(String nombre) {
         if (nombre == null) return "";
         nombre = nombre.trim().toLowerCase(Locale.ROOT);
@@ -494,8 +610,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         prefs.edit().putStringSet("lugaresVisitados", visitados).apply();
         actualizarTextoBotonVisitado(nombreNormalizado);
 
-        boolean estadoFavoritoActual = estaFavorito(nombreNormalizado);
-        guardarLugarEnFirebase(nombreNormalizado, estadoFavoritoActual, nuevoEstadoVisitado);
+        // Firebase: tabla visitados
+        guardarVisitaEnFirebase(nombreNormalizado, nuevoEstadoVisitado);
     }
 
     private void actualizarTextoBotonVisitado(String nombreLugar) {
@@ -530,8 +646,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         prefs.edit().putStringSet("lugaresFavoritos", favoritos).apply();
         actualizarTextoBotonFavorito(nombreNormalizado);
 
-        boolean estadoVisitadoActual = estaVisitado(nombreNormalizado);
-        guardarLugarEnFirebase(nombreNormalizado, nuevoEstadoFavorito, estadoVisitadoActual);
+        // Firebase: tabla favoritos
+        guardarFavoritoEnFirebase(nombreNormalizado, nuevoEstadoFavorito);
     }
 
     private void actualizarTextoBotonFavorito(String nombreLugar) {
@@ -539,6 +655,8 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 ? getString(R.string.eliminarFavorito)
                 : getString(R.string.favorito));
     }
+
+    // ----------------- MAPA -----------------
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {

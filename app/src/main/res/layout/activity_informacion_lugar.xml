@@ -162,6 +162,43 @@
                 android:layout_height="match_parent" />
         </androidx.cardview.widget.CardView>
 
+        <!-- NUEVA SECCIÓN: RATING -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="?attr/colorSurface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvTituloRating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tu valoración del lugar"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_marginBottom="8dp" />
+
+                <RatingBar
+                    android:id="@+id/ratingBarVisita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="0.5"
+                    android:rating="4.0" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <!-- BOTONES VISITADO / FAVORITO -->
         <LinearLayout
             android:id="@+id/layoutBotonesAccion"
