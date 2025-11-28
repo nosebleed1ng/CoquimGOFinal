@@ -48,7 +48,6 @@ public class ConfiguracionActivity extends AppCompatActivity {
         btnSeleccionIdioma = findViewById(R.id.btnSeleccionIdioma);
         btnVolverInicio = findViewById(R.id.btnVolverInicio);
 
-        //mati qliao le gusta la tula
 
         txtTitulo = findViewById(R.id.txtTitulo);
         cardModoOscuro = findViewById(R.id.cardModoOscuro);

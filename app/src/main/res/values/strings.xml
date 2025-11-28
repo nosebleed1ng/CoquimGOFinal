@@ -19,10 +19,10 @@
     <string name="close_nav">Cerrar menú</string>
 
     <!-- Mensajes estado -->
-    <string name="favorito">Añadido a Favoritos</string>
-    <string name="visitado">Añadido a Visitados</string>
-    <string name="eliminarFavorito">Eliminado de Favoritos</string>
-    <string name="eliminarVisitado">Eliminado de Visitados</string>
+    <string name="favorito">Añadir a Favoritos</string>
+    <string name="visitado">Añadir a Visitados</string>
+    <string name="eliminarFavorito">Eliminar de Favoritos</string>
+    <string name="eliminarVisitado">Eliminar de Visitados</string>
 
     <string name="volver">Volver</string>
     <string name="lugar_imagen">Imagen del lugar</string>
@@ -30,7 +30,6 @@
 
     <!-- Barra búsqueda -->
     <string name="buscar_lugar">Buscar lugar...</string>
-
     <string name="subtitulo_lugar">Toca para ver detalles y mapa</string>
 
     <!-- SPLASH -->
@@ -46,6 +45,15 @@
     <string name="txtlamezquita">La Mezquita</string>
     <string name="txtelfaro">El Faro</string>
     <string name="txtparquejapones">Parque Japonés</string>
+
+    <string name="tipo_fuertelambert">Cultural</string>
+    <string name="tipo_cruz">Religioso</string>
+    <string name="tipo_pueblito">Cultural</string>
+    <string name="tipo_mar">Playa</string>
+    <string name="tipo_mezquita">Religioso</string>
+    <string name="tipo_faro">Costero</string>
+    <string name="tipo_parque">Parque</string>
+
 
     <!-- Descripciones -->
     <string name="desc_fuertelambert">Destino turístico popular con vistas panorámicas de la bahía y la ciudad.</string>
@@ -81,7 +89,7 @@
     <string name="desc_parque">Parque inspirado en la cultura japonesa con jardines y estanques.</string>
     <string name="ubi_parque">Ubicación: Eduardo de La Barra s/n, La Serena</string>
     <string name="hor_parque">Horarios: Martes a Domingo: 10:00 am - 5:40 pm</string>
-    <string name="cost_parque">Costo Entrada: $3.000 (general)</string>
+    <string name="cost_parque">$3.000 (general)</string>
 
     <!-- Configuración -->
     <string name="modo_oscuro">Modo oscuro</string>
@@ -93,12 +101,13 @@
     <string name="volver_inicio">Volver al inicio</string>
     <string name="ir">Ir</string>
     <string name="acerca_de_la_app">Acerca de la aplicación</string>
+
     <string name="acerca_texto">
 CoquimGO es una aplicación de turismo que te permite descubrir los principales destinos de Coquimbo y La Serena.
 Podrás explorar lugares, marcarlos como visitados o favoritos, y configurar el idioma y modo visual según tus preferencias.
 \n\nVersión: 1.0.0
 \nDesarrollado por: Matías Chepillo, Beckham Espejo y Gabriel Castillo.
-</string>
+    </string>
 
     <!-- FILTROS -->
     <string-array name="opciones_filtro">
@@ -108,5 +117,16 @@ Podrás explorar lugares, marcarlos como visitados o favoritos, y configurar el 
         <item>Religioso</item>
         <item>Parques</item>
     </string-array>
+
+    <string name="calificar">Calificar</string>
+    <string name="enviar_opinion">Enviar opinión</string>
+    <string name="tu_calificacion">Tu calificación</string>
+    <string name="gracias_calificacion">¡Gracias por tu calificación!</string>
+    <string name="error_calificacion">Debes elegir una calificación antes de enviar.</string>
+    <string name="promedio_global_formato">Rating global: %.1f / 5 (%d opiniones)</string>
+    <string name="opinion_guardada">Tu calificación ha sido registrada.</string>
+    <string name="selecciona_rating">Debes seleccionar una cantidad de estrellas antes de enviar.</string>
+    <string name="debes_visitar_para_calificar">Debes marcar el lugar como visitado antes de calificar.</string>
+    <string name="gracias_por_calificar">¡Gracias por calificar este lugar!</string>
 
 </resources>

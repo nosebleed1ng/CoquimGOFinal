@@ -89,7 +89,7 @@ CoquimGO é um aplicativo de turismo que permite descobrir os principais destino
 Você pode explorar lugares, marcá-los como visitados ou favoritos e configurar o idioma e o modo visual de acordo com suas preferências.
 \n\nVersão: 1.0.0
 \nDesenvolvido por: Matías Chepillo, Beckham Espejo e Gabriel Castillo.
-</string>
+    </string>
 
     <string-array name="opciones_filtro">
         <item>Todos</item>
@@ -98,4 +98,16 @@ Você pode explorar lugares, marcá-los como visitados ou favoritos e configurar
         <item>Cultural</item>
         <item>Religioso</item>
     </string-array>
+
+    <string name="calificar">Avaliar</string>
+    <string name="enviar_opinion">Enviar avaliação</string>
+    <string name="tu_calificacion">Sua avaliação</string>
+    <string name="gracias_calificacion">Obrigado pela sua avaliação!</string>
+    <string name="error_calificacion">Você deve escolher uma avaliação antes de enviar.</string>
+    <string name="promedio_global_formato">Avaliação global: %.1f / 5 (%d avaliações)</string>
+    <string name="opinion_guardada">Sua avaliação foi registrada.</string>
+    <string name="selecciona_rating">Você deve escolher uma avaliação antes de enviar.</string>
+    <string name="debes_visitar_para_calificar">Você precisa marcar o local como visitado antes de avaliar.</string>
+    <string name="gracias_por_calificar">Obrigado por avaliar este local!</string>
+
 </resources>

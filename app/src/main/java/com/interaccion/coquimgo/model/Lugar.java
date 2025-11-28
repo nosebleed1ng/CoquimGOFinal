@@ -7,11 +7,11 @@ public class Lugar {
     private String UbicacionLugar;
     private String HorarioLugar;
     private String CostoLugar;
-
-    // NUEVO: referencia a la categoría
     private String CategoriaId;
 
-    // Estos los sigues usando si quieres a nivel local
+
+    private float RatingGlobal;
+    private int RatingCount;
     private boolean Favorito;
     private boolean Visitado;
 
@@ -88,6 +88,20 @@ public class Lugar {
     public void setVisitado(boolean visitado) {
         Visitado = visitado;
     }
+
+    public float getRatingGlobal() {
+        return RatingGlobal;
+    }
+
+    public void setRatingGlobal(float ratingGlobal) {
+        RatingGlobal = ratingGlobal;
+    }
+
+    public int getRatingCount() {
+        return RatingCount;
+    }
+
+    public void setRatingCount(int ratingCount) {
+        RatingCount = ratingCount;
+    }
 }
-
-

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -30,7 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.interaccion.coquimgo.model.Lugar;
+import com.interaccion.coquimgo.db.DbLugar;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,25 +45,25 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
 
     private ImageView imgLugar;
     private TextView txtNombreLugar, txtDescripcion, txtUbicacion, txtHorarios, txtCostos, txtTipoLugar;
+    private TextView txtRatingGlobal;
     private GoogleMap gMap;
     private double coordenadaX;
     private double coordenadaY;
     private String nomMap;
-    private Button btnVolver, btnMarcarVisitado, btnMarcarFavorito;
 
-    // Rating del lugar (opcional)
-    private RatingBar ratingBarVisita;
+    private Button btnVolver, btnMarcarVisitado, btnMarcarFavorito, btnCalificar;
+
+    // RatingBar (en XML es @+id/ratingBarVisita)
+    private RatingBar ratingBarLugar;
 
     // Views para animaciones
-    private CardView cardImagen, cardDescripcion, cardInfoLugar, cardMapa;
+    private CardView cardImagen, cardDescripcion, cardInfoLugar, cardMapa, cardRating;
     private View layoutBotonesAccion, layoutContenido;
 
-    // Firebase
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
-    // Nombre del lugar que llega por Intent
-    private String nombreLugarActual;
+    private static final String USUARIO_ID = "usuario1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,47 +79,52 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion_lugar);
 
-        // --- Firebase ---
-        iniciarFirebase();
-
-        // Mapa
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
+        // --- Firebase ---
+        iniciarFirebase();
+
         // Referencias al layout
-        imgLugar       = findViewById(R.id.imglugar);
+        imgLugar = findViewById(R.id.imglugar);
         txtNombreLugar = findViewById(R.id.txtnombreLugar);
         txtDescripcion = findViewById(R.id.txtdescripcion);
-        txtUbicacion   = findViewById(R.id.txtubicacion);
-        txtHorarios    = findViewById(R.id.txthorarios);
-        txtCostos      = findViewById(R.id.txtcostos);
-        txtTipoLugar   = findViewById(R.id.txttipoLugar);
+        txtUbicacion = findViewById(R.id.txtubicacion);
+        txtHorarios = findViewById(R.id.txthorarios);
+        txtCostos = findViewById(R.id.txtcostos);
+        txtTipoLugar = findViewById(R.id.txttipoLugar);
+        txtRatingGlobal = findViewById(R.id.txtRatingGlobal);
 
-        btnVolver         = findViewById(R.id.btnvolver);
+        btnVolver = findViewById(R.id.btnvolver);
         btnMarcarVisitado = findViewById(R.id.btnmarcarvisitado);
         btnMarcarFavorito = findViewById(R.id.btnmarcarfavorito);
+        btnCalificar = findViewById(R.id.btnCalificar);
 
-        ratingBarVisita = findViewById(R.id.ratingBarVisita); // si no existe en el XML quedará null
+        // RatingBar
+        ratingBarLugar = findViewById(R.id.ratingBarVisita);
 
         // Views para animar
-        cardImagen          = findViewById(R.id.cardImagen);
-        cardDescripcion     = findViewById(R.id.cardDescripcion);
-        cardInfoLugar       = findViewById(R.id.cardInfoLugar);
-        cardMapa            = findViewById(R.id.cardMapa);
+        cardImagen = findViewById(R.id.cardImagen);
+        cardDescripcion = findViewById(R.id.cardDescripcion);
+        cardInfoLugar = findViewById(R.id.cardInfoLugar);
+        cardMapa = findViewById(R.id.cardMapa);
+        cardRating = findViewById(R.id.cardRating);
         layoutBotonesAccion = findViewById(R.id.layoutBotonesAccion);
-        layoutContenido     = findViewById(R.id.layoutContenido);
+        layoutContenido = findViewById(R.id.layoutContenido);
 
         // Textos traducibles
         btnVolver.setText(getString(R.string.volver));
         btnMarcarVisitado.setText(getString(R.string.visitado));
         btnMarcarFavorito.setText(getString(R.string.favorito));
+        btnCalificar.setText(getString(R.string.calificar));
 
         // Microanimación de botones
         setupButtonPressAnimation(btnVolver);
         setupButtonPressAnimation(btnMarcarVisitado);
         setupButtonPressAnimation(btnMarcarFavorito);
+        setupButtonPressAnimation(btnCalificar);
 
         // Detectar origen
         String origen = getIntent().getStringExtra("origen");
@@ -134,37 +140,36 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
             finish();
         });
 
-        // Nombre del lugar recibido
-        nombreLugarActual = getIntent().getStringExtra("nombreLugar");
-        if (nombreLugarActual != null) {
-            String keyParaSwitch = nombreLugarActual.trim().toLowerCase(Locale.ROOT);
+        // nombre del lugar desde el Intent
+        String nombreLugarIntent = getIntent().getStringExtra("nombreLugar");
+        if (nombreLugarIntent != null) {
+            // 1) Carga base desde recursos (strings) + coordenadas
+            cargarInformacionLugar(nombreLugarIntent);
 
-            // Carga local: imagen + coordenadas + textos base (por si no hay internet)
-            cargarInformacionLugar(keyParaSwitch);
+            // 2) Normalizado bonito para claves
+            String nombreNormalizadoBonito = normalizarNombre(nombreLugarIntent);
+            actualizarTextoBotonVisitado(nombreNormalizadoBonito);
+            actualizarTextoBotonFavorito(nombreNormalizadoBonito);
 
-            // Estado inicial de los botones (SharedPreferences)
-            String nombreNormalizado = normalizarNombre(nombreLugarActual);
-            actualizarTextoBotonVisitado(nombreNormalizado);
-            actualizarTextoBotonFavorito(nombreNormalizado);
-
-            // Cargar datos dinámicos desde Firebase y pisar los textos base
-            cargarLugarDesdeFirebase(nombreNormalizado);
+            // 3) Cargar rating GLOBAL desde Firebase (en /lugaresTuristicos)
+            String idLugar = nombreNormalizadoBonito.replace(" ", "_");
+            cargarRatingGlobalDesdeFirebase(idLugar);
         }
 
-        btnMarcarVisitado.setOnClickListener(v -> toggleVisitado(nombreLugarActual));
-        btnMarcarFavorito.setOnClickListener(v -> toggleFavorito(nombreLugarActual));
+        // Los botones usan SIEMPRE el nombre que aparece en pantalla
+        btnMarcarVisitado.setOnClickListener(v -> toggleVisitado());
+        btnMarcarFavorito.setOnClickListener(v -> toggleFavorito());
+        btnCalificar.setOnClickListener(v -> enviarCalificacion());
 
         // Animaciones de entrada del contenido
         prepararAnimacionesIniciales();
         animarEntradaContenido();
     }
 
-    // ----------------- ANIMACIONES -----------------
+    // =================== ANIMACIONES ===================
 
     private void prepararAnimacionesIniciales() {
-        if (layoutContenido != null) {
-            layoutContenido.setAlpha(1f);
-        }
+        if (layoutContenido != null) layoutContenido.setAlpha(1f);
 
         if (cardImagen != null) {
             cardImagen.setAlpha(0f);
@@ -198,6 +203,11 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
             cardMapa.setScaleX(0.80f);
             cardMapa.setScaleY(0.80f);
             cardMapa.setTranslationY(200f);
+        }
+
+        if (cardRating != null) {
+            cardRating.setAlpha(0f);
+            cardRating.setTranslationY(200f);
         }
 
         if (layoutBotonesAccion != null) {
@@ -278,12 +288,22 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                     .start();
         }
 
+        if (cardRating != null) {
+            cardRating.animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .setDuration(650)
+                    .setStartDelay(620)
+                    .setInterpolator(desacelerar)
+                    .start();
+        }
+
         if (layoutBotonesAccion != null) {
             layoutBotonesAccion.animate()
                     .alpha(1f)
                     .translationY(0f)
                     .setDuration(600)
-                    .setStartDelay(650)
+                    .setStartDelay(700)
                     .setInterpolator(desacelerar)
                     .start();
         }
@@ -293,7 +313,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                     .alpha(1f)
                     .translationY(0f)
                     .setDuration(600)
-                    .setStartDelay(720)
+                    .setStartDelay(760)
                     .setInterpolator(desacelerar)
                     .start();
         }
@@ -321,7 +341,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         animator.scaleX(scale).scaleY(scale).setDuration(120).start();
     }
 
-    // ----------------- FIREBASE -----------------
+    // =================== FIREBASE BASE ===================
 
     private void iniciarFirebase() {
         try {
@@ -334,109 +354,118 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
     }
 
     /**
-     * Carga el lugar desde Firebase (nodo "lugaresTuristicos/idLugar").
-     * Si cambias algo en Firebase (nombre, descripción, ubicación, horarios, costo),
-     * se actualiza en la app.
+     * Guarda la info básica del lugar en Firebase y en la tabla local LUGAR.
+     * Usamos updateChildren para NO borrar ratingGlobal, ratingCount, etc.
+     * Se guarda en /lugaresTuristicos/idLugar.
      */
-    private void cargarLugarDesdeFirebase(String nombreNormalizado) {
-        if (databaseReference == null) return;
+    private void guardarLugarEnFirebase(String nombreNormalizado,
+                                        boolean esFavorito,
+                                        boolean esVisitado) {
 
         String idLugar = nombreNormalizado.replace(" ", "_");
+
+        Map<String, Object> datos = new HashMap<>();
+        datos.put("idLugar", idLugar);
+        datos.put("nombreLugar", txtNombreLugar.getText().toString());
+        datos.put("descripcionLugar", txtDescripcion.getText().toString());
+        datos.put("ubicacionLugar", txtUbicacion.getText().toString());
+        datos.put("horarioLugar", txtHorarios.getText().toString());
+        datos.put("costoLugar", txtCostos.getText().toString());
+        datos.put("favorito", esFavorito);
+        datos.put("visitado", esVisitado);
+
+        // Firebase: /lugaresTuristicos/idLugar
+        databaseReference
+                .child("lugaresTuristicos")
+                .child(idLugar)
+                .updateChildren(datos);
+
+        // SQLite: upsert en tabla LUGAR
+        DbLugar dbLugar = new DbLugar(InformacionLugarActivity.this);
+
+        if (dbLugar.existeLugarPorId(idLugar)) {
+            dbLugar.actualizarLugar(
+                    idLugar,
+                    (String) datos.get("nombreLugar"),
+                    (String) datos.get("descripcionLugar"),
+                    (String) datos.get("horarioLugar"),
+                    (String) datos.get("ubicacionLugar"),
+                    (String) datos.get("costoLugar"),
+                    esFavorito,
+                    esVisitado
+            );
+        } else {
+            dbLugar.insertarLugar(
+                    idLugar,
+                    (String) datos.get("nombreLugar"),
+                    (String) datos.get("descripcionLugar"),
+                    (String) datos.get("horarioLugar"),
+                    (String) datos.get("ubicacionLugar"),
+                    (String) datos.get("costoLugar"),
+                    esFavorito,
+                    esVisitado
+            );
+        }
+    }
+
+    // ============ CARGAR INFORMACIÓN DEL LUGAR (texto + mapa) ============
+
+    private void cargarInformacionLugar(String nombreLugarIntent) {
+        if (nombreLugarIntent == null) return;
+
+        String nombreLower = nombreLugarIntent.trim().toLowerCase(Locale.ROOT);
+
+        // 1) Primero cargamos desde recursos (como antes)
+        cargarDesdeRecursos(nombreLower);
+
+        // 2) Ahora intentamos sobrescribir textos desde Firebase si existen
+        String nombreNormalizadoBonito = normalizarNombre(nombreLugarIntent);
+        String idLugar = nombreNormalizadoBonito.replace(" ", "_");
 
         DatabaseReference lugarRef = databaseReference
                 .child("lugaresTuristicos")
                 .child(idLugar);
 
-        lugarRef.addValueEventListener(new ValueEventListener() {
+        lugarRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Lugar lugar = snapshot.getValue(Lugar.class);
-                if (lugar == null) return;
 
-                if (lugar.getNombreLugar() != null) {
-                    txtNombreLugar.setText(lugar.getNombreLugar());
-                }
-                if (lugar.getDescripcionLugar() != null) {
-                    txtDescripcion.setText(lugar.getDescripcionLugar());
-                }
-                if (lugar.getUbicacionLugar() != null) {
-                    txtUbicacion.setText(lugar.getUbicacionLugar());
-                }
-                if (lugar.getHorarioLugar() != null) {
-                    txtHorarios.setText(lugar.getHorarioLugar());
-                }
-                if (lugar.getCostoLugar() != null) {
-                    txtCostos.setText(lugar.getCostoLugar());
+                if (snapshot.exists()) {
+                    String desc = snapshot.child("descripcionLugar").getValue(String.class);
+                    String ubi  = snapshot.child("ubicacionLugar").getValue(String.class);
+                    String hor  = snapshot.child("horarioLugar").getValue(String.class);
+                    String cos  = snapshot.child("costoLugar").getValue(String.class);
+
+                    if (desc != null && !desc.isEmpty()) {
+                        txtDescripcion.setText(desc);
+                    }
+                    if (ubi != null && !ubi.isEmpty()) {
+                        txtUbicacion.setText(ubi);
+                    }
+                    if (hor != null && !hor.isEmpty()) {
+                        txtHorarios.setText(hor);
+                    }
+                    if (cos != null && !cos.isEmpty()) {
+                        txtCostos.setText(cos);
+                    }
+
+                } else {
+                    // Si no existe el nodo, guardamos los datos locales una vez
+                    boolean esFav = estaFavorito(nombreNormalizadoBonito);
+                    boolean esVis = estaVisitado(nombreNormalizadoBonito);
+                    guardarLugarEnFirebase(nombreNormalizadoBonito, esFav, esVis);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Opcional: mostrar mensaje si falla
-                // Toast.makeText(InformacionLugarActivity.this,
-                //         "Error Firebase: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("LUGAR_FIREBASE", "Error al leer datos del lugar: " + error.getMessage());
             }
         });
     }
 
-    // Guarda / elimina favorito en la tabla "favoritos"
-    private void guardarFavoritoEnFirebase(String nombreNormalizado, boolean esFavorito) {
-        if (databaseReference == null) return;
-
-        String idLugar = nombreNormalizado.replace(" ", "_");
-        String userId = "usuario1"; // en el futuro: FirebaseAuth.getInstance().getUid()
-
-        if (esFavorito) {
-            databaseReference
-                    .child("favoritos")
-                    .child(userId)
-                    .child(idLugar)
-                    .setValue(true);
-        } else {
-            databaseReference
-                    .child("favoritos")
-                    .child(userId)
-                    .child(idLugar)
-                    .removeValue();
-        }
-    }
-
-    // rating + fecha en tabla visitados
-    private void guardarVisitaEnFirebase(String nombreNormalizado, boolean visitado) {
-        if (databaseReference == null) return;
-
-        String idLugar = nombreNormalizado.replace(" ", "_");
-        String userId = "usuario1"; // en el futuro: FirebaseAuth.getInstance().getUid()
-
-        if (visitado) {
-            float rating = (ratingBarVisita != null) ? ratingBarVisita.getRating() : 0f;
-            String fechaHoy = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    .format(new Date());
-
-            Map<String, Object> datosVisita = new HashMap<>();
-            datosVisita.put("fecha", fechaHoy);
-            datosVisita.put("rating", rating);
-
-            databaseReference
-                    .child("visitados")
-                    .child(userId)
-                    .child(idLugar)
-                    .setValue(datosVisita);
-        } else {
-            databaseReference
-                    .child("visitados")
-                    .child(userId)
-                    .child(idLugar)
-                    .removeValue();
-        }
-    }
-
-    // ----------------- CARGA LOCAL (IMAGEN / COORDENADAS / TEXTOS BASE) -----------------
-
-    private void cargarInformacionLugar(String nombreLugar) {
-        if (txtTipoLugar != null) {
-            txtTipoLugar.setText("");
-        }
+    private void cargarDesdeRecursos(String nombreLugar) {
+        if (txtTipoLugar != null) txtTipoLugar.setText("");
 
         switch (nombreLugar) {
             case "fuerte lambert":
@@ -446,8 +475,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_fuertelambert));
                 txtHorarios.setText(getString(R.string.hor_fuertelambert));
                 txtCostos.setText(getString(R.string.cost_fuertelambert));
-                txtTipoLugar.setText("Histórico / Mirador");
-
                 coordenadaX = -29.933971429838568;
                 coordenadaY = -71.3360721762996;
                 nomMap = "Fuerte Lambert";
@@ -460,8 +487,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_cruz));
                 txtHorarios.setText(getString(R.string.hor_cruz));
                 txtCostos.setText(getString(R.string.cost_cruz));
-                txtTipoLugar.setText("Religioso / Mirador");
-
                 coordenadaX = -29.951469351311008;
                 coordenadaY = -71.34737146280611;
                 nomMap = "Cruz del Tercer Milenio";
@@ -474,8 +499,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_pueblito));
                 txtHorarios.setText(getString(R.string.hor_pueblito));
                 txtCostos.setText(getString(R.string.cost_pueblito));
-                txtTipoLugar.setText("Comercial / Artesanal");
-
                 coordenadaX = -29.948892824;
                 coordenadaY = -71.291997180;
                 nomMap = "Pueblito Peñuelas";
@@ -488,8 +511,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_mar));
                 txtHorarios.setText(getString(R.string.hor_mar));
                 txtCostos.setText(getString(R.string.cost_mar));
-                txtTipoLugar.setText("Playa / Costanera");
-
                 coordenadaX = -29.915549;
                 coordenadaY = -71.275552;
                 nomMap = "Avenida del Mar";
@@ -502,8 +523,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_mezquita));
                 txtHorarios.setText(getString(R.string.hor_mezquita));
                 txtCostos.setText(getString(R.string.cost_mezquita));
-                txtTipoLugar.setText("Religioso / Cultural");
-
                 coordenadaX = -29.96305556;
                 coordenadaY = -71.33541667;
                 nomMap = "La Mezquita";
@@ -516,8 +535,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_faro));
                 txtHorarios.setText(getString(R.string.hor_faro));
                 txtCostos.setText(getString(R.string.cost_faro));
-                txtTipoLugar.setText("Monumento / Playa");
-
                 coordenadaX = -29.905579;
                 coordenadaY = -71.274209;
                 nomMap = "El Faro";
@@ -531,8 +548,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText(getString(R.string.ubi_parque));
                 txtHorarios.setText(getString(R.string.hor_parque));
                 txtCostos.setText(getString(R.string.cost_parque));
-                txtTipoLugar.setText("Parque / Recreación");
-
                 coordenadaX = -29.906503;
                 coordenadaY = -71.246194;
                 nomMap = "Parque Japonés";
@@ -545,7 +560,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 txtUbicacion.setText("");
                 txtHorarios.setText("");
                 txtCostos.setText("");
-                txtTipoLugar.setText("");
                 nomMap = getString(R.string.app_name);
                 break;
         }
@@ -558,7 +572,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         }
     }
 
-    // ----------------- FAVORITOS / VISITADOS (solo SharedPrefs + Firebase) -----------------
+    // --- Favoritos y visitados ---
 
     private String normalizarNombre(String nombre) {
         if (nombre == null) return "";
@@ -590,8 +604,16 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         return prefs.getStringSet("lugaresVisitados", new HashSet<>()).contains(nombreLugar);
     }
 
-    private void toggleVisitado(String nombreLugar) {
-        String nombreNormalizado = normalizarNombre(nombreLugar);
+    private boolean estaFavorito(String nombreLugar) {
+        nombreLugar = normalizarNombre(nombreLugar);
+        SharedPreferences prefs = getSharedPreferences("LugaresPrefs", Context.MODE_PRIVATE);
+        return prefs.getStringSet("lugaresFavoritos", new HashSet<>()).contains(nombreLugar);
+    }
+
+    private void toggleVisitado() {
+        String nombreEnPantalla = txtNombreLugar.getText().toString();
+        String nombreNormalizado = normalizarNombre(nombreEnPantalla);
+        String idLugar = nombreNormalizado.replace(" ", "_");
 
         SharedPreferences prefs = getSharedPreferences("LugaresPrefs", Context.MODE_PRIVATE);
         Set<String> visitados = new HashSet<>(prefs.getStringSet("lugaresVisitados", new HashSet<>()));
@@ -610,8 +632,40 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         prefs.edit().putStringSet("lugaresVisitados", visitados).apply();
         actualizarTextoBotonVisitado(nombreNormalizado);
 
-        // Firebase: tabla visitados
-        guardarVisitaEnFirebase(nombreNormalizado, nuevoEstadoVisitado);
+        // Estado actual de favorito
+        boolean estadoFavoritoActual = estaFavorito(nombreNormalizado);
+        guardarLugarEnFirebase(nombreNormalizado, estadoFavoritoActual, nuevoEstadoVisitado);
+        DbLugar dbLugar = new DbLugar(this);
+
+        String fechaHoy = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                .format(new Date());
+
+        int ratingEntero = 0;
+        if (ratingBarLugar != null) {
+            ratingEntero = Math.round(ratingBarLugar.getRating());
+        }
+
+        // SQLite
+        dbLugar.actualizarVisitado(USUARIO_ID, idLugar, nuevoEstadoVisitado, fechaHoy, ratingEntero);
+        DatabaseReference visRef = databaseReference
+                .child("visitados")
+                .child(USUARIO_ID)
+                .child(idLugar);
+
+        if (nuevoEstadoVisitado) {
+            Map<String, Object> datos = new HashMap<>();
+            datos.put("fecha", fechaHoy);
+            datos.put("rating", ratingEntero);
+            visRef.setValue(datos);
+        } else {
+            visRef.removeValue();
+        }
+
+        // Recalcular promedio global solo si hay algún rating
+        if (ratingBarLugar != null && ratingBarLugar.getRating() > 0f) {
+            recalcularRatingGlobal(idLugar);
+        }
+        debugMostrarResumenSqlite();
     }
 
     private void actualizarTextoBotonVisitado(String nombreLugar) {
@@ -620,14 +674,10 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 : getString(R.string.visitado));
     }
 
-    private boolean estaFavorito(String nombreLugar) {
-        nombreLugar = normalizarNombre(nombreLugar);
-        SharedPreferences prefs = getSharedPreferences("LugaresPrefs", Context.MODE_PRIVATE);
-        return prefs.getStringSet("lugaresFavoritos", new HashSet<>()).contains(nombreLugar);
-    }
-
-    private void toggleFavorito(String nombreLugar) {
-        String nombreNormalizado = normalizarNombre(nombreLugar);
+    private void toggleFavorito() {
+        String nombreEnPantalla = txtNombreLugar.getText().toString();
+        String nombreNormalizado = normalizarNombre(nombreEnPantalla);
+        String idLugar = nombreNormalizado.replace(" ", "_");
 
         SharedPreferences prefs = getSharedPreferences("LugaresPrefs", Context.MODE_PRIVATE);
         Set<String> favoritos = new HashSet<>(prefs.getStringSet("lugaresFavoritos", new HashSet<>()));
@@ -646,8 +696,17 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         prefs.edit().putStringSet("lugaresFavoritos", favoritos).apply();
         actualizarTextoBotonFavorito(nombreNormalizado);
 
-        // Firebase: tabla favoritos
-        guardarFavoritoEnFirebase(nombreNormalizado, nuevoEstadoFavorito);
+        boolean estadoVisitadoActual = estaVisitado(nombreNormalizado);
+
+        // Guarda en Firebase y tabla lugar
+        guardarLugarEnFirebase(nombreNormalizado, nuevoEstadoFavorito, estadoVisitadoActual);
+
+        //Tabla favoritos  SQLite
+        DbLugar dbLugar = new DbLugar(this);
+        dbLugar.actualizarFavorito(USUARIO_ID, idLugar, nuevoEstadoFavorito);
+
+        // DEBUG
+        debugMostrarResumenSqlite();
     }
 
     private void actualizarTextoBotonFavorito(String nombreLugar) {
@@ -656,7 +715,181 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 : getString(R.string.favorito));
     }
 
-    // ----------------- MAPA -----------------
+    // Botón CALIFICAR: solo envía la calificación del usuario actual
+    private void enviarCalificacion() {
+        if (ratingBarLugar == null) return;
+
+        float rating = ratingBarLugar.getRating();
+
+        if (rating <= 0f) {
+            Toast.makeText(this, getString(R.string.selecciona_rating), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String nombreEnPantalla = txtNombreLugar.getText().toString();
+        String nombreNormalizado = normalizarNombre(nombreEnPantalla);
+        String idLugar = nombreNormalizado.replace(" ", "_");
+
+        // Solo permitir calificar si está marcado como visitado
+        if (!estaVisitado(nombreNormalizado)) {
+            Toast.makeText(this, getString(R.string.debes_visitar_para_calificar), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String fechaHoy = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                .format(new Date());
+
+        int ratingEntero = Math.round(rating);
+
+        //SQLite
+        DbLugar dbLugar = new DbLugar(this);
+        dbLugar.actualizarVisitado(USUARIO_ID, idLugar, true, fechaHoy, ratingEntero);
+
+        //Firebase /visitados/usuarioX/idLugar
+        DatabaseReference visRef = databaseReference
+                .child("visitados")
+                .child(USUARIO_ID)
+                .child(idLugar);
+
+        Map<String, Object> datos = new HashMap<>();
+        datos.put("fecha", fechaHoy);
+        datos.put("rating", ratingEntero);
+        visRef.setValue(datos);
+
+        //Recalcular rating global
+        recalcularRatingGlobal(idLugar);
+
+        Toast.makeText(this, getString(R.string.gracias_por_calificar), Toast.LENGTH_SHORT).show();
+
+        debugMostrarResumenSqlite();
+    }
+
+    //Cargar rating global inicial desde Firebase
+    private void cargarRatingGlobalDesdeFirebase(String idLugar) {
+        DatabaseReference lugarRef = databaseReference
+                .child("lugaresTuristicos")
+                .child(idLugar);
+
+        lugarRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Float ratingGlobal = snapshot.child("ratingGlobal").getValue(Float.class);
+                Long ratingCount = snapshot.child("ratingCount").getValue(Long.class);
+
+                float promedio = ratingGlobal != null ? ratingGlobal : 0f;
+                long count = ratingCount != null ? ratingCount : 0L;
+
+                if (ratingBarLugar != null) ratingBarLugar.setRating(promedio);
+
+                if (txtRatingGlobal != null) {
+                    String texto = "Rating global: " + promedio + " / 5 (" + count + " opiniones)";
+                    txtRatingGlobal.setText(texto);
+                }
+
+                Log.d("RATING_GLOBAL", "Lugar " + idLugar +
+                        " -> ratingGlobal=" + promedio +
+                        " count=" + count);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("RATING_GLOBAL", "Error al leer rating global: " + error.getMessage());
+            }
+        });
+    }
+
+    //Recalcular promedio global recorriendo /visitados/ de todos los usuarios
+    private void recalcularRatingGlobal(String idLugar) {
+
+        if (databaseReference == null) {
+            Log.e("RATING_GLOBAL", "databaseReference es null, no se puede recalcular");
+            return;
+        }
+        if (idLugar == null || idLugar.trim().isEmpty()) {
+            Log.e("RATING_GLOBAL", "idLugar vacío, no se puede recalcular");
+            return;
+        }
+
+        DatabaseReference visitadosRef = databaseReference.child("visitados");
+
+        visitadosRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                try {
+                    float suma = 0f;
+                    int count = 0;
+
+                    // Recorre todos los usuarios y sus lugares visitados
+                    for (DataSnapshot usuarioSnap : snapshot.getChildren()) {
+                        for (DataSnapshot lugarSnap : usuarioSnap.getChildren()) {
+                            String keyLugar = lugarSnap.getKey();
+                            if (keyLugar != null && keyLugar.equals(idLugar)) {
+
+                                Long rating = lugarSnap.child("rating").getValue(Long.class);
+                                if (rating != null) {
+                                    suma += rating;
+                                    count++;
+                                }
+                            }
+                        }
+                    }
+
+                    float promedio = (count > 0) ? (suma / count) : 0f;
+
+                    // Actualizar nodo /lugaresTuristicos/idLugar en Firebase
+                    DatabaseReference lugarRef = databaseReference
+                            .child("lugaresTuristicos")
+                            .child(idLugar);
+
+                    Map<String, Object> updates = new HashMap<>();
+                    updates.put("ratingGlobal", promedio);
+                    updates.put("ratingCount", count);
+                    lugarRef.updateChildren(updates);
+
+                    // Actualizar SQLite
+                    try {
+                        DbLugar dbLugar = new DbLugar(InformacionLugarActivity.this);
+                        dbLugar.actualizarRatingGlobal(idLugar, promedio, count);
+                    } catch (Exception e) {
+                        Log.e("RATING_GLOBAL", "Error actualizando rating en SQLite", e);
+                    }
+
+                    // Actualizar RatingBar y texto
+                    if (ratingBarLugar != null) {
+                        ratingBarLugar.setRating(promedio);
+                    }
+
+                    if (txtRatingGlobal != null) {
+                        String texto = "Rating global: " + promedio + " / 5 (" + count + " opiniones)";
+                        txtRatingGlobal.setText(texto);
+                    }
+
+                    Log.d("RATING_GLOBAL",
+                            "Recalc " + idLugar + " -> promedio=" + promedio + " count=" + count);
+
+                } catch (Exception e) {
+                    Log.e("RATING_GLOBAL", "Excepción en onDataChange al recalcular rating", e);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("RATING_GLOBAL", "Error al recalcular rating global: " + error.getMessage());
+            }
+        });
+    }
+
+    private void debugMostrarResumenSqlite() {
+        DbLugar dbLugar = new DbLugar(this);
+
+        int totalFav = dbLugar.contarFavoritos(USUARIO_ID);
+        int totalVis = dbLugar.contarVisitados(USUARIO_ID);
+
+        String msg = "SQLite -> Favoritos: " + totalFav + " | Visitados: " + totalVis;
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        Log.d("DEBUG_SQLITE", msg);
+    }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {

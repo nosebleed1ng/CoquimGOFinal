@@ -162,7 +162,7 @@
                 android:layout_height="match_parent" />
         </androidx.cardview.widget.CardView>
 
-        <!-- NUEVA SECCIÓN: RATING -->
+        <!-- SECCIÓN: RATING -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardRating"
             android:layout_width="match_parent"
@@ -179,23 +179,51 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
+                <!-- Título -->
                 <TextView
                     android:id="@+id/tvTituloRating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tu valoración del lugar"
+                    android:text="Valoración del lugar"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:textColor="?attr/colorPrimary"
                     android:layout_marginBottom="8dp" />
 
+                <!-- ÚNICO RatingBar -->
                 <RatingBar
                     android:id="@+id/ratingBarVisita"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
                     android:stepSize="0.5"
-                    android:rating="4.0" />
+                    android:rating="0.0" />
+
+                <!-- Botón CALIFICAR -->
+                <Button
+                    android:id="@+id/btnCalificar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="6dp"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:text="@string/calificar"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:fontFamily="sans-serif-medium" />
+
+                <!-- Texto promedio global -->
+                <TextView
+                    android:id="@+id/txtRatingGlobal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Rating global: 0.0 / 5 (0 opiniones)"
+                    android:textSize="13sp"
+                    android:textColor="?attr/colorOnSurface" />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

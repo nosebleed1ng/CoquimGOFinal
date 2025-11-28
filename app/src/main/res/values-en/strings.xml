@@ -90,7 +90,7 @@ CoquimGO is a tourism app that allows you to discover the main destinations of C
 Explore places, mark them as visited or favorite, and configure the language and theme according to your preferences.
 \n\nVersion: 1.0.0
 \nDeveloped by: Matías Chepillo, Beckham Espejo, and Gabriel Castillo.
-</string>
+    </string>
 
     <string-array name="opciones_filtro">
         <item>All</item>
@@ -99,4 +99,16 @@ Explore places, mark them as visited or favorite, and configure the language and
         <item>Cultural</item>
         <item>Religious</item>
     </string-array>
+
+    <string name="calificar">Rate</string>
+    <string name="enviar_opinion">Submit rating</string>
+    <string name="tu_calificacion">Your rating</string>
+    <string name="gracias_calificacion">Thanks for your rating!</string>
+    <string name="error_calificacion">You must choose a rating before sending.</string>
+    <string name="promedio_global_formato">Global rating: %.1f / 5 (%d reviews)</string>
+    <string name="opinion_guardada">Your rating has been saved.</string>
+    <string name="selecciona_rating">You must select a rating before sending.</string>
+    <string name="debes_visitar_para_calificar">You must mark the place as visited before rating.</string>
+    <string name="gracias_por_calificar">Thanks for rating this place!</string>
+
 </resources>
