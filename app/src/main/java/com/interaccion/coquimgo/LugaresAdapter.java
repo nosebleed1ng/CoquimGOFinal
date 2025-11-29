@@ -51,7 +51,7 @@ public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugarVie
                 holder.itemView.getContext().getString(R.string.subtitulo_lugar)
         );
 
-        // Animación de entrada (slide + fade + zoom)
+        // Animación de entrada
         runEnterAnimation(holder.itemView, holder.accentBar, position);
 
         holder.cardLugar.setOnClickListener(v -> listener.onClick(item));

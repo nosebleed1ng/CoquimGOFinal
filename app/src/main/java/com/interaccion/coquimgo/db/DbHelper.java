@@ -33,7 +33,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 "visitado INTEGER NOT NULL DEFAULT 0" +
                 ")");
 
-        // Tabla de favoritos (por usuario)
+        // Tabla de favoritos
         db.execSQL("CREATE TABLE " + TABLE_FAVORITOS + " (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "usuarioId TEXT NOT NULL," +
@@ -41,7 +41,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 "UNIQUE(usuarioId, idLugar) ON CONFLICT REPLACE" +
                 ")");
 
-        // Tabla de visitados (por usuario, con fecha y rating)
+        // Tabla de visitados
         db.execSQL("CREATE TABLE " + TABLE_VISITADOS + " (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "usuarioId TEXT NOT NULL," +

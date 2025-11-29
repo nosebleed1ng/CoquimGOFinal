@@ -8,7 +8,7 @@ import java.util.Locale;
 
 public class LocaleHelper {
 
-    // Método para cabiar idioma
+    // Método para cambiar idioma
     public static void setLocale(Context context, String languageCode) {
         Locale locale = new Locale(languageCode);
         Locale.setDefault(locale);

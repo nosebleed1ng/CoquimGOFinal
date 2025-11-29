@@ -44,10 +44,10 @@ public class LugaresTuristicosActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // 1) Tema
+        // Tema
         ThemeHelper.applyTheme(this);
 
-        // 2) Idioma
+        // Idioma
         SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
         String idioma = prefs.getString("idioma", "es");
         LocaleHelper.setLocale(this, idioma);
@@ -62,7 +62,6 @@ public class LugaresTuristicosActivity extends AppCompatActivity
             getSupportActionBar().setTitle(getString(R.string.lugaresTuristicos));
         }
 
-        // Drawer + Navigation + Filtro + Búsqueda + Recycler
         drawerLayout   = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
         spinnerFiltro  = findViewById(R.id.spinnerFiltro);
@@ -174,7 +173,6 @@ public class LugaresTuristicosActivity extends AppCompatActivity
     }
 
     private void aplicarFiltrosActuales() {
-        // Usamos la POSICIÓN del spinner, no el texto traducido
         int pos = spinnerFiltro.getSelectedItemPosition();
         String categoriaClave;
 
@@ -217,7 +215,7 @@ public class LugaresTuristicosActivity extends AppCompatActivity
             // "Todos"
             return true;
         }
-        // comparamos contra la clave interna fija (Playa, Cultural, etc.)
+        // Comparamos contra la clave interna fija
         return item.getCategoria().equalsIgnoreCase(categoriaClave);
     }
 

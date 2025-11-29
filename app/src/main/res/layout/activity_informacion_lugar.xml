@@ -45,7 +45,7 @@
             android:layout_marginBottom="6dp"
             android:gravity="center" />
 
-        <!-- TIPO DE LUGAR (CHIP) -->
+        <!-- TIPO DE LUGAR -->
         <TextView
             android:id="@+id/txttipoLugar"
             android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
                 android:layout_height="match_parent" />
         </androidx.cardview.widget.CardView>
 
-        <!-- SECCIÓN: RATING -->
+        <!-- SECCIÓN RATING -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardRating"
             android:layout_width="match_parent"
@@ -190,7 +190,7 @@
                     android:textColor="?attr/colorPrimary"
                     android:layout_marginBottom="8dp" />
 
-                <!-- ÚNICO RatingBar -->
+                <!-- RatingBar -->
                 <RatingBar
                     android:id="@+id/ratingBarVisita"
                     android:layout_width="wrap_content"
@@ -199,7 +199,7 @@
                     android:stepSize="0.5"
                     android:rating="0.0" />
 
-                <!-- Botón CALIFICAR -->
+                <!-- Botón calificar -->
                 <Button
                     android:id="@+id/btnCalificar"
                     android:layout_width="wrap_content"
@@ -227,7 +227,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- BOTONES VISITADO / FAVORITO -->
+        <!-- BOTONES VISITADO Y FAVORITO -->
         <LinearLayout
             android:id="@+id/layoutBotonesAccion"
             android:layout_width="match_parent"

@@ -6,7 +6,6 @@ public class Categoria {
 
     private String idCategoria;
     private String nombre;
-    // lugares asociados: lugarId -> true
     private Map<String, Boolean> lugares;
 
     public Categoria() { }

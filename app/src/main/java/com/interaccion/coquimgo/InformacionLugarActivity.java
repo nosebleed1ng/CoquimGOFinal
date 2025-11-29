@@ -53,7 +53,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
 
     private Button btnVolver, btnMarcarVisitado, btnMarcarFavorito, btnCalificar;
 
-    // RatingBar (en XML es @+id/ratingBarVisita)
+    // RatingBar
     private RatingBar ratingBarLugar;
 
     // Views para animaciones
@@ -84,7 +84,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-        // --- Firebase ---
         iniciarFirebase();
 
         // Referencias al layout
@@ -140,23 +139,21 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
             finish();
         });
 
-        // nombre del lugar desde el Intent
+        // Nombre del lugar desde el Intent
         String nombreLugarIntent = getIntent().getStringExtra("nombreLugar");
         if (nombreLugarIntent != null) {
-            // 1) Carga base desde recursos (strings) + coordenadas
+            //Carga base desde recursos
             cargarInformacionLugar(nombreLugarIntent);
 
-            // 2) Normalizado bonito para claves
             String nombreNormalizadoBonito = normalizarNombre(nombreLugarIntent);
             actualizarTextoBotonVisitado(nombreNormalizadoBonito);
             actualizarTextoBotonFavorito(nombreNormalizadoBonito);
 
-            // 3) Cargar rating GLOBAL desde Firebase (en /lugaresTuristicos)
+            //Cargar rating global desde Firebase
             String idLugar = nombreNormalizadoBonito.replace(" ", "_");
             cargarRatingGlobalDesdeFirebase(idLugar);
         }
 
-        // Los botones usan SIEMPRE el nombre que aparece en pantalla
         btnMarcarVisitado.setOnClickListener(v -> toggleVisitado());
         btnMarcarFavorito.setOnClickListener(v -> toggleFavorito());
         btnCalificar.setOnClickListener(v -> enviarCalificacion());
@@ -166,7 +163,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         animarEntradaContenido();
     }
 
-    // =================== ANIMACIONES ===================
+    // ANIMACIONES
 
     private void prepararAnimacionesIniciales() {
         if (layoutContenido != null) layoutContenido.setAlpha(1f);
@@ -341,7 +338,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         animator.scaleX(scale).scaleY(scale).setDuration(120).start();
     }
 
-    // =================== FIREBASE BASE ===================
+    //FIREBASE
 
     private void iniciarFirebase() {
         try {
@@ -353,11 +350,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         databaseReference = firebaseDatabase.getReference();
     }
 
-    /**
-     * Guarda la info básica del lugar en Firebase y en la tabla local LUGAR.
-     * Usamos updateChildren para NO borrar ratingGlobal, ratingCount, etc.
-     * Se guarda en /lugaresTuristicos/idLugar.
-     */
     private void guardarLugarEnFirebase(String nombreNormalizado,
                                         boolean esFavorito,
                                         boolean esVisitado) {
@@ -374,13 +366,11 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         datos.put("favorito", esFavorito);
         datos.put("visitado", esVisitado);
 
-        // Firebase: /lugaresTuristicos/idLugar
         databaseReference
                 .child("lugaresTuristicos")
                 .child(idLugar)
                 .updateChildren(datos);
 
-        // SQLite: upsert en tabla LUGAR
         DbLugar dbLugar = new DbLugar(InformacionLugarActivity.this);
 
         if (dbLugar.existeLugarPorId(idLugar)) {
@@ -408,17 +398,15 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         }
     }
 
-    // ============ CARGAR INFORMACIÓN DEL LUGAR (texto + mapa) ============
+    // CARGAR INFORMACIÓN DEL LUGAR
 
     private void cargarInformacionLugar(String nombreLugarIntent) {
         if (nombreLugarIntent == null) return;
 
         String nombreLower = nombreLugarIntent.trim().toLowerCase(Locale.ROOT);
 
-        // 1) Primero cargamos desde recursos (como antes)
         cargarDesdeRecursos(nombreLower);
 
-        // 2) Ahora intentamos sobrescribir textos desde Firebase si existen
         String nombreNormalizadoBonito = normalizarNombre(nombreLugarIntent);
         String idLugar = nombreNormalizadoBonito.replace(" ", "_");
 
@@ -572,7 +560,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         }
     }
 
-    // --- Favoritos y visitados ---
+    // Favoritos y visitados
 
     private String normalizarNombre(String nombre) {
         if (nombre == null) return "";
@@ -705,7 +693,6 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         DbLugar dbLugar = new DbLugar(this);
         dbLugar.actualizarFavorito(USUARIO_ID, idLugar, nuevoEstadoFavorito);
 
-        // DEBUG
         debugMostrarResumenSqlite();
     }
 
@@ -715,7 +702,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                 : getString(R.string.favorito));
     }
 
-    // Botón CALIFICAR: solo envía la calificación del usuario actual
+    // Botón calificar
     private void enviarCalificacion() {
         if (ratingBarLugar == null) return;
 
@@ -741,11 +728,9 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
 
         int ratingEntero = Math.round(rating);
 
-        //SQLite
         DbLugar dbLugar = new DbLugar(this);
         dbLugar.actualizarVisitado(USUARIO_ID, idLugar, true, fechaHoy, ratingEntero);
 
-        //Firebase /visitados/usuarioX/idLugar
         DatabaseReference visRef = databaseReference
                 .child("visitados")
                 .child(USUARIO_ID)
@@ -798,7 +783,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         });
     }
 
-    //Recalcular promedio global recorriendo /visitados/ de todos los usuarios
+    //Recalcular promedio global
     private void recalcularRatingGlobal(String idLugar) {
 
         if (databaseReference == null) {
@@ -837,7 +822,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
 
                     float promedio = (count > 0) ? (suma / count) : 0f;
 
-                    // Actualizar nodo /lugaresTuristicos/idLugar en Firebase
+                    // Actualizar nodo
                     DatabaseReference lugarRef = databaseReference
                             .child("lugaresTuristicos")
                             .child(idLugar);

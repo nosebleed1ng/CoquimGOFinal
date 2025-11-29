@@ -49,10 +49,10 @@ public class LugaresFavoritosActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // 1) Tema
+        // Tema
         ThemeHelper.applyTheme(this);
 
-        // 2) Idioma
+        // Idioma
         SharedPreferences prefsConfig = getSharedPreferences("config", MODE_PRIVATE);
         String idioma = prefsConfig.getString("idioma", "es");
         LocaleHelper.setLocale(this, idioma);
@@ -66,7 +66,6 @@ public class LugaresFavoritosActivity extends AppCompatActivity
         if (getSupportActionBar() != null)
             getSupportActionBar().setTitle(getString(R.string.lugaresFavoritos));
 
-        // Drawer + Navigation + Filtro + Búsqueda
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
         spinnerFiltro = findViewById(R.id.spinnerFiltro);
@@ -140,7 +139,7 @@ public class LugaresFavoritosActivity extends AppCompatActivity
             }
         });
 
-        // Clicks
+        // ClickListener
         cardfuertelambert.setOnClickListener(v -> abrirInformacionLugar("Fuerte Lambert"));
         cardcruztercermilenio.setOnClickListener(v -> abrirInformacionLugar("Cruz del Tercer Milenio"));
         cardpueblitopeñuelas.setOnClickListener(v -> abrirInformacionLugar("Pueblito Peñuelas"));
@@ -264,11 +263,11 @@ public class LugaresFavoritosActivity extends AppCompatActivity
         } else {
             cardVisual.setAlpha(0.45f);
             lock.setVisibility(View.VISIBLE);
-            cardClickable.setClickable(false); // bloqueamos clic si no es favorito
+            cardClickable.setClickable(false); // Se bloquea el clic si no es favorito
         }
     }
 
-    // Lógica favoritos + filtro + búsqueda
+    // Lógica favoritos
 
     private void mostrarTodas() {
         cardfuertelambert.setVisibility(View.VISIBLE);
