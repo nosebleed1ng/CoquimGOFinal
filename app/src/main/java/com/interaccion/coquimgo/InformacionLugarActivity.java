@@ -65,6 +65,9 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
 
     private static final String USUARIO_ID = "usuario1";
 
+    // <<< NUEVO: guardamos el idioma actual >>>
+    private String idiomaActual = "es";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -74,6 +77,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         // Idioma guardado
         SharedPreferences prefsConfig = getSharedPreferences("config", MODE_PRIVATE);
         String idioma = prefsConfig.getString("idioma", "es");
+        idiomaActual = idioma; // lo guardamos en el campo para usarlo en toda la clase
         LocaleHelper.setLocale(this, idioma);
 
         super.onCreate(savedInstanceState);
@@ -142,7 +146,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         // Nombre del lugar desde el Intent
         String nombreLugarIntent = getIntent().getStringExtra("nombreLugar");
         if (nombreLugarIntent != null) {
-            //Carga base desde recursos
+            //Carga base desde recursos (LOCALIZADOS por idioma)
             cargarInformacionLugar(nombreLugarIntent);
 
             String nombreNormalizadoBonito = normalizarNombre(nombreLugarIntent);
@@ -350,6 +354,11 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         databaseReference = firebaseDatabase.getReference();
     }
 
+    /**
+     * Guarda info del lugar en /lugaresTuristicos/idLugar
+     * Solo sube textos descriptivos si el idioma es español ("es"),
+     * para no llenar Firebase con descripciones en otros idiomas.
+     */
     private void guardarLugarEnFirebase(String nombreNormalizado,
                                         boolean esFavorito,
                                         boolean esVisitado) {
@@ -359,12 +368,16 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         Map<String, Object> datos = new HashMap<>();
         datos.put("idLugar", idLugar);
         datos.put("nombreLugar", txtNombreLugar.getText().toString());
-        datos.put("descripcionLugar", txtDescripcion.getText().toString());
-        datos.put("ubicacionLugar", txtUbicacion.getText().toString());
-        datos.put("horarioLugar", txtHorarios.getText().toString());
-        datos.put("costoLugar", txtCostos.getText().toString());
         datos.put("favorito", esFavorito);
         datos.put("visitado", esVisitado);
+
+        // <<< SOLO si estamos en español, subimos descripción/horario/etc >>>
+        if ("es".equals(idiomaActual)) {
+            datos.put("descripcionLugar", txtDescripcion.getText().toString());
+            datos.put("ubicacionLugar", txtUbicacion.getText().toString());
+            datos.put("horarioLugar", txtHorarios.getText().toString());
+            datos.put("costoLugar", txtCostos.getText().toString());
+        }
 
         databaseReference
                 .child("lugaresTuristicos")
@@ -377,10 +390,10 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
             dbLugar.actualizarLugar(
                     idLugar,
                     (String) datos.get("nombreLugar"),
-                    (String) datos.get("descripcionLugar"),
-                    (String) datos.get("horarioLugar"),
-                    (String) datos.get("ubicacionLugar"),
-                    (String) datos.get("costoLugar"),
+                    "es".equals(idiomaActual) ? (String) datos.get("descripcionLugar") : txtDescripcion.getText().toString(),
+                    "es".equals(idiomaActual) ? (String) datos.get("horarioLugar")     : txtHorarios.getText().toString(),
+                    "es".equals(idiomaActual) ? (String) datos.get("ubicacionLugar")   : txtUbicacion.getText().toString(),
+                    "es".equals(idiomaActual) ? (String) datos.get("costoLugar")       : txtCostos.getText().toString(),
                     esFavorito,
                     esVisitado
             );
@@ -388,10 +401,10 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
             dbLugar.insertarLugar(
                     idLugar,
                     (String) datos.get("nombreLugar"),
-                    (String) datos.get("descripcionLugar"),
-                    (String) datos.get("horarioLugar"),
-                    (String) datos.get("ubicacionLugar"),
-                    (String) datos.get("costoLugar"),
+                    txtDescripcion.getText().toString(),
+                    txtHorarios.getText().toString(),
+                    txtUbicacion.getText().toString(),
+                    txtCostos.getText().toString(),
                     esFavorito,
                     esVisitado
             );
@@ -405,7 +418,15 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
 
         String nombreLower = nombreLugarIntent.trim().toLowerCase(Locale.ROOT);
 
+        // 1) SIEMPRE: cargar desde recursos (localizados por idioma)
         cargarDesdeRecursos(nombreLower);
+
+        // 2) SOLO ESPAÑOL: sobreescribir con lo de Firebase si existe
+        if (!"es".equals(idiomaActual)) {
+            // En inglés/portugués usamos solo strings.xml,
+            // así el cambio de idioma funciona perfecto.
+            return;
+        }
 
         String nombreNormalizadoBonito = normalizarNombre(nombreLugarIntent);
         String idLugar = nombreNormalizadoBonito.replace(" ", "_");
@@ -438,7 +459,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
                     }
 
                 } else {
-                    // Si no existe el nodo, guardamos los datos locales una vez
+                    // Si no existe el nodo, guardamos los datos locales una vez (solo en español)
                     boolean esFav = estaFavorito(nombreNormalizadoBonito);
                     boolean esVis = estaVisitado(nombreNormalizadoBonito);
                     guardarLugarEnFirebase(nombreNormalizadoBonito, esFav, esVis);
@@ -623,6 +644,7 @@ public class InformacionLugarActivity extends AppCompatActivity implements OnMap
         // Estado actual de favorito
         boolean estadoFavoritoActual = estaFavorito(nombreNormalizado);
         guardarLugarEnFirebase(nombreNormalizado, estadoFavoritoActual, nuevoEstadoVisitado);
+
         DbLugar dbLugar = new DbLugar(this);
 
         String fechaHoy = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
