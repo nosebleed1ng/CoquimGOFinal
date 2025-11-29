@@ -1,17 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".MapaActivity">
 
-    <fragment
-        android:id="@+id/id_mapa_general"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <!-- Toolbar superior -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarMapa"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/coquimgo_primary"
+        app:title="@string/mapa"
+        app:titleCentered="true"
+        android:titleTextColor="@android:color/white" />
 
-</RelativeLayout>
+    <!-- Contenido bajo el toolbar -->
+    <LinearLayout
+        android:id="@+id/layoutContenidoMapa"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:padding="16dp">
+
+        <!-- Tarjeta del mapa -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardMapaGeneral"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="22dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="10dp"
+            app:strokeWidth="0dp">
+
+            <fragment
+                android:id="@+id/id_mapa_general"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Tarjeta de info debajo del mapa -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardInfoMapa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:id="@+id/txtTituloInfoMapa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mapa"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="?attr/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/txtSubtituloInfoMapa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/mapa_descripcion"
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurface" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Botón volver -->
+        <Button
+            android:id="@+id/btnVolverMapa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="6dp"
+            android:backgroundTint="@color/coquimgo_primary"
+            android:text="@string/volver"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:paddingVertical="10dp" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

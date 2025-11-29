@@ -46,6 +46,7 @@
     <string name="txtelfaro">El Faro</string>
     <string name="txtparquejapones">Parque Japonés</string>
 
+    <!-- Tipos de lugares -->
     <string name="tipo_fuertelambert">Cultural</string>
     <string name="tipo_cruz">Religioso</string>
     <string name="tipo_pueblito">Cultural</string>
@@ -53,7 +54,6 @@
     <string name="tipo_mezquita">Religioso</string>
     <string name="tipo_faro">Costero</string>
     <string name="tipo_parque">Parque</string>
-
 
     <!-- Descripciones -->
     <string name="desc_fuertelambert">Destino turístico popular con vistas panorámicas de la bahía y la ciudad.</string>
@@ -118,6 +118,7 @@ Podrás explorar lugares, marcarlos como visitados o favoritos, y configurar el 
         <item>Parques</item>
     </string-array>
 
+    <!-- Rating -->
     <string name="calificar">Calificar</string>
     <string name="enviar_opinion">Enviar opinión</string>
     <string name="tu_calificacion">Tu calificación</string>
@@ -129,4 +130,8 @@ Podrás explorar lugares, marcarlos como visitados o favoritos, y configurar el 
     <string name="debes_visitar_para_calificar">Debes marcar el lugar como visitado antes de calificar.</string>
     <string name="gracias_por_calificar">¡Gracias por calificar este lugar!</string>
 
+    <!-- STRINGS PARA EL MAPA -->
+    <string name="ver_informacion">Ver información</string>
+    <string name="pregunta_ver_info_mapa">¿Quieres ver la información de este lugar?</string>
+    <string name="mapa_descripcion">Toca los marcadores para ver los nombres de los lugares turísticos.</string>
 </resources>

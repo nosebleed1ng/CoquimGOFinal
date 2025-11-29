@@ -1,5 +1,12 @@
 <resources>
+
+    <!-- Nombres y colores -->
     <string name="app_name">CoquimGO</string>
+    <color name="morado">#9a0ca4</color>
+    <color name="azulOscuro">#253f66</color>
+    <color name="grisClaro">#efefef</color>
+
+    <!-- Textos generales -->
     <string name="textoPrincipal">Venha descobrir a Região de Coquimbo conosco</string>
     <string name="drawer_subtitle">Explore a Região de Coquimbo conosco</string>
     <string name="iniciar">Iniciar</string>
@@ -10,20 +17,27 @@
     <string name="configuracion">Configurações</string>
     <string name="open_nav">Abrir menu</string>
     <string name="close_nav">Fechar menu</string>
+
+    <!-- Estados -->
     <string name="favorito">Adicionar aos Favoritos</string>
-    <string name="visitado">Marcar como Visitado</string>
-    <string name="volver">Voltar</string>
+    <string name="visitado">Adicionar aos Visitados</string>
     <string name="eliminarFavorito">Remover dos Favoritos</string>
     <string name="eliminarVisitado">Remover dos Visitados</string>
-    <string name="lugar_imagen">Imagem do local</string>
-    <string name="no_info">Nenhuma informação disponível para este local.</string>
-    <string name="buscar_lugar">Buscar lugar...</string>
 
+    <string name="volver">Voltar</string>
+    <string name="lugar_imagen">Imagem do lugar</string>
+    <string name="no_info">Nenhuma informação encontrada para este lugar.</string>
+
+    <!-- Buscar -->
+    <string name="buscar_lugar">Buscar lugar...</string>
     <string name="subtitulo_lugar">Toque para ver detalhes e mapa</string>
+
+    <!-- Splash -->
     <string name="splash_bienvenida">Bem-vindo(a) a</string>
     <string name="splash_highlights">Praias · Patrimônio · Monumentos · Museus</string>
     <string name="splash_footer">Coquimbo · Chile</string>
 
+    <!-- Nombres -->
     <string name="txtcruzdeltercermilenio">Cruz do Terceiro Milênio</string>
     <string name="txtfuertelambert">Forte Lambert</string>
     <string name="txtpueblitopeñuelas">Pueblito Peñuelas</string>
@@ -32,82 +46,92 @@
     <string name="txtelfaro">O Farol</string>
     <string name="txtparquejapones">Parque Japonês</string>
 
+    <!-- Tipos -->
     <string name="tipo_fuertelambert">Cultural</string>
     <string name="tipo_cruz">Religioso</string>
     <string name="tipo_pueblito">Cultural</string>
     <string name="tipo_mar">Praia</string>
     <string name="tipo_mezquita">Religioso</string>
-    <string name="tipo_faro">Litoral</string>
+    <string name="tipo_faro">Costeiro</string>
     <string name="tipo_parque">Parque</string>
 
-    <string name="desc_fuertelambert">Destino turístico popular com vista panorâmica da baía e da cidade.</string>
+    <!-- Descripciones -->
+    <string name="desc_fuertelambert">Destino turístico popular com vistas panorâmicas da baía e da cidade.</string>
     <string name="ubi_fuertelambert">Localização: Cerro Castillo del Carmen, Coquimbo, Chile</string>
-    <string name="hor_fuertelambert">Horário: Terça a Domingo: 9:45 - 17:00</string>
+    <string name="hor_fuertelambert">Horários: Terça a Domingo: 9:45 - 17:00</string>
     <string name="cost_fuertelambert">Entrada: Gratuita</string>
 
     <string name="desc_cruz">Monumento religioso com vista para a cidade de Coquimbo.</string>
     <string name="ubi_cruz">Localização: Cerro El Vigía, Coquimbo, Chile</string>
-    <string name="hor_cruz">Horário: Segunda a Domingo: 9:00 - 17:00</string>
+    <string name="hor_cruz">Horários: Segunda a Domingo: 9:00 - 17:00</string>
     <string name="cost_cruz">Entrada: Adultos $2.500, Crianças $1.000, Grátis menores de 6 anos</string>
 
     <string name="desc_pueblito">Centro de artesanato, gastronomia e atividades familiares.</string>
     <string name="ubi_pueblito">Localização: Coquimbo, Chile</string>
-    <string name="hor_pueblito">Horário: Quarta a Domingo: 12:00 - 23:00</string>
+    <string name="hor_pueblito">Horários: Quarta a Domingo: 12:00 - 23:00</string>
     <string name="cost_pueblito">Entrada: Gratuita</string>
 
     <string name="desc_mar">Passeio costeiro com praias, restaurantes e atividades ao ar livre.</string>
     <string name="ubi_mar">Localização: La Serena e Coquimbo, Chile</string>
-    <string name="hor_mar">Horário: Sempre aberto</string>
+    <string name="hor_mar">Horários: Aberto sempre</string>
     <string name="cost_mar">Entrada: Gratuita</string>
 
     <string name="desc_mezquita">Centro cultural islâmico com mirante e arquitetura única.</string>
     <string name="ubi_mezquita">Localização: Los Granados 500, Coquimbo, Chile</string>
-    <string name="hor_mezquita">Horário: Segunda a Domingo: 9:00 - 17:45</string>
+    <string name="hor_mezquita">Horários: Segunda a Domingo: 9:00 - 17:45</string>
     <string name="cost_mezquita">Entrada: Gratuita</string>
 
     <string name="desc_faro">Símbolo icônico de La Serena com uma bela vista para o mar.</string>
     <string name="ubi_faro">Localização: Avenida do Mar, La Serena, Chile</string>
-    <string name="hor_faro">Horário: Terça a Domingo: 9:00 - 18:00</string>
+    <string name="hor_faro">Horários: Terça a Domingo: 9:00 - 18:00</string>
     <string name="cost_faro">Entrada: Gratuita</string>
 
-    <string name="desc_parque">Parque inspirado na cultura japonesa, com jardins e lagos.</string>
+    <string name="desc_parque">Parque inspirado na cultura japonesa com jardins e lagos.</string>
     <string name="ubi_parque">Localização: Eduardo de La Barra s/n, La Serena</string>
-    <string name="hor_parque">Horário: Terça a Domingo: 10:00 - 17:40</string>
-    <string name="cost_parque">Entrada: $3.000 (geral)</string>
+    <string name="hor_parque">Horários: Terça a Domingo: 10:00 - 17:40</string>
+    <string name="cost_parque">$3.000 (geral)</string>
 
+    <!-- Configuración -->
     <string name="modo_oscuro">Modo escuro</string>
     <string name="espanol">Espanhol</string>
     <string name="ingles">Inglês</string>
     <string name="portugues">Português</string>
-    <string name="cambiar_idioma">Selecionar idioma:</string>
+    <string name="cambiar_idioma">Selecione o idioma:</string>
     <string name="seleccionar_idioma">Selecionar idioma</string>
     <string name="volver_inicio">Voltar ao início</string>
     <string name="ir">Ir</string>
     <string name="acerca_de_la_app">Sobre o aplicativo</string>
+
     <string name="acerca_texto">
 CoquimGO é um aplicativo de turismo que permite descobrir os principais destinos de Coquimbo e La Serena.
-Você pode explorar lugares, marcá-los como visitados ou favoritos e configurar o idioma e o modo visual de acordo com suas preferências.
+Você pode explorar lugares, marcá-los como visitados ou favoritos e configurar o idioma e o modo visual conforme sua preferência.
 \n\nVersão: 1.0.0
 \nDesenvolvido por: Matías Chepillo, Beckham Espejo e Gabriel Castillo.
     </string>
 
+    <!-- Filtros -->
     <string-array name="opciones_filtro">
         <item>Todos</item>
-        <item>Parque</item>
         <item>Praia</item>
         <item>Cultural</item>
         <item>Religioso</item>
+        <item>Parques</item>
     </string-array>
 
+    <!-- Rating -->
     <string name="calificar">Avaliar</string>
     <string name="enviar_opinion">Enviar avaliação</string>
     <string name="tu_calificacion">Sua avaliação</string>
     <string name="gracias_calificacion">Obrigado pela sua avaliação!</string>
-    <string name="error_calificacion">Você deve escolher uma avaliação antes de enviar.</string>
+    <string name="error_calificacion">Você deve selecionar uma nota antes de enviar.</string>
     <string name="promedio_global_formato">Avaliação global: %.1f / 5 (%d avaliações)</string>
     <string name="opinion_guardada">Sua avaliação foi registrada.</string>
-    <string name="selecciona_rating">Você deve escolher uma avaliação antes de enviar.</string>
-    <string name="debes_visitar_para_calificar">Você precisa marcar o local como visitado antes de avaliar.</string>
-    <string name="gracias_por_calificar">Obrigado por avaliar este local!</string>
+    <string name="selecciona_rating">Você deve selecionar uma quantidade de estrelas antes de enviar.</string>
+    <string name="debes_visitar_para_calificar">Você deve marcar o lugar como visitado antes de avaliar.</string>
+    <string name="gracias_por_calificar">Obrigado por avaliar este lugar!</string>
 
+    <!-- Mapa -->
+    <string name="ver_informacion">Ver informações</string>
+    <string name="pregunta_ver_info_mapa">Deseja ver as informações deste lugar?</string>
+    <string name="mapa_descripcion">Toque nos marcadores para ver os nomes dos lugares turísticos.</string>
 </resources>
