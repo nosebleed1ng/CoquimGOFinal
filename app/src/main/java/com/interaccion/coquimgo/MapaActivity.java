@@ -87,7 +87,6 @@ public class MapaActivity extends AppCompatActivity
 
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coquimbo, 12));
 
-        // Escuchamos clic en marcadores
         gMap.setOnMarkerClickListener(this);
     }
 
